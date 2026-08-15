@@ -1,7 +1,11 @@
 <div align="center">
 
-<!-- Typing intro -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=00FF9C&center=true&vCenter=true&width=600&lines=Hi+there%2C+I'm+Rishivardhan+%F0%9F%91%8B;Mobile+%26+Web+App+Developer;CS+Student+%7C+Builder+%7C+Problem+Solver" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3500&pause=1200&color=00FF9C&center=true&vCenter=true&width=800&height=50&lines=Hi+there%2C+I'm+Rishivardhan+%F0%9F%91%8B;Mobile+%26+Web+App+Developer;CS+Student+%7C+Builder+%7C+Problem+Solver" alt="Typing SVG" />
+
+<br/>
+
+![Open to Work](https://img.shields.io/badge/Open%20to-Internships%20%7C%20Full--Time-00FF9C?style=flat-square)
+![Location](https://img.shields.io/badge/📍-Tamil%20Nadu%2C%20India-1a1a1a?style=flat-square)
 
 </div>
 
@@ -14,6 +18,7 @@
     role: "CS Student & Full Stack / Mobile App Developer",
     focus: "Building projects that solve real-world problems",
     currentlyBuilding: ["TrackIt", "Bench"],
+    currentlyLearning: ["DevOps", "System Design"],
     funFact: "I believe the best way to learn is by building."
 }
 ```
@@ -40,8 +45,11 @@ and shipping something that solves them, not just tutorials.
 > and stay on top of every opportunity in one place.
 >
 > **Tech:** _[add stack — e.g. React, Node.js, MongoDB]_
+>
+> **Impact:** _[add a number if you have one — e.g. "used by 30+ students in my batch"]_
 
 [![Repo](https://img.shields.io/badge/View-Repo-00FF9C?style=for-the-badge&logo=github&logoColor=black)](https://github.com/Rishivardhan-J)
+[![Demo](https://img.shields.io/badge/Live-Demo-1a1a1a?style=for-the-badge&logo=vercel&logoColor=white)](#)
 
 </td>
 <td width="50%" valign="top">
@@ -56,21 +64,26 @@ and shipping something that solves them, not just tutorials.
 > skills, availability, and project needs.
 >
 > **Tech:** _[add stack — e.g. React, Express, PostgreSQL]_
+>
+> **Impact:** _[add a number if you have one — e.g. "matched 15+ freelancers"]_
 
 [![Repo](https://img.shields.io/badge/View-Repo-00FF9C?style=for-the-badge&logo=github&logoColor=black)](https://github.com/Rishivardhan-J)
+[![Demo](https://img.shields.io/badge/Live-Demo-1a1a1a?style=for-the-badge&logo=vercel&logoColor=white)](#)
 
 </td>
 </tr>
 </table>
 
-<sub>💡 Replace the tech stack lines above and add live demo links if deployed — recruiters click these first.</sub>
+<sub>💡 Fill in the tech stack, impact numbers, and live demo links — these are the first things recruiters click.</sub>
 
 <br/>
 
 ## 🏆 Achievements
 
-- 🥈 **Runner-up** — Google Developer Groups TechSprint Hackathon 2026
-- 🥈 **Runner-up** — Startup TN + HCL Foundations · AI for Social Impact Challenge 2026
+| 🏅 | Event | Result |
+|---|---|---|
+| 🥈 | Google Developer Groups · TechSprint Hackathon 2026 | Runner-up |
+| 🥈 | Startup TN + HCL Foundations · AI for Social Impact Challenge 2026 | Runner-up |
 
 <br/>
 
