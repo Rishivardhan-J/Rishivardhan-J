@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=220&section=header&text=Rishivardhan%20J&fontSize=48&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Mission%20Control%20%7C%20Full%20Stack%20%26%20Mobile%20Developer&descAlignY=58&descSize=18" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:F4A261,100:E76F51&height=220&section=header&text=Rishivardhan%20J&fontSize=48&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Mission%20Control%20%7C%20Full%20Stack%20%26%20Mobile%20Developer&descAlignY=58&descSize=18" width="100%"/>
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=F4A261&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;Currently+in+orbit%3A+TrackIt+%26+Bench" alt="Typing SVG" />
 
@@ -148,8 +148,8 @@ and shipping something that solves them, not just tutorials.
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=Rishivardhan-J&show_icons=true&theme=github_dark&hide_border=true&bg_color=0B0E23&title_color=F4A261&icon_color=F4A261&text_color=c9d1d9" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rishivardhan-J&layout=compact&theme=github_dark&hide_border=true&bg_color=0B0E23&title_color=F4A261&text_color=c9d1d9" />
+<img height="165" src="https://github-readme-stats.vercel.app/api?username=Rishivardhan-J&show_icons=true&theme=github_dark&hide_border=true&bg_color=0B0E23&title_color=F4A261&icon_color=F4A261&text_color=c9d1d9&cache_seconds=86400" />
+<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rishivardhan-J&layout=compact&theme=github_dark&hide_border=true&bg_color=0B0E23&title_color=F4A261&text_color=c9d1d9&cache_seconds=86400" />
 
 <br/>
 
@@ -198,4 +198,4 @@ and shipping something that solves them, not just tutorials.
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:F4A261,100:E76F51&height=100&section=footer" width="100%"/>
