@@ -2,12 +2,44 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:F4A261,100:E76F51&height=220&section=header&text=Rishivardhan%20J&fontSize=48&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Mission%20Control%20%7C%20Full%20Stack%20and%20Mobile%20Developer&descAlignY=58&descSize=18" width="100%"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=F4A261&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;Currently+in+orbit%3A+TrackIt+%26+Bench" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=F4A261&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;Currently+in+orbit%3A+TrackIt+and+Bench" alt="Typing SVG" />
 
 <br/>
 
 ![Status](https://img.shields.io/badge/STATUS-Open%20to%20Internships%20%26%20Full--Time-F4A261?style=flat-square&labelColor=0B0E23)
 ![Location](https://img.shields.io/badge/📍-Tamil%20Nadu%2C%20India-0B0E23?style=flat-square&color=E76F51)
+
+</div>
+
+<br/>
+
+<div align="center">
+
+<marquee behavior="scroll" direction="left" scrollamount="6">
+
+[![Bench](https://img.shields.io/badge/🚀_Bench-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![Forge](https://img.shields.io/badge/⚒️_Forge-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![HarvestPro](https://img.shields.io/badge/🌾_HarvestPro-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![TrackIt](https://img.shields.io/badge/📋_TrackIt-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![Transit](https://img.shields.io/badge/🚦_Transit-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![Bench](https://img.shields.io/badge/🚀_Bench-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![Forge](https://img.shields.io/badge/⚒️_Forge-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![HarvestPro](https://img.shields.io/badge/🌾_HarvestPro-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![TrackIt](https://img.shields.io/badge/📋_TrackIt-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
+&nbsp;&nbsp; ◆ &nbsp;&nbsp;
+[![Transit](https://img.shields.io/badge/🚦_Transit-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
+
+</marquee>
+
+<sub>💡 Update the 3 unlinked badges above (Forge, HarvestPro, Transit) to point at their real repos.</sub>
 
 </div>
 
@@ -20,7 +52,7 @@
     callsign: "Rishivardhan J",
     role: "CS Student & Full Stack / Mobile App Developer",
     mission: "Building projects that solve real-world problems",
-    activeOrbits: ["TrackIt", "Bench"],
+    activeOrbits: ["TrackIt", "Bench", "Forge", "HarvestPro", "Transit"],
     charting: ["DevOps", "System Design"],
     transmission: "I believe the best way to learn is by building."
 }
@@ -47,9 +79,7 @@ and shipping something that solves them, not just tutorials.
 > **Payload:** A centralized tracker to log applications, monitor deadlines,
 > and stay on top of every opportunity in one place.
 >
-> **Systems:** _[add stack — e.g. React, Node.js, MongoDB]_
->
-> **Telemetry:** _[add a real number — e.g. "30+ students using it in my batch"]_
+> **Systems:** React, TypeScript
 
 [![Repo](https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23)](https://github.com/Rishivardhan-J)
 [![Demo](https://img.shields.io/badge/Live-Demo-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261)](#)
@@ -66,9 +96,7 @@ and shipping something that solves them, not just tutorials.
 > **Payload:** A platform to discover and connect with freelancers based on
 > skills, availability, and project needs.
 >
-> **Systems:** _[add stack — e.g. React, Express, PostgreSQL]_
->
-> **Telemetry:** _[add a real number — e.g. "15+ freelancers matched"]_
+> **Systems:** React, TypeScript
 
 [![Repo](https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23)](https://github.com/Rishivardhan-J)
 [![Demo](https://img.shields.io/badge/Live-Demo-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261)](#)
@@ -77,7 +105,7 @@ and shipping something that solves them, not just tutorials.
 </tr>
 </table>
 
-<sub>💡 Fill in the systems, telemetry numbers, and live demo links — these are what recruiters check first.</sub>
+<sub>💡 Add real live demo links when deployed — that's the next thing recruiters check.</sub>
 
 <br/>
 
@@ -148,22 +176,27 @@ and shipping something that solves them, not just tutorials.
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=Rishivardhan-J&show_icons=true&theme=github_dark&hide_border=true&bg_color=0B0E23&title_color=F4A261&icon_color=F4A261&text_color=c9d1d9&cache_seconds=86400" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rishivardhan-J&layout=compact&theme=github_dark&hide_border=true&bg_color=0B0E23&title_color=F4A261&text_color=c9d1d9&cache_seconds=86400" />
-
-<br/>
-
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=Rishivardhan-J&theme=github-dark-blue&hide_border=true&background=0B0E23&ring=F4A261&fire=E76F51&currStreakLabel=F4A261" />
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-metrics.svg" width="100%"/>
 
 </div>
+
+<sub>⚙️ Self-hosted via GitHub Actions — see setup note below. Renders reliably in every browser since it's a static file in your own repo, not a third-party live service.</sub>
 
 <br/>
 
 ## 🌌 Orbit Log
 
 <div align="center">
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=Rishivardhan-J&theme=react-dark&bg_color=0B0E23&color=F4A261&line=F4A261&point=ffffff&hide_border=true" width="100%"/>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" />
+  <img alt="Rishivardhan's contribution snake" src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" width="100%"/>
+</picture>
+
 </div>
+
+<sub>⚙️ Same self-hosted setup as above — auto-updates daily via GitHub Actions, no third-party server dependency.</sub>
 
 <br/>
 
