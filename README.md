@@ -15,31 +15,9 @@
 
 <div align="center">
 
-<marquee behavior="scroll" direction="left" scrollamount="6">
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/main/marquee.svg" width="100%"/>
 
-[![Bench](https://img.shields.io/badge/🚀_Bench-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![Forge](https://img.shields.io/badge/⚒️_Forge-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![HarvestPro](https://img.shields.io/badge/🌾_HarvestPro-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![TrackIt](https://img.shields.io/badge/📋_TrackIt-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![Transit](https://img.shields.io/badge/🚦_Transit-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![Bench](https://img.shields.io/badge/🚀_Bench-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![Forge](https://img.shields.io/badge/⚒️_Forge-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![HarvestPro](https://img.shields.io/badge/🌾_HarvestPro-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![TrackIt](https://img.shields.io/badge/📋_TrackIt-0B0E23?style=for-the-badge&labelColor=0B0E23&color=E76F51)](https://github.com/Rishivardhan-J)
-&nbsp;&nbsp; ◆ &nbsp;&nbsp;
-[![Transit](https://img.shields.io/badge/🚦_Transit-0B0E23?style=for-the-badge&labelColor=0B0E23&color=F4A261)](https://github.com/Rishivardhan-J)
-
-</marquee>
-
-<sub>💡 Update the 3 unlinked badges above (Forge, HarvestPro, Transit) to point at their real repos.</sub>
+<sub>💡 Update the repo links behind Forge, HarvestPro, and Transit once they're public — currently only Bench and TrackIt are linked in Missions Launched below.</sub>
 
 </div>
 
