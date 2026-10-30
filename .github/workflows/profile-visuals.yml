@@ -7,22 +7,34 @@ on:
   push:
     branches:
       - main
+    paths:
+      - ".github/workflows/**"
 
 permissions:
   contents: write
 
 jobs:
-  contribution-snake:
+  visuals:
     runs-on: ubuntu-latest
     steps:
       - name: Generate contribution snake SVGs
-        uses: Platane/snk@v3
-        id: snake-gif
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: Rishivardhan-J
           outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+            dist/github-contribution-grid-snake.svg?color_snake=F4A261&color_dots=#ebedf0,#fbd9bd,#f6b585,#E76F51,#b9432a
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=F4A261&color_dots=#161B33,#5A2E1F,#9C4A2E,#E76F51,#F4A261
+
+      - name: Generate metrics SVG
+        uses: lowlighter/metrics@latest
+        with:
+          filename: dist/github-metrics.svg
+          output_action: none
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: header, activity, community, repositories, metadata
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          config_timezone: Asia/Kolkata
 
       - name: Push SVGs to the output branch
         uses: crazy-max/ghaction-github-pages@v4
@@ -31,17 +43,3 @@ jobs:
           build_dir: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  github-metrics:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate metrics SVG
-        uses: lowlighter/metrics@latest
-        with:
-          filename: github-metrics.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: header, activity, community, repositories, metadata
-          plugin_languages: yes
-          plugin_languages_analysis_timeout: 15
-          config_timezone: Asia/Kolkata
-          committer_message: "chore: update profile metrics"

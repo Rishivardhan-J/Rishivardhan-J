@@ -1,91 +1,101 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:F4A261,100:E76F51&height=220&section=header&text=Rishivardhan%20J&fontSize=48&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Mission%20Control%20%7C%20Full%20Stack%20and%20Mobile%20Developer&descAlignY=58&descSize=18" width="100%"/>
+<img src="assets/header.svg" width="100%" alt="Rishivardhan J"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=F4A261&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;Currently+in+orbit%3A+TrackIt+and+Bench" alt="Typing SVG" />
-
-<br/>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=F4A261&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Runner-up+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
 
 ![Status](https://img.shields.io/badge/STATUS-Open%20to%20Internships%20%26%20Full--Time-F4A261?style=flat-square&labelColor=0B0E23)
 ![Location](https://img.shields.io/badge/📍-Tamil%20Nadu%2C%20India-0B0E23?style=flat-square&color=E76F51)
 
-</div>
+[![Galaxy](https://img.shields.io/badge/Portfolio-Galaxy-F4A261?style=for-the-badge&logo=vercel&logoColor=0B0E23)](https://rishi-galaxy.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0B0E23?style=for-the-badge&logo=linkedin&logoColor=F4A261)](https://www.linkedin.com/in/rishivardhan-j-ba9469399/)
+[![Email](https://img.shields.io/badge/Email-E76F51?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rishivardhan.j2024cse@sece.ac.in)
 
-<br/>
-
-<div align="center">
-
-<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/main/marquee.svg" width="100%"/>
-
-<sub>💡 Update the repo links behind Forge, HarvestPro, and Transit once they're public — currently only Bench and TrackIt are linked in Missions Launched below.</sub>
+<img src="assets/marquee.svg" width="100%" alt="Projects"/>
 
 </div>
 
-<br/>
+<img src="assets/divider.svg" width="100%"/>
 
 ## 🛰️ Mission Briefing
 
-```bash
-> const rishivardhan = {
-    callsign: "Rishivardhan J",
-    role: "CS Student & Full Stack / Mobile App Developer",
-    mission: "Building projects that solve real-world problems",
-    activeOrbits: ["TrackIt", "Bench", "Forge", "HarvestPro", "Transit"],
-    charting: ["DevOps", "System Design"],
-    transmission: "I believe the best way to learn is by building."
-}
-```
-
-I'm a Computer Science student who enjoys turning ideas into working products —
-from web apps to mobile apps. I like picking up problems people actually face
-and shipping something that solves them, not just tutorials.
-
-<br/>
-
-## 🪐 Missions Launched
-
 <table>
 <tr>
-<td width="50%" valign="top">
+<td width="55%" valign="top">
 
-### 📋 Mission: TrackIt
-**Internship & Hackathon Tracker** · 🟢 Active
-
-> **Objective:** Students juggling multiple internship and hackathon
-> applications lose track of deadlines, statuses, and follow-ups.
->
-> **Payload:** A centralized tracker to log applications, monitor deadlines,
-> and stay on top of every opportunity in one place.
->
-> **Systems:** React, TypeScript
-
-[![Repo](https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23)](https://github.com/Rishivardhan-J)
-[![Demo](https://img.shields.io/badge/Live-Demo-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261)](#)
+```js
+const rishivardhan = {
+  callsign: "Rishivardhan J",
+  role: "CS Student & Full Stack / Mobile Developer",
+  mission: "Build things that solve real problems",
+  activeOrbits: ["Forge", "HarvestPro", "Transit", "TrackIt", "Bench"],
+  charting: ["DevOps", "System Design"],
+  motto: "The best way to learn is by building."
+};
+```
 
 </td>
-<td width="50%" valign="top">
+<td width="45%" valign="top">
 
-### 🧑‍💻 Mission: Bench
-**Freelancer Finder** · 🟢 Active
+I'm a Computer Science student who turns ideas into working products, from web apps to mobile apps and ML-backed tools.
 
-> **Objective:** Finding the right freelancer for a specific skill set
-> quickly is harder than it should be.
->
-> **Payload:** A platform to discover and connect with freelancers based on
-> skills, availability, and project needs.
->
-> **Systems:** React, TypeScript
-
-[![Repo](https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23)](https://github.com/Rishivardhan-J)
-[![Demo](https://img.shields.io/badge/Live-Demo-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261)](#)
+I pick up problems people actually face and ship something that solves them, not just tutorials.
 
 </td>
 </tr>
 </table>
 
-<sub>💡 Add real live demo links when deployed — that's the next thing recruiters check.</sub>
+<img src="assets/divider.svg" width="100%"/>
 
-<br/>
+## 🌌 Flagship
+
+<div align="center">
+
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/mission-galaxy.svg" width="60%" alt="Galaxy"/></a>
+<br/><sub>A no-scroll, space-themed portfolio where you travel between projects, skills and contact through warp transitions.</sub>
+<br/><a href="https://rishi-galaxy.vercel.app"><img src="https://img.shields.io/badge/Live-Demo-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261"/></a>
+<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+
+</div>
+
+<img src="assets/divider.svg" width="100%"/>
+
+## 🪐 Missions Launched
+
+<table>
+<tr>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="assets/mission-trackit.svg" alt="TrackIt" width="100%"/></a>
+<br/><sub>Deadline-driven tracker for internship &amp; hackathon applications, with an admin pipeline for posting and moderating opportunities.</sub>
+<br/><a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+</td>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/Rishivardhan-J/Bench"><img src="assets/mission-bench.svg" alt="Bench" width="100%"/></a>
+<br/><sub>Intelligent, high-performance freelancer discovery by skills, availability and project needs.</sub>
+<br/><a href="https://github.com/Rishivardhan-J/Bench"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+</td>
+</tr><tr>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/Rishivardhan-J/Forge"><img src="assets/mission-forge.svg" alt="Forge" width="100%"/></a>
+<br/><sub>Habit-formation app built on the framework from Atomic Habits.</sub>
+<br/><a href="https://github.com/Rishivardhan-J/Forge"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+</td>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="assets/mission-harvestpro.svg" alt="HarvestPro" width="100%"/></a>
+<br/><sub>Turns AI crop predictions into advice small-scale Indian farmers can trust and act on, in their language.</sub>
+<br/><a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+</td>
+</tr><tr>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/Rishivardhan-J/Transit"><img src="assets/mission-transit.svg" alt="Transit" width="100%"/></a>
+<br/><sub>Real-time logistics optimization: ML-predicted delivery times and Hybrid Genetic Search VRP routing, with route explainability.</sub>
+<br/><a href="https://github.com/Rishivardhan-J/Transit"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+</td>
+<td width="50%"></td>
+</tr>
+</table>
+
+<img src="assets/divider.svg" width="100%"/>
 
 ## 🌠 Milestones
 
@@ -94,73 +104,42 @@ and shipping something that solves them, not just tutorials.
 | 🥈 | Google Developer Groups · TechSprint Hackathon 2026 | Runner-up |
 | 🥈 | Startup TN + HCL Foundations · AI for Social Impact Challenge 2026 | Runner-up |
 
-<br/>
+<img src="assets/divider.svg" width="100%"/>
 
 ## 🧭 Navigation Systems
 
-**Languages**
+<div align="center">
 
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
-![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black)
-![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+**Languages**<br/>
+<img src="https://skillicons.dev/icons?i=js,ts,py,java,cpp,c,dart,html,css&theme=dark"/>
 
-**Frameworks & Libraries**
+**Frameworks & Libraries**<br/>
+<img src="https://skillicons.dev/icons?i=react,nodejs,express,django,flask,fastapi,spring,flutter,tailwind,vite,jquery&theme=dark"/>
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![jQuery](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white)
+**Data & Databases**<br/>
+<img src="https://skillicons.dev/icons?i=postgres,mysql,mongodb,firebase,sqlite,numpy,pandas&theme=dark"/>
 
-**Data & Databases**
+**Mission Control Tools**<br/>
+<img src="https://skillicons.dev/icons?i=git,github,vscode,linux,docker,kubernetes,vercel,netlify,postman,figma&theme=dark"/>
 
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+</div>
 
-**Mission Control Tools**
-
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
-
-<br/>
+<img src="assets/divider.svg" width="100%"/>
 
 ## 📡 Flight Data
 
 <div align="center">
 
+<img height="170" src="https://github-readme-stats.vercel.app/api?username=Rishivardhan-J&show_icons=true&hide_border=true&bg_color=0B0E23&title_color=F4A261&icon_color=E76F51&text_color=FFFFFF&ring_color=F4A261"/>
+<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rishivardhan-J&layout=compact&hide_border=true&bg_color=0B0E23&title_color=F4A261&text_color=FFFFFF"/>
+
+<img src="https://streak-stats.demolab.com?user=Rishivardhan-J&hide_border=true&background=0B0E23&ring=F4A261&fire=E76F51&currStreakLabel=F4A261&sideLabels=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&dates=AAAAAA"/>
+
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=Rishivardhan-J&bg_color=0B0E23&color=F4A261&line=E76F51&point=FFFFFF&area=true&area_color=E76F51&hide_border=true" width="100%"/>
+
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-metrics.svg" width="100%"/>
 
 </div>
-
-<sub>⚙️ Self-hosted via GitHub Actions — see setup note below. Renders reliably in every browser since it's a static file in your own repo, not a third-party live service.</sub>
-
-<br/>
 
 ## 🌌 Orbit Log
 
@@ -169,14 +148,24 @@ and shipping something that solves them, not just tutorials.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" />
-  <img alt="Rishivardhan's contribution snake" src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" width="100%"/>
+  <img alt="Contribution snake" src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" width="100%"/>
 </picture>
 
 </div>
 
-<sub>⚙️ Same self-hosted setup as above — auto-updates daily via GitHub Actions, no third-party server dependency.</sub>
-
+<details>
+<summary><b>🛸 More from the hangar</b></summary>
 <br/>
+
+- [Smart Hostel Management System](https://github.com/Rishivardhan-J/Smart_Hostel_Management_System) · [live](https://smart-hostel-management-system-sigma.vercel.app)
+- [DoctorV](https://github.com/Rishivardhan-J/DoctorV)
+- [Mood-based Music Playlist Generator](https://github.com/Rishivardhan-J/Mood-based-Music-Playlist-Generator)
+- [AI-Powered WorkLog & Productivity Tracker](https://github.com/Rishivardhan-J/AI-Powered-WorkLog-and-Productivity-Tracker)
+- [Food Delivery App](https://github.com/Rishivardhan-J/Food_delivery_app)
+
+</details>
+
+<img src="assets/divider.svg" width="100%"/>
 
 ## 💬 Transmission
 
@@ -185,28 +174,9 @@ and shipping something that solves them, not just tutorials.
 *"A computer is a stupid machine with the ability to do incredibly smart things,*
 *while computer programmers are smart people with the ability to do incredibly*
 *stupid things. They are, in short, a perfect match."*
-— David Fames
-
-</div>
-
-<br/>
-
-## 📶 Transmit a Signal
-
-<div align="center">
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rishivardhan-j-ba9469399/)
-[![Portfolio](https://img.shields.io/badge/Portfolio-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261)](https://rishi-j-portfolio.vercel.app)
-[![Email](https://img.shields.io/badge/Email-E76F51?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rishivardhan.j2024cse@sece.ac.in)
-
-</div>
-
-<br/>
-
-<div align="center">
 
 ![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=F4A261&style=for-the-badge&label=SIGNALS+RECEIVED)
 
-</div>
+<img src="assets/footer.svg" width="100%"/>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:F4A261,100:E76F51&height=100&section=footer" width="100%"/>
+</div>
