@@ -22,8 +22,8 @@ jobs:
         with:
           github_user_name: Rishivardhan-J
           outputs: |
-            dist/github-contribution-grid-snake.svg?color_snake=F4A261&color_dots=#ebedf0,#fbd9bd,#f6b585,#E76F51,#b9432a
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=F4A261&color_dots=#161B33,#5A2E1F,#9C4A2E,#E76F51,#F4A261
+            dist/github-contribution-grid-snake.svg?color_snake=#F472B6&color_dots=#ebedf0,#cffafe,#67e8f9,#8B5CF6,#5b21b6
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=#F472B6&color_dots=#161B33,#0e3a4a,#0e7490,#22D3EE,#8B5CF6
 
       - name: Generate metrics SVG
         uses: lowlighter/metrics@latest

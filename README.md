@@ -2,16 +2,16 @@
 
 <img src="assets/header.svg" width="100%" alt="Rishivardhan J"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=F4A261&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Runner-up+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=22D3EE&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
 
-![Status](https://img.shields.io/badge/STATUS-Open%20to%20Internships%20%26%20Full--Time-F4A261?style=flat-square&labelColor=0B0E23)
-![Location](https://img.shields.io/badge/📍-Tamil%20Nadu%2C%20India-0B0E23?style=flat-square&color=E76F51)
+![Status](https://img.shields.io/badge/STATUS-Open%20to%20Internships%20%26%20Full--Time-22D3EE?style=flat-square&labelColor=070A1A)
+![Location](https://img.shields.io/badge/📍-Tamil%20Nadu%2C%20India-070A1A?style=flat-square&color=8B5CF6)
 
-[![Galaxy](https://img.shields.io/badge/Portfolio-Galaxy-F4A261?style=for-the-badge&logo=vercel&logoColor=0B0E23)](https://rishi-galaxy.vercel.app)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0B0E23?style=for-the-badge&logo=linkedin&logoColor=F4A261)](https://www.linkedin.com/in/rishivardhan-j-ba9469399/)
-[![Email](https://img.shields.io/badge/Email-E76F51?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rishivardhan.j2024cse@sece.ac.in)
+[![Galaxy](https://img.shields.io/badge/Portfolio-Galaxy-22D3EE?style=for-the-badge&logo=vercel&logoColor=070A1A)](https://rishi-galaxy.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-070A1A?style=for-the-badge&logo=linkedin&logoColor=22D3EE)](https://www.linkedin.com/in/rishivardhan-j-ba9469399/)
+[![Email](https://img.shields.io/badge/Email-8B5CF6?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rishivardhan.j2024cse@sece.ac.in)
 
-<img src="assets/marquee.svg" width="100%" alt="Projects"/>
+<img src="assets/marquee.svg" width="100%" alt="Projects and stack"/>
 
 </div>
 
@@ -52,9 +52,8 @@ I pick up problems people actually face and ship something that solves them, not
 <div align="center">
 
 <a href="https://rishi-galaxy.vercel.app"><img src="assets/mission-galaxy.svg" width="60%" alt="Galaxy"/></a>
-<br/><sub>A no-scroll, space-themed portfolio where you travel between projects, skills and contact through warp transitions.</sub>
-<br/><a href="https://rishi-galaxy.vercel.app"><img src="https://img.shields.io/badge/Live-Demo-0B0E23?style=for-the-badge&logo=vercel&logoColor=F4A261"/></a>
-<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+<br/><a href="https://rishi-galaxy.vercel.app"><img src="https://img.shields.io/badge/Live-Demo-070A1A?style=for-the-badge&logo=vercel&logoColor=22D3EE"/></a>
+<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
 
 </div>
 
@@ -66,30 +65,25 @@ I pick up problems people actually face and ship something that solves them, not
 <tr>
 <td width="50%" valign="top" align="center">
 <a href="https://github.com/Rishivardhan-J/TrackIt"><img src="assets/mission-trackit.svg" alt="TrackIt" width="100%"/></a>
-<br/><sub>Deadline-driven tracker for internship &amp; hackathon applications, with an admin pipeline for posting and moderating opportunities.</sub>
-<br/><a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+<br/><a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
 </td>
 <td width="50%" valign="top" align="center">
 <a href="https://github.com/Rishivardhan-J/Bench"><img src="assets/mission-bench.svg" alt="Bench" width="100%"/></a>
-<br/><sub>Intelligent, high-performance freelancer discovery by skills, availability and project needs.</sub>
-<br/><a href="https://github.com/Rishivardhan-J/Bench"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+<br/><a href="https://github.com/Rishivardhan-J/Bench"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
 </td>
 </tr><tr>
 <td width="50%" valign="top" align="center">
 <a href="https://github.com/Rishivardhan-J/Forge"><img src="assets/mission-forge.svg" alt="Forge" width="100%"/></a>
-<br/><sub>Habit-formation app built on the framework from Atomic Habits.</sub>
-<br/><a href="https://github.com/Rishivardhan-J/Forge"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+<br/><a href="https://github.com/Rishivardhan-J/Forge"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
 </td>
 <td width="50%" valign="top" align="center">
 <a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="assets/mission-harvestpro.svg" alt="HarvestPro" width="100%"/></a>
-<br/><sub>Turns AI crop predictions into advice small-scale Indian farmers can trust and act on, in their language.</sub>
-<br/><a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+<br/><a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
 </td>
 </tr><tr>
 <td width="50%" valign="top" align="center">
 <a href="https://github.com/Rishivardhan-J/Transit"><img src="assets/mission-transit.svg" alt="Transit" width="100%"/></a>
-<br/><sub>Real-time logistics optimization: ML-predicted delivery times and Hybrid Genetic Search VRP routing, with route explainability.</sub>
-<br/><a href="https://github.com/Rishivardhan-J/Transit"><img src="https://img.shields.io/badge/View-Repo-F4A261?style=for-the-badge&logo=github&logoColor=0B0E23"/></a>
+<br/><a href="https://github.com/Rishivardhan-J/Transit"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
 </td>
 <td width="50%"></td>
 </tr>
@@ -101,8 +95,8 @@ I pick up problems people actually face and ship something that solves them, not
 
 | 🏅 | Event | Result |
 |---|---|---|
-| 🥈 | Google Developer Groups · TechSprint Hackathon 2026 | Runner-up |
-| 🥈 | Startup TN + HCL Foundations · AI for Social Impact Challenge 2026 | Runner-up |
+| 🏆 | Google Developer Groups · TechSprint Hackathon 2026 | Finalist |
+| 🏆 | Startup TN + HCL Foundations · AI for Social Impact Challenge 2026 | Finalist |
 
 <img src="assets/divider.svg" width="100%"/>
 
@@ -130,7 +124,7 @@ I pick up problems people actually face and ship something that solves them, not
 
 <div align="center">
 
-<img src="https://streak-stats.demolab.com?user=Rishivardhan-J&hide_border=true&background=0B0E23&ring=F4A261&fire=E76F51&currStreakLabel=F4A261&sideLabels=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&dates=AAAAAA"/>
+<img src="https://streak-stats.demolab.com?user=Rishivardhan-J&hide_border=true&background=070A1A&ring=22D3EE&fire=F472B6&currStreakLabel=22D3EE&sideLabels=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&dates=AAAAAA"/>
 
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-metrics.svg" width="100%"/>
 
@@ -170,7 +164,7 @@ I pick up problems people actually face and ship something that solves them, not
 *while computer programmers are smart people with the ability to do incredibly*
 *stupid things. They are, in short, a perfect match."*
 
-![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=F4A261&style=for-the-badge&label=SIGNALS+RECEIVED)
+![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=22D3EE&style=for-the-badge&label=SIGNALS+RECEIVED)
 
 <img src="assets/footer.svg" width="100%"/>
 
