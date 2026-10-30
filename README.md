@@ -126,7 +126,7 @@ I pick up problems people actually face and ship something that solves them, not
 
 <img src="https://streak-stats.demolab.com?user=Rishivardhan-J&hide_border=true&background=070A1A&ring=22D3EE&fire=F472B6&currStreakLabel=22D3EE&sideLabels=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&dates=AAAAAA"/>
 
-<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-metrics.svg" width="100%"/>
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-stats.svg" width="100%"/>
 
 </div>
 
