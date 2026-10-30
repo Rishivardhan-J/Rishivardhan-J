@@ -130,12 +130,7 @@ I pick up problems people actually face and ship something that solves them, not
 
 <div align="center">
 
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=Rishivardhan-J&show_icons=true&hide_border=true&bg_color=0B0E23&title_color=F4A261&icon_color=E76F51&text_color=FFFFFF&ring_color=F4A261"/>
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Rishivardhan-J&layout=compact&hide_border=true&bg_color=0B0E23&title_color=F4A261&text_color=FFFFFF"/>
-
 <img src="https://streak-stats.demolab.com?user=Rishivardhan-J&hide_border=true&background=0B0E23&ring=F4A261&fire=E76F51&currStreakLabel=F4A261&sideLabels=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&dates=AAAAAA"/>
-
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=Rishivardhan-J&bg_color=0B0E23&color=F4A261&line=E76F51&point=FFFFFF&area=true&area_color=E76F51&hide_border=true" width="100%"/>
 
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-metrics.svg" width="100%"/>
 
@@ -157,7 +152,7 @@ I pick up problems people actually face and ship something that solves them, not
 <summary><b>🛸 More from the hangar</b></summary>
 <br/>
 
-- [Smart Hostel Management System](https://github.com/Rishivardhan-J/Smart_Hostel_Management_System) · [live](https://smart-hostel-management-system-sigma.vercel.app)
+- [Smart Hostel Management System](https://github.com/Rishivardhan-J/Smart_Hostel_Management_System)
 - [DoctorV](https://github.com/Rishivardhan-J/DoctorV)
 - [Mood-based Music Playlist Generator](https://github.com/Rishivardhan-J/Mood-based-Music-Playlist-Generator)
 - [AI-Powered WorkLog & Productivity Tracker](https://github.com/Rishivardhan-J/AI-Powered-WorkLog-and-Productivity-Tracker)
