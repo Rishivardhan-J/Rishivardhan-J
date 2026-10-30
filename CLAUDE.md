@@ -20,13 +20,16 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 
 ## Design system
 
-`scripts/palette.py` is the single source of truth for colours (cyan/violet/pink/amber on `#070A1A`), the shared font, `HEAT` ramp and a WCAG `contrast()` helper. `python3 scripts/palette.py` exits non-zero if any colour pair used for text drops below its contrast threshold; run it after changing colours. `build_assets.py` and `build_stats.py` import from it by inserting their own directory in `sys.path`.
+`scripts/palette.py` is the single source of truth for colours (the Starlight palette: one ice-blue accent plus muted gold on `#0B0F19`), the shared font, `GRAD_STOPS`, the `HEAT` and `RAMP` ramps and a WCAG `contrast()` helper. `python3 scripts/palette.py` exits non-zero if any colour pair drops below its threshold; run it after changing colours. The generators import from it by inserting their own directory in `sys.path`. Don't hardcode hex in the generators. The snake colours in the workflow and the typing-SVG and badge colours in `README.md` can't import it, so keep them in sync by hand.
 
-Rules that came out of the contrast audit:
-- Small text must use `tx(colour)` (maps violet to the lighter `VI_T`); plain `#8B5CF6` is for fills and strokes only.
-- Muted text is `MUTED` (`#8B9BB4`), not the old `#64748B`.
-- Amber is reserved for status/achievement; green for "live/online" only.
+Rules:
+- One accent only. `AC` is for links, labels, key numbers and primary buttons; don't give sections or chips their own hues.
+- `AC_D` is for fills and strokes only. Small text must use `tx(colour)`, which maps it to `AC`.
+- `SIG` (gold) is reserved for achievements and availability: FINALIST, OPEN TO WORK, LIVE, best day.
+- Muted text is `MUTED`.
+- Keep one filled primary button per group; the others are outlined.
 - Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py`.
+- The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 
 ## SVG gotchas hit in this repo
 

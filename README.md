@@ -2,7 +2,7 @@
 
 <img src="assets/header.svg" width="100%" alt="Rishivardhan J"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=22D3EE&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=5B82C2&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
 
 <img src="assets/pill-status.svg" height="40" alt="Open to internships and full-time roles"/>
 <img src="assets/pill-location.svg" height="40" alt="Tamil Nadu, India"/>
@@ -115,7 +115,7 @@
 *while computer programmers are smart people with the ability to do incredibly*
 *stupid things. They are, in short, a perfect match."*
 
-![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=7C3AED&style=for-the-badge&label=SIGNALS+RECEIVED)
+![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=3F66A6&style=for-the-badge&label=SIGNALS+RECEIVED)
 
 <img src="assets/footer.svg" width="100%"/>
 
