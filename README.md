@@ -19,31 +19,11 @@
 
 ## 🛰️ Mission Briefing
 
-<table>
-<tr>
-<td width="55%" valign="top">
+<div align="center">
 
-```js
-const rishivardhan = {
-  callsign: "Rishivardhan J",
-  role: "CS Student & Full Stack / Mobile Developer",
-  mission: "Build things that solve real problems",
-  activeOrbits: ["Forge", "HarvestPro", "Transit", "TrackIt", "Bench"],
-  charting: ["DevOps", "System Design"],
-  motto: "The best way to learn is by building."
-};
-```
+<img src="assets/briefing.svg" width="100%" alt="Mission briefing: Rishivardhan J, Full Stack and Mobile Developer, open to internships and full-time roles"/>
 
-</td>
-<td width="45%" valign="top">
-
-I'm a Computer Science student who turns ideas into working products, from web apps to mobile apps and ML-backed tools.
-
-I pick up problems people actually face and ship something that solves them, not just tutorials.
-
-</td>
-</tr>
-</table>
+</div>
 
 <img src="assets/divider.svg" width="100%"/>
 
@@ -61,42 +41,23 @@ I pick up problems people actually face and ship something that solves them, not
 
 ## 🪐 Missions Launched
 
-<table>
-<tr>
-<td width="50%" valign="top" align="center">
-<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="assets/mission-trackit.svg" alt="TrackIt" width="100%"/></a>
-<br/><a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
-</td>
-<td width="50%" valign="top" align="center">
-<a href="https://github.com/Rishivardhan-J/Bench"><img src="assets/mission-bench.svg" alt="Bench" width="100%"/></a>
-<br/><a href="https://github.com/Rishivardhan-J/Bench"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
-</td>
-</tr><tr>
-<td width="50%" valign="top" align="center">
-<a href="https://github.com/Rishivardhan-J/Forge"><img src="assets/mission-forge.svg" alt="Forge" width="100%"/></a>
-<br/><a href="https://github.com/Rishivardhan-J/Forge"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
-</td>
-<td width="50%" valign="top" align="center">
-<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="assets/mission-harvestpro.svg" alt="HarvestPro" width="100%"/></a>
-<br/><a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
-</td>
-</tr><tr>
-<td width="50%" valign="top" align="center">
-<a href="https://github.com/Rishivardhan-J/Transit"><img src="assets/mission-transit.svg" alt="Transit" width="100%"/></a>
-<br/><a href="https://github.com/Rishivardhan-J/Transit"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
-</td>
-<td width="50%"></td>
-</tr>
-</table>
+<p align="center">
+<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="assets/mission-trackit.svg" width="49%" alt="TrackIt"/></a>
+<a href="https://github.com/Rishivardhan-J/Bench"><img src="assets/mission-bench.svg" width="49%" alt="Bench"/></a>
+<a href="https://github.com/Rishivardhan-J/Forge"><img src="assets/mission-forge.svg" width="49%" alt="Forge"/></a>
+<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="assets/mission-harvestpro.svg" width="49%" alt="HarvestPro"/></a>
+<a href="https://github.com/Rishivardhan-J/Transit"><img src="assets/mission-transit.svg" width="49%" alt="Transit"/></a>
+</p>
 
 <img src="assets/divider.svg" width="100%"/>
 
 ## 🌠 Milestones
 
-| 🏅 | Event | Result |
-|---|---|---|
-| 🏆 | Google Developer Groups · TechSprint Hackathon 2026 | Finalist |
-| 🏆 | Startup TN + HCL Foundations · AI for Social Impact Challenge 2026 | Finalist |
+<div align="center">
+
+<img src="assets/milestones.svg" width="100%" alt="Milestones: Finalist at Google Developer Groups TechSprint Hackathon 2026 and at the Startup TN + HCL Foundations AI for Social Impact Challenge 2026"/>
+
+</div>
 
 <img src="assets/divider.svg" width="100%"/>
 
@@ -115,6 +76,8 @@ I pick up problems people actually face and ship something that solves them, not
 <div align="center">
 
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-streak.svg" width="100%" alt="Streak"/>
+
+<br/>
 
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-stats.svg" width="100%"/>
 
