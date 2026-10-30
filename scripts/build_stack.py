@@ -1,13 +1,14 @@
 """Builds assets/stack.svg: themed tech-stack panel with embedded skillicons.dev icons."""
 import base64, urllib.request
 
-CY, VI, PK, AM, BG = "#22D3EE", "#8B5CF6", "#F472B6", "#FBBF24", "#070A1A"
-FONT = "Fira Code, Consolas, monospace"
+import os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from palette import CY, VI, PK, AM, BL, BG, FONT, MUTED, tx
 LANES = [
     ("LANGUAGES", CY, [("js", "JavaScript"), ("ts", "TypeScript"), ("py", "Python"), ("java", "Java"), ("cpp", "C++"), ("c", "C"), ("dart", "Dart"), ("html", "HTML"), ("css", "CSS")]),
     ("FRAMEWORKS", VI, [("react", "React"), ("nodejs", "Node.js"), ("express", "Express"), ("django", "Django"), ("flask", "Flask"), ("fastapi", "FastAPI"), ("spring", "Spring"), ("flutter", "Flutter"), ("tailwind", "Tailwind"), ("vite", "Vite"), ("jquery", "jQuery")]),
     ("DATA", PK, [("postgres", "PostgreSQL"), ("mysql", "MySQL"), ("mongodb", "MongoDB"), ("firebase", "Firebase"), ("sqlite", "SQLite"), ("numpy", "NumPy"), ("pandas", "Pandas")]),
-    ("TOOLS", AM, [("git", "Git"), ("github", "GitHub"), ("vscode", "VS Code"), ("linux", "Linux"), ("docker", "Docker"), ("kubernetes", "K8s"), ("vercel", "Vercel"), ("netlify", "Netlify"), ("postman", "Postman"), ("figma", "Figma")]),
+    ("TOOLS", BL, [("git", "Git"), ("github", "GitHub"), ("vscode", "VS Code"), ("linux", "Linux"), ("docker", "Docker"), ("kubernetes", "K8s"), ("vercel", "Vercel"), ("netlify", "Netlify"), ("postman", "Postman"), ("figma", "Figma")]),
 ]
 
 
@@ -30,8 +31,8 @@ for li, (name, col, items) in enumerate(LANES):
     y = TOP + li * (LH + GAP)
     o.append(f'<rect x="16" y="{y}" width="{W-32}" height="{LH}" rx="14" fill="{col}" fill-opacity=".05" stroke="{col}" stroke-opacity=".35"/>')
     o.append(f'<rect x="16" y="{y+18}" width="4" height="{LH-36}" rx="2" fill="{col}"/>')
-    o.append(f'<text x="38" y="{y+54}" font-family="{FONT}" font-size="15" font-weight="800" letter-spacing="3" fill="{col}">{name}</text>'
-             f'<text x="38" y="{y+76}" font-family="{FONT}" font-size="12" fill="#64748B">{len(items):02d} systems</text>')
+    o.append(f'<text x="38" y="{y+54}" font-family="{FONT}" font-size="15" font-weight="800" letter-spacing="3" fill="{tx(col)}">{name}</text>'
+             f'<text x="38" y="{y+76}" font-family="{FONT}" font-size="12" fill="#8B9BB4">{len(items):02d} systems</text>')
     for i, (key, label) in enumerate(items):
         cx = 232 + i * 82 + 41
         dur, begin = 3 + (n % 5) * 0.4, (n % 7) * 0.35

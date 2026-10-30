@@ -4,12 +4,12 @@
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=22D3EE&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
 
-![Status](https://img.shields.io/badge/STATUS-Open%20to%20Internships%20%26%20Full--Time-22D3EE?style=flat-square&labelColor=070A1A)
-![Location](https://img.shields.io/badge/📍-Tamil%20Nadu%2C%20India-070A1A?style=flat-square&color=8B5CF6)
+<img src="assets/pill-status.svg" height="40" alt="Open to internships and full-time roles"/>
+<img src="assets/pill-location.svg" height="40" alt="Tamil Nadu, India"/>
 
-[![Galaxy](https://img.shields.io/badge/Portfolio-Galaxy-22D3EE?style=for-the-badge&logo=vercel&logoColor=070A1A)](https://rishi-galaxy.vercel.app)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-070A1A?style=for-the-badge&logo=linkedin&logoColor=22D3EE)](https://www.linkedin.com/in/rishivardhan-j-ba9469399/)
-[![Email](https://img.shields.io/badge/Email-8B5CF6?style=for-the-badge&logo=gmail&logoColor=white)](mailto:rishivardhan.j2024cse@sece.ac.in)
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="40" alt="Portfolio: Galaxy"/></a>
+<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="40" alt="LinkedIn"/></a>
+<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="40" alt="Email"/></a>
 
 <img src="assets/marquee.svg" width="100%" alt="Projects and stack"/>
 
@@ -32,8 +32,8 @@
 <div align="center">
 
 <a href="https://rishi-galaxy.vercel.app"><img src="assets/mission-galaxy.svg" width="60%" alt="Galaxy"/></a>
-<br/><a href="https://rishi-galaxy.vercel.app"><img src="https://img.shields.io/badge/Live-Demo-070A1A?style=for-the-badge&logo=vercel&logoColor=22D3EE"/></a>
-<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="https://img.shields.io/badge/View-Repo-22D3EE?style=for-the-badge&logo=github&logoColor=070A1A"/></a>
+<br/><a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-demo.svg" height="40" alt="Live demo"/></a>
+<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="assets/btn-repo.svg" height="40" alt="View repo"/></a>
 
 </div>
 
@@ -73,15 +73,13 @@
 
 ## 📡 Flight Data
 
-<div align="center">
+<p align="center">
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-streak.svg" width="100%" alt="Contribution streak"/>
+</p>
 
-<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-streak.svg" width="100%" alt="Streak"/>
-
-<br/>
-
-<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-stats.svg" width="100%"/>
-
-</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-stats.svg" width="100%" alt="GitHub stats dashboard"/>
+</p>
 
 ## 🌌 Orbit Log
 
@@ -117,7 +115,7 @@
 *while computer programmers are smart people with the ability to do incredibly*
 *stupid things. They are, in short, a perfect match."*
 
-![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=22D3EE&style=for-the-badge&label=SIGNALS+RECEIVED)
+![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=7C3AED&style=for-the-badge&label=SIGNALS+RECEIVED)
 
 <img src="assets/footer.svg" width="100%"/>
 

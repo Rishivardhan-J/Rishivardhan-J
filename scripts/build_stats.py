@@ -5,10 +5,11 @@ USER = os.environ.get("PROFILE_USER", "Rishivardhan-J")
 TOKEN = os.environ["GH_TOKEN"]
 OUT = sys.argv[1] if len(sys.argv) > 1 else "github-stats.svg"
 
-CY, VI, PK, AM, BG = "#22D3EE", "#8B5CF6", "#F472B6", "#FBBF24", "#070A1A"
-FONT = "Fira Code, Consolas, monospace"
-HEAT = ["#121A33", "#0e7490", CY, VI, PK]
-LANG_COLORS = [CY, VI, PK, AM, "#34D399", "#60A5FA", "#64748B"]
+import os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from palette import CY, VI, PK, AM, GR, BL, BG, FONT, HEAT, tx
+
+LANG_COLORS = [CY, VI, PK, AM, GR, BL, "#475569"]  # "Other" is the dimmest
 
 QUERY = """
 query($login:String!){ user(login:$login){
@@ -126,7 +127,7 @@ joined = dt.datetime.fromisoformat(u["createdAt"].replace("Z", "+00:00")).strfti
 a(f'<text x="128" y="62" font-family="{FONT}" font-size="30" font-weight="800" fill="url(#g)">{esc(u["name"] or u["login"])}</text>')
 a(f'<text x="128" y="90" font-family="{FONT}" font-size="14" fill="#94A3B8">@{esc(u["login"])} · joined {joined} · {u["followers"]["totalCount"]} followers · {u["following"]["totalCount"]} following</text>')
 a(f'<text x="1160" y="62" text-anchor="end" font-family="{FONT}" font-size="12" letter-spacing="4" fill="{CY}" opacity=".85">FLIGHT DATA</text>'
-  f'<text x="1160" y="82" text-anchor="end" font-family="{FONT}" font-size="12" fill="#64748B">live from the GitHub API</text>')
+  f'<text x="1160" y="82" text-anchor="end" font-family="{FONT}" font-size="12" fill="#8B9BB4">live from the GitHub API</text>')
 
 # tiles
 tiles = [
@@ -143,7 +144,7 @@ for i, (n, label, c) in enumerate(tiles):
     a(f'<g>'
       f'<rect x="{x}" y="130" width="{tw}" height="96" rx="14" fill="{c}" fill-opacity=".08" stroke="{c}" stroke-opacity=".6"/>'
       f'<rect x="{x+16}" y="130" width="40" height="3" rx="1.5" fill="{c}"><animate attributeName="width" values="40;110;40" dur="4s" begin="{i*0.4:.1f}s" repeatCount="indefinite"/></rect>'
-      f'<text x="{x+16}" y="182" font-family="{FONT}" font-size="36" font-weight="800" fill="{c}">{n:,}</text>'
+      f'<text x="{x+16}" y="182" font-family="{FONT}" font-size="36" font-weight="800" fill="{tx(c)}">{n:,}</text>'
       f'<text x="{x+16}" y="206" font-family="{FONT}" font-size="10" letter-spacing="1" fill="#94A3B8">{label}</text></g>')
 
 # heatmap
@@ -164,13 +165,13 @@ for wi, w in enumerate(cal["weeks"]):
           f'<title>{d["date"]}: {d["contributionCount"]}</title></rect>')
 for i, c in enumerate(HEAT):
     a(f'<rect x="{40 + i*20}" y="424" width="14" height="14" rx="3" fill="{c}"/>')
-a(f'<text x="150" y="436" font-family="{FONT}" font-size="11" fill="#64748B">less → more</text>')
+a(f'<text x="150" y="436" font-family="{FONT}" font-size="11" fill="#8B9BB4">less → more</text>')
 sx = 1030
-a(f'<text x="{sx}" y="300" font-family="{FONT}" font-size="11" letter-spacing="2" fill="#64748B">ACTIVE DAYS</text>'
+a(f'<text x="{sx}" y="300" font-family="{FONT}" font-size="11" letter-spacing="2" fill="#8B9BB4">ACTIVE DAYS</text>'
   f'<text x="{sx}" y="330" font-family="{FONT}" font-size="28" font-weight="800" fill="{CY}">{active}</text>'
-  f'<text x="{sx}" y="362" font-family="{FONT}" font-size="11" letter-spacing="2" fill="#64748B">BEST DAY</text>'
+  f'<text x="{sx}" y="362" font-family="{FONT}" font-size="11" letter-spacing="2" fill="#8B9BB4">BEST DAY</text>'
   f'<text x="{sx}" y="392" font-family="{FONT}" font-size="28" font-weight="800" fill="{PK}">{top_day["contributionCount"]}</text>'
-  f'<text x="{sx+50}" y="392" font-family="{FONT}" font-size="11" fill="#64748B">{top_day["date"]}</text>')
+  f'<text x="{sx+50}" y="392" font-family="{FONT}" font-size="11" fill="#8B9BB4">{top_day["date"]}</text>')
 
 # languages
 a(f'<text x="40" y="474" font-family="{FONT}" font-size="14" letter-spacing="3" fill="{CY}">LANGUAGE ORBITS</text>')
@@ -185,10 +186,10 @@ for i, (n, v) in enumerate(top):
     cx, cy = 40 + (i % 4) * 285, 556 + (i // 4) * 38
     a(f'<circle cx="{cx+7}" cy="{cy-5}" r="7" fill="{LANG_COLORS[i]}"/>'
       f'<text x="{cx+24}" y="{cy}" font-family="{FONT}" font-size="15" fill="#E2E8F0">{esc(n)}</text>'
-      f'<text x="{cx+24}" y="{cy+17}" font-family="{FONT}" font-size="12" fill="#64748B">{100*v/total:.1f}%</text>')
+      f'<text x="{cx+24}" y="{cy+17}" font-family="{FONT}" font-size="12" fill="#8B9BB4">{100*v/total:.1f}%</text>')
 
 a(f'<line x1="40" y1="650" x2="1160" y2="650" stroke="url(#g)" stroke-opacity=".4"/>'
-  f'<text x="600" y="678" text-anchor="middle" font-family="{FONT}" font-size="11" letter-spacing="2" fill="#64748B">'
+  f'<text x="600" y="678" text-anchor="middle" font-family="{FONT}" font-size="11" letter-spacing="2" fill="#8B9BB4">'
   f'{stars} STARS · UPDATED {dt.datetime.now(dt.timezone.utc).strftime("%d %b %Y %H:%M UTC").upper()}</text>')
 a('</svg>')
 open(OUT, "w").write("".join(o))
@@ -209,9 +210,9 @@ t = [f'<svg width="{SW}" height="{SH}" viewBox="0 0 {SW} {SH}" xmlns="http://www
      f'<rect width="{SW}" height="{SH}" rx="18" fill="{BG}"/><circle cx="600" cy="120" r="200" fill="url(#glow)"/>',
      f'<rect x="1" y="1" width="{SW-2}" height="{SH-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>']
 def stat(cx, big, label, sub, col):
-    return (f'<text x="{cx}" y="112" text-anchor="middle" font-family="{FONT}" font-size="54" font-weight="800" fill="{col}">{big:,}</text>'
+    return (f'<text x="{cx}" y="112" text-anchor="middle" font-family="{FONT}" font-size="54" font-weight="800" fill="{tx(col)}">{big:,}</text>'
             f'<text x="{cx}" y="146" text-anchor="middle" font-family="{FONT}" font-size="14" letter-spacing="2" fill="#E2E8F0">{label}</text>'
-            f'<text x="{cx}" y="170" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#64748B">{sub}</text>')
+            f'<text x="{cx}" y="170" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#8B9BB4">{sub}</text>')
 t.append(stat(190, total_all, "TOTAL CONTRIBUTIONS", f"{fmt(hist[0][0])} – present", CY))
 t.append(stat(1010, best, "LONGEST STREAK", rng_txt(best_rng), PK))
 t.append(f'<line x1="380" y1="50" x2="380" y2="190" stroke="url(#g)" stroke-opacity=".4"/><line x1="820" y1="50" x2="820" y2="190" stroke="url(#g)" stroke-opacity=".4"/>')
@@ -222,7 +223,7 @@ t.append(f'<circle cx="600" cy="108" r="{ring_r}" fill="none" stroke="#121A33" s
          f'<text x="600" y="126" text-anchor="middle" font-family="{FONT}" font-size="48" font-weight="800" fill="#fff">{cur}</text>'
          f'<text x="600" y="38" text-anchor="middle" font-size="26">🔥<animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="1.6s" repeatCount="indefinite"/></text>'
          f'<text x="600" y="208" text-anchor="middle" font-family="{FONT}" font-size="14" font-weight="700" letter-spacing="2" fill="{CY}">CURRENT STREAK</text>'
-         f'<text x="600" y="228" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#64748B">{rng_txt(cur_rng)}</text>')
+         f'<text x="600" y="228" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#8B9BB4">{rng_txt(cur_rng)}</text>')
 t.append('</svg>')
 streak_out = sys.argv[2] if len(sys.argv) > 2 else OUT.replace("stats", "streak")
 open(streak_out, "w").write("".join(t))
