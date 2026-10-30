@@ -28,13 +28,18 @@ jobs:
       - name: Generate metrics SVG
         uses: lowlighter/metrics@latest
         with:
-          filename: dist/github-metrics.svg
+          filename: github-metrics.svg
           output_action: none
           token: ${{ secrets.METRICS_TOKEN }}
           base: header, activity, community, repositories, metadata
           plugin_languages: yes
           plugin_languages_analysis_timeout: 15
           config_timezone: Asia/Kolkata
+
+      - name: Collect metrics SVG
+        run: |
+          ls -la /metrics_renders
+          cp /metrics_renders/github-metrics.svg dist/github-metrics.svg
 
       - name: Push SVGs to the output branch
         uses: crazy-max/ghaction-github-pages@v4
