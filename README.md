@@ -104,17 +104,7 @@ I pick up problems people actually face and ship something that solves them, not
 
 <div align="center">
 
-**Languages**<br/>
-<img src="https://skillicons.dev/icons?i=js,ts,py,java,cpp,c,dart,html,css&theme=dark"/>
-
-**Frameworks & Libraries**<br/>
-<img src="https://skillicons.dev/icons?i=react,nodejs,express,django,flask,fastapi,spring,flutter,tailwind,vite,jquery&theme=dark"/>
-
-**Data & Databases**<br/>
-<img src="https://skillicons.dev/icons?i=postgres,mysql,mongodb,firebase,sqlite,numpy,pandas&theme=dark"/>
-
-**Mission Control Tools**<br/>
-<img src="https://skillicons.dev/icons?i=git,github,vscode,linux,docker,kubernetes,vercel,netlify,postman,figma&theme=dark"/>
+<img src="assets/stack.svg" width="100%" alt="Tech stack"/>
 
 </div>
 
@@ -124,7 +114,7 @@ I pick up problems people actually face and ship something that solves them, not
 
 <div align="center">
 
-<img src="https://streak-stats.demolab.com?user=Rishivardhan-J&hide_border=true&background=070A1A&ring=22D3EE&fire=F472B6&currStreakLabel=22D3EE&sideLabels=FFFFFF&currStreakNum=FFFFFF&sideNums=FFFFFF&dates=AAAAAA"/>
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-streak.svg" width="100%" alt="Streak"/>
 
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-stats.svg" width="100%"/>
 

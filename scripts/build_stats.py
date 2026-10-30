@@ -36,6 +36,28 @@ def gql():
     return data["data"]["user"]
 
 
+def all_days(created):
+    """Every contribution day since the account was created (API caps a range at 1 year)."""
+    y0, y1 = int(created[:4]), dt.date.today().year
+    fields = "".join(
+        f'y{y}: contributionsCollection(from:"{y}-01-01T00:00:00Z",to:"{y}-12-31T23:59:59Z")'
+        '{contributionCalendar{weeks{contributionDays{date contributionCount}}}} '
+        for y in range(y0, y1 + 1))
+    req = urllib.request.Request(
+        "https://api.github.com/graphql",
+        data=json.dumps({"query": 'query($l:String!){user(login:$l){' + fields + '}}', "variables": {"l": USER}}).encode(),
+        headers={"Authorization": f"bearer {TOKEN}", "User-Agent": "profile-stats"})
+    data = json.load(urllib.request.urlopen(req))
+    if "errors" in data:
+        sys.exit(str(data["errors"]))
+    seen = {}
+    for blk in data["data"]["user"].values():
+        for w in blk["contributionCalendar"]["weeks"]:
+            for d in w["contributionDays"]:
+                seen[d["date"]] = d["contributionCount"]
+    return sorted((k, v) for k, v in seen.items() if k <= dt.date.today().isoformat())
+
+
 def avatar_b64(url):
     req = urllib.request.Request(url + "&s=140", headers={"User-Agent": "profile-stats"})
     return base64.b64encode(urllib.request.urlopen(req).read()).decode()
@@ -51,16 +73,23 @@ days = [d for w in cal["weeks"] for d in w["contributionDays"]]
 today = dt.date.today().isoformat()
 past = [d for d in days if d["date"] <= today]
 
-cur = best = run = 0
-for d in past:
-    run = run + 1 if d["contributionCount"] else 0
-    best = max(best, run)
-cur = 0
-for d in reversed(past):
-    if d["contributionCount"]:
-        cur += 1
-    elif d["date"] != today:
+hist = all_days(u["createdAt"])
+fmt = lambda iso: dt.date.fromisoformat(iso).strftime("%b %d, %Y").replace(" 0", " ")
+best, run, run_start, best_rng = 0, 0, None, None
+for d, c in hist:
+    if c:
+        if not run: run_start = d
+        run += 1
+        if run > best: best, best_rng = run, (run_start, d)
+    else:
+        run = 0
+cur, cur_rng = 0, None
+for d, c in reversed(hist):
+    if c:
+        cur += 1; cur_rng = (d, cur_rng[1] if cur_rng else d)
+    elif d != today:
         break
+total_all = sum(c for _, c in hist)
 active = sum(1 for d in past if d["contributionCount"])
 top_day = max(past, key=lambda d: d["contributionCount"])
 
@@ -105,8 +134,8 @@ tiles = [
     (u["contributionsCollection"]["totalCommitContributions"], "COMMITS · 1Y", VI),
     (u["repositories"]["totalCount"], "REPOSITORIES", PK),
     (u["pullRequests"]["totalCount"], "PULL REQUESTS", AM),
-    (cur, "CURRENT STREAK (DAYS)", CY),
-    (best, "LONGEST STREAK (DAYS)", PK),
+    (stars, "STARS EARNED", CY),
+    (u["followers"]["totalCount"], "FOLLOWERS", PK),
 ]
 tw, gap = 170, 20
 for i, (n, label, c) in enumerate(tiles):
@@ -164,3 +193,37 @@ a(f'<line x1="40" y1="650" x2="1160" y2="650" stroke="url(#g)" stroke-opacity=".
 a('</svg>')
 open(OUT, "w").write("".join(o))
 print("wrote", OUT, len("".join(o)) // 1024, "KB")
+
+
+# ---------- streak panel ----------
+import math
+SW, SH = 1200, 240
+ring_r = 62
+rng_txt = lambda r: f"{fmt(r[0])} – {fmt(r[1])}" if r else "no streak yet"
+prog = min(1.0, cur / best) if best else 0
+circ = 2 * math.pi * ring_r
+t = [f'<svg width="{SW}" height="{SH}" viewBox="0 0 {SW} {SH}" xmlns="http://www.w3.org/2000/svg">',
+     f'<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{SW}" y2="0"><stop offset="0" stop-color="{CY}"/><stop offset=".55" stop-color="{VI}"/><stop offset="1" stop-color="{PK}"/></linearGradient>'
+     f'<linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{CY}"/><stop offset="1" stop-color="{PK}"/></linearGradient>'
+     f'<radialGradient id="glow"><stop offset="0" stop-color="{VI}" stop-opacity=".4"/><stop offset="1" stop-color="{VI}" stop-opacity="0"/></radialGradient></defs>',
+     f'<rect width="{SW}" height="{SH}" rx="18" fill="{BG}"/><circle cx="600" cy="120" r="200" fill="url(#glow)"/>',
+     f'<rect x="1" y="1" width="{SW-2}" height="{SH-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>']
+def stat(cx, big, label, sub, col):
+    return (f'<text x="{cx}" y="112" text-anchor="middle" font-family="{FONT}" font-size="54" font-weight="800" fill="{col}">{big:,}</text>'
+            f'<text x="{cx}" y="146" text-anchor="middle" font-family="{FONT}" font-size="14" letter-spacing="2" fill="#E2E8F0">{label}</text>'
+            f'<text x="{cx}" y="170" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#64748B">{sub}</text>')
+t.append(stat(190, total_all, "TOTAL CONTRIBUTIONS", f"{fmt(hist[0][0])} – present", CY))
+t.append(stat(1010, best, "LONGEST STREAK", rng_txt(best_rng), PK))
+t.append(f'<line x1="380" y1="50" x2="380" y2="190" stroke="url(#g)" stroke-opacity=".4"/><line x1="820" y1="50" x2="820" y2="190" stroke="url(#g)" stroke-opacity=".4"/>')
+t.append(f'<circle cx="600" cy="108" r="{ring_r}" fill="none" stroke="#121A33" stroke-width="12"/>'
+         f'<circle cx="600" cy="108" r="{ring_r}" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="{circ*max(prog,0.02):.1f} {circ:.1f}" transform="rotate(-90 600 108)">'
+         f'<animate attributeName="stroke-opacity" values="1;.55;1" dur="3s" repeatCount="indefinite"/></circle>'
+         f'<circle cx="600" cy="108" r="{ring_r+14}" fill="none" stroke="{CY}" stroke-opacity=".25" stroke-dasharray="2 8"><animateTransform attributeName="transform" type="rotate" from="0 600 108" to="360 600 108" dur="24s" repeatCount="indefinite"/></circle>'
+         f'<text x="600" y="126" text-anchor="middle" font-family="{FONT}" font-size="48" font-weight="800" fill="#fff">{cur}</text>'
+         f'<text x="600" y="38" text-anchor="middle" font-size="26">🔥<animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="1.6s" repeatCount="indefinite"/></text>'
+         f'<text x="600" y="208" text-anchor="middle" font-family="{FONT}" font-size="14" font-weight="700" letter-spacing="2" fill="{CY}">CURRENT STREAK</text>'
+         f'<text x="600" y="228" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#64748B">{rng_txt(cur_rng)}</text>')
+t.append('</svg>')
+streak_out = sys.argv[2] if len(sys.argv) > 2 else OUT.replace("stats", "streak")
+open(streak_out, "w").write("".join(t))
+print("wrote", streak_out)
