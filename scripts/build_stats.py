@@ -7,7 +7,7 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "github-stats.svg"
 
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from palette import CY, VI, PK, AM, GR, BL, BG, FONT, HEAT, tx
+from palette import CY, VI, PK, AM, GR, BL, BG, FONT, HEAT, TEXT, SOFT, DIM, MUTED, tx
 
 LANG_COLORS = [CY, VI, PK, AM, GR, BL, "#475569"]  # "Other" is the dimmest
 
@@ -196,34 +196,108 @@ open(OUT, "w").write("".join(o))
 print("wrote", OUT, len("".join(o)) // 1024, "KB")
 
 
-# ---------- streak panel ----------
+# ---------- flight deck HUD ----------
 import math
-SW, SH = 1200, 240
-ring_r = 62
+SW, SH = 1200, 360
+CX, CYY = 600, 182
+today_d = dt.date.today()
+mon = lambda d: d - dt.timedelta(days=d.weekday())
+WEEKS = 10
+R0, RSTEP = 58, 9
+dates = {dt.date.fromisoformat(d): c for d, c in hist}
+
+# derived telemetry
+last30 = sum(dates.get(today_d - dt.timedelta(days=k), 0) for k in range(30))
+prev30 = sum(dates.get(today_d - dt.timedelta(days=k), 0) for k in range(30, 60))
+delta = f"{'+' if last30 >= prev30 else '-'}{abs(last30 - prev30)} vs previous 30d"
+act90 = sum(1 for k in range(90) if dates.get(today_d - dt.timedelta(days=k), 0))
+dow = [0] * 7
+for d, c in dates.items():
+    dow[d.weekday()] += c
+peak = max(range(7), key=lambda i: dow[i])
+DN = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
+win = [(mon(today_d) - mon(d)).days // 7 for d in dates if 0 <= (mon(today_d) - mon(d)).days // 7 < WEEKS and d <= today_d]
+wmax = max((c for d, c in dates.items() if 0 <= (mon(today_d) - mon(d)).days // 7 < WEEKS), default=1) or 1
 rng_txt = lambda r: f"{fmt(r[0])} – {fmt(r[1])}" if r else "no streak yet"
 prog = min(1.0, cur / best) if best else 0
-circ = 2 * math.pi * ring_r
+
 t = [f'<svg width="{SW}" height="{SH}" viewBox="0 0 {SW} {SH}" xmlns="http://www.w3.org/2000/svg">',
      f'<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{SW}" y2="0"><stop offset="0" stop-color="{CY}"/><stop offset=".55" stop-color="{VI}"/><stop offset="1" stop-color="{PK}"/></linearGradient>'
      f'<linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{CY}"/><stop offset="1" stop-color="{PK}"/></linearGradient>'
-     f'<radialGradient id="glow"><stop offset="0" stop-color="{VI}" stop-opacity=".4"/><stop offset="1" stop-color="{VI}" stop-opacity="0"/></radialGradient></defs>',
-     f'<rect width="{SW}" height="{SH}" rx="18" fill="{BG}"/><circle cx="600" cy="120" r="200" fill="url(#glow)"/>',
-     f'<rect x="1" y="1" width="{SW-2}" height="{SH-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>']
-def stat(cx, big, label, sub, col):
-    return (f'<text x="{cx}" y="112" text-anchor="middle" font-family="{FONT}" font-size="54" font-weight="800" fill="{tx(col)}">{big:,}</text>'
-            f'<text x="{cx}" y="146" text-anchor="middle" font-family="{FONT}" font-size="14" letter-spacing="2" fill="#E2E8F0">{label}</text>'
-            f'<text x="{cx}" y="170" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#8B9BB4">{sub}</text>')
-t.append(stat(190, total_all, "TOTAL CONTRIBUTIONS", f"{fmt(hist[0][0])} – present", CY))
-t.append(stat(1010, best, "LONGEST STREAK", rng_txt(best_rng), PK))
-t.append(f'<line x1="380" y1="50" x2="380" y2="190" stroke="url(#g)" stroke-opacity=".4"/><line x1="820" y1="50" x2="820" y2="190" stroke="url(#g)" stroke-opacity=".4"/>')
-t.append(f'<circle cx="600" cy="108" r="{ring_r}" fill="none" stroke="#121A33" stroke-width="12"/>'
-         f'<circle cx="600" cy="108" r="{ring_r}" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="{circ*max(prog,0.02):.1f} {circ:.1f}" transform="rotate(-90 600 108)">'
-         f'<animate attributeName="stroke-opacity" values="1;.55;1" dur="3s" repeatCount="indefinite"/></circle>'
-         f'<circle cx="600" cy="108" r="{ring_r+14}" fill="none" stroke="{CY}" stroke-opacity=".25" stroke-dasharray="2 8"><animateTransform attributeName="transform" type="rotate" from="0 600 108" to="360 600 108" dur="24s" repeatCount="indefinite"/></circle>'
-         f'<text x="600" y="126" text-anchor="middle" font-family="{FONT}" font-size="48" font-weight="800" fill="#fff">{cur}</text>'
-         f'<text x="600" y="38" text-anchor="middle" font-size="26">🔥<animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="1.6s" repeatCount="indefinite"/></text>'
-         f'<text x="600" y="208" text-anchor="middle" font-family="{FONT}" font-size="14" font-weight="700" letter-spacing="2" fill="{CY}">CURRENT STREAK</text>'
-         f'<text x="600" y="228" text-anchor="middle" font-family="{FONT}" font-size="12" fill="#8B9BB4">{rng_txt(cur_rng)}</text>')
+     f'<radialGradient id="glow"><stop offset="0" stop-color="{VI}" stop-opacity=".38"/><stop offset="1" stop-color="{VI}" stop-opacity="0"/></radialGradient>'
+     f'<linearGradient id="sw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{CY}" stop-opacity="0"/><stop offset="1" stop-color="{CY}" stop-opacity=".28"/></linearGradient></defs>',
+     f'<rect width="{SW}" height="{SH}" rx="18" fill="{BG}"/><circle cx="{CX}" cy="{CYY}" r="200" fill="url(#glow)"/>',
+     f'<rect x="1" y="1" width="{SW-2}" height="{SH-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>',
+     f'<text x="40" y="40" font-family="{FONT}" font-size="12" letter-spacing="4" fill="{CY}">FLIGHT DECK</text>',
+     f'<circle cx="1012" cy="36" r="4" fill="{GR}"><animate attributeName="opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></circle>'
+     f'<text x="1160" y="40" text-anchor="end" font-family="{FONT}" font-size="12" letter-spacing="3" fill="{GR}">SIGNAL LOCKED</text>']
+
+# --- left instruments
+def instrument(y, label, value, vcol, sub, frac=None):
+    o = (f'<text x="40" y="{y}" font-family="{FONT}" font-size="11" letter-spacing="3" fill="{MUTED}">{label}</text>'
+         f'<text x="40" y="{y+38}" font-family="{FONT}" font-size="38" font-weight="800" fill="{tx(vcol)}">{value}</text>'
+         f'<text x="40" y="{y+58}" font-family="{FONT}" font-size="12" fill="{DIM}">{sub}</text>')
+    if frac is not None:
+        o += (f'<rect x="40" y="{y+68}" width="250" height="6" rx="3" fill="#121A33"/>'
+              f'<rect x="40" y="{y+68}" width="{250*min(1,frac):.1f}" height="6" rx="3" fill="{vcol}"/>')
+    return o
+t.append(instrument(78, "TOTAL CONTRIBUTIONS", f"{total_all:,}", CY, f"since {fmt(hist[0][0])}"))
+t.append(instrument(172, "LAST 30 DAYS", f"{last30}", VI, delta, last30 / max(prev30, last30, 1)))
+t.append(instrument(266, "ACTIVE-DAY RATE · 90D", f"{100*act90/90:.0f}%", PK, f"{act90} of 90 days with activity", act90 / 90))
+
+# --- radar
+for w in range(WEEKS):
+    t.append(f'<circle cx="{CX}" cy="{CYY}" r="{R0 + w*RSTEP}" fill="none" stroke="{CY}" stroke-opacity="{.16 if w % 3 == 0 else .07}" {"" if w % 3 == 0 else "stroke-dasharray=\"2 5\""}/>')
+rout = R0 + (WEEKS - 1) * RSTEP
+for i in range(7):
+    a = math.radians(i * 360 / 7 - 90)
+    t.append(f'<line x1="{CX+(R0-6)*math.cos(a):.1f}" y1="{CYY+(R0-6)*math.sin(a):.1f}" x2="{CX+rout*math.cos(a):.1f}" y2="{CYY+rout*math.sin(a):.1f}" stroke="{CY}" stroke-opacity=".1"/>'
+             f'<text x="{CX+(rout+14)*math.cos(a):.1f}" y="{CYY+(rout+14)*math.sin(a)+4:.1f}" text-anchor="middle" font-family="{FONT}" font-size="10" fill="{MUTED}">{DN[i][0]}</text>')
+sweep = f'M{CX},{CYY} L{CX+rout},{CYY} A{rout},{rout} 0 0 0 {CX+rout*math.cos(math.radians(-40)):.1f},{CYY+rout*math.sin(math.radians(-40)):.1f} Z'
+t.append(f'<g><path d="{sweep}" fill="url(#sw)"/><line x1="{CX}" y1="{CYY}" x2="{CX+rout}" y2="{CYY}" stroke="{CY}" stroke-opacity=".7"/>'
+         f'<animateTransform attributeName="transform" type="rotate" from="0 {CX} {CYY}" to="360 {CX} {CYY}" dur="9s" repeatCount="indefinite"/></g>')
+for d in sorted(dates):
+    w = (mon(today_d) - mon(d)).days // 7
+    if not (0 <= w < WEEKS) or d > today_d: continue
+    c = dates[d]
+    a = math.radians(d.weekday() * 360 / 7 - 90)
+    r = R0 + w * RSTEP
+    x, y = CX + r * math.cos(a), CYY + r * math.sin(a)
+    if c == 0:
+        t.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.8" fill="#26325A"/>')
+    else:
+        lvl = 1 + min(3, int(3.99 * c / wmax))
+        t.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{3 + 3.5*c/wmax:.1f}" fill="{HEAT[lvl]}"><title>{d}: {c}</title></circle>')
+    if d == today_d:
+        t.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="none" stroke="{AM}" stroke-width="1.5"><animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/></circle>')
+# hub
+circ = 2 * math.pi * 36
+t.append(f'<circle cx="{CX}" cy="{CYY}" r="44" fill="{BG}" stroke="{CY}" stroke-opacity=".25"/>'
+         f'<circle cx="{CX}" cy="{CYY}" r="36" fill="none" stroke="#121A33" stroke-width="7"/>'
+         f'<circle cx="{CX}" cy="{CYY}" r="36" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="{circ*max(prog,.03):.1f} {circ:.1f}" transform="rotate(-90 {CX} {CYY})"/>'
+         f'<text x="{CX}" y="{CYY+9}" text-anchor="middle" font-family="{FONT}" font-size="28" font-weight="800" fill="#fff">{cur}</text>'
+         f'<text x="{CX}" y="{CYY+22}" text-anchor="middle" font-family="{FONT}" font-size="8" letter-spacing="2" fill="{CY}">DAYS</text>'
+         f'<text x="{CX}" y="{CYY-21}" text-anchor="middle" font-size="12">🔥<animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="1.6s" repeatCount="indefinite"/></text>')
+t.append(f'<text x="{CX}" y="{SH-14}" text-anchor="middle" font-family="{FONT}" font-size="11" fill="{MUTED}">RADAR · last {WEEKS} weeks · ring = week, spoke = weekday, dot size = activity</text>')
+
+# --- right instruments
+RX = 880
+t.append(f'<text x="{RX}" y="78" font-family="{FONT}" font-size="11" letter-spacing="3" fill="{MUTED}">WEEKLY RHYTHM · ALL TIME</text>')
+bw, gap, base, hmax = 28, 12, 170, 70
+mxd = max(dow) or 1
+for i, v in enumerate(dow):
+    h = max(3, hmax * v / mxd); x = RX + i * (bw + gap)
+    col = PK if i == peak else CY
+    t.append(f'<rect x="{x}" y="{base-hmax}" width="{bw}" height="{hmax}" rx="5" fill="#121A33"/>'
+             f'<rect x="{x}" y="{base-h:.1f}" width="{bw}" height="{h:.1f}" rx="5" fill="{col}" fill-opacity="{1 if i == peak else .75}"/>'
+             f'<text x="{x+bw/2}" y="{base+16}" text-anchor="middle" font-family="{FONT}" font-size="10" fill="{MUTED}">{DN[i][:2]}</text>')
+t.append(f'<text x="{RX}" y="{base+38}" font-family="{FONT}" font-size="12" fill="{DIM}">peak day: <tspan fill="{PK}" font-weight="700">{DN[peak]}</tspan> · {dow[peak]} contributions</text>')
+t.append(f'<text x="{RX}" y="262" font-family="{FONT}" font-size="11" letter-spacing="3" fill="{MUTED}">LONGEST STREAK</text>'
+         f'<text x="{RX}" y="300" font-family="{FONT}" font-size="38" font-weight="800" fill="{PK}">{best}<tspan font-size="14" fill="{DIM}" font-weight="400"> days</tspan></text>'
+         f'<text x="{RX}" y="320" font-family="{FONT}" font-size="12" fill="{DIM}">{rng_txt(best_rng)}</text>'
+         f'<text x="{RX}" y="346" font-family="{FONT}" font-size="11" letter-spacing="3" fill="{MUTED}">FUEL</text>'
+         f'<rect x="{RX+54}" y="339" width="150" height="6" rx="3" fill="#121A33"/><rect x="{RX+54}" y="339" width="{150*prog:.1f}" height="6" rx="3" fill="{CY}"/>'
+         f'<text x="{RX+280}" y="346" text-anchor="end" font-family="{FONT}" font-size="11" fill="{DIM}">{cur}/{best} days</text>')
 t.append('</svg>')
 streak_out = sys.argv[2] if len(sys.argv) > 2 else OUT.replace("stats", "streak")
 open(streak_out, "w").write("".join(t))

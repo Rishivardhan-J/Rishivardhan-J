@@ -74,7 +74,7 @@
 ## 📡 Flight Data
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-streak.svg" width="100%" alt="Contribution streak"/>
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-flight.svg" width="100%" alt="Flight deck: contribution radar, 30-day pace, weekly rhythm and streak"/>
 </p>
 
 <p align="center">
