@@ -10,8 +10,7 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 
 1. **Static assets, committed to `main` under `assets/`.** Regenerate locally and commit the output (run from the repo root, since paths are relative):
    - `python3 scripts/build_assets.py`: header, marquee, divider, footer (planet horizon), `hangar-*.svg` cards, the `mission-row-*.svg` label strips, `btn-*.svg` / `pill-*.svg` buttons. Seeded RNG, so output is deterministic.
-   - `python3 scripts/build_panels.py`: `briefing.svg` (terminal + about card) and `milestones.svg`.
-   - `python3 scripts/build_stack.py`: `stack.svg`. Needs network: it fetches icons from skillicons.dev / cdn.simpleicons.org and embeds them as base64.
+   - `python3 scripts/build_panels.py`: `briefing.svg` (terminal + about card) and `milestones.svg` (entries come from the `MILESTONES` list at the top of that block; `kind` is `finalist` (gold) or `next` (accent)).
 2. **Live data SVGs, built by CI and published to the `output` branch, never committed to `main`.** `scripts/build_stats.py <stats.svg> <flight.svg>` calls the GitHub GraphQL API (needs `GH_TOKEN`; locally use `GH_TOKEN=$(gh auth token)`) and writes the stats dashboard and the flight-deck HUD (plus `orbit-data.json` for the Orbit Log). `scripts/build_closing.py <snake-raw.svg> <orbit-data.json> <dir>` then turns the raw snk snake into the framed `orbit-log.svg` and builds `transmission.svg`. The README references them via `raw.githubusercontent.com/.../output/github-stats.svg` and `github-flight.svg`, so they will not show up in a local render of the README.
 
 `.github/workflows/profile-visuals.yml` runs daily (00:00 UTC), on manual dispatch, and on pushes to `main` that touch `.github/workflows/**` or `scripts/**`. It generates one raw snake SVG (Platane/snk, `dist/snake-raw.svg`), runs `build_stats.py`, `build_closing.py` and `build_missions.py`, deletes the raw intermediates, then publishes the whole `dist/` folder to `output` in one step with `crazy-max/ghaction-github-pages`. That step replaces the branch contents, so every file the README needs from `output` must be written into `dist/` in the same job. Changes to assets under `assets/` don't need CI; they're served straight from `main`.
@@ -53,6 +52,13 @@ Built by the first half of `build_stats.py` as a star chart plus a language sola
 - The flagship's window shows a stylised warp tunnel (looping `stroke-dashoffset`), not a screenshot, plus a real HTTP check of the live site (gold ONLINE light, OFFLINE if it fails). Set `FLAGSHIP_URL` to test the failure case.
 - Adding a project means: a `MISSIONS` entry, a `glyph()` branch for its patch, and a README line.
 - Rollback tags: `pre-missions`.
+
+## Toolkit panel (`build_stack.py`)
+
+- CI-built (`build_stack.py <dir>`, needs `GH_TOKEN`); `stack.svg` lives on `output`. Icons are fetched from skillicons.dev / simpleicons and embedded as base64, then recoloured by an SVG duotone filter (`#duo`; `ICON_MODE=soft` is a milder fallback) so every logo shares the palette. A failed icon becomes a two-letter text tile.
+- Evidence of use: for each non-fork repo it reads languages (Flutter scaffolding ignored via `ghdata.SCAFFOLD`), manifests (`package.json`, `pubspec.yaml`, `requirements.txt`, `pyproject.toml`, `pom.xml`) and files (`Dockerfile`, `vercel.json`, `netlify.toml`). `PKG` maps package names to tile keys, `FILES` maps file names. Ringed tiles with `×N` were found in N repos; unringed tiles are not dimmed on purpose. Git/GitHub count every repo.
+- Adding a technology: a `LANES` tile `(skillicons-key, label)` plus, if detectable, a `PKG`/`LANGKEY`/`FILES` entry. Empty repos answer 409 and are skipped.
+- Rollback tag: `pre-milestones-stack`.
 
 ## SVG gotchas hit in this repo
 

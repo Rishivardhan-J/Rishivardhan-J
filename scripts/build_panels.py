@@ -1,5 +1,5 @@
 """Builds assets/briefing.svg and assets/milestones.svg (Starlight theme)."""
-import html, random, re
+import html, math, random, re
 
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
@@ -86,31 +86,58 @@ b.append('</svg>')
 open("assets/briefing.svg", "w").write("".join(b))
 
 # ------------------------------------------------ milestones
-W, H = 1200, 330
-cards = [
-    ("🏆", "FINALIST", SIG, ["TechSprint Hackathon", "Google Developer Groups"], "2026"),
-    ("🏆", "FINALIST", SIG, ["AI for Social Impact", "Startup TN × HCL Foundations"], "2026"),
-    ("🚀", "NEXT MISSION", AC, ["Three missions in orbit", "Forge · HarvestPro · Transit"], "NOW"),
+# One entry per milestone: add a line here and re-run. kind "finalist" = achievement (gold); "next" = what's in progress (accent).
+MILESTONES = [
+    dict(kind="finalist", title="TechSprint Hackathon", org="Google Developer Groups", when="2026"),
+    dict(kind="finalist", title="AI for Social Impact", org="Startup TN × HCL Foundations", when="2026"),
+    dict(kind="next", title="Three missions in orbit", org="Forge · HarvestPro · Transit", when="NOW"),
 ]
+W, H = 1200, 384
+CW, GAP, CY0 = 350, 35, 122          # card width, gap, card top
+n_fin = sum(m["kind"] == "finalist" for m in MILESTONES)
+years = sorted({m["when"] for m in MILESTONES if m["kind"] == "finalist"})
+wave = lambda x: 78 + 10 * math.sin((x - 40) / 95)   # the flight path; nodes sit on it
+path = "M" + " L".join(f"{x},{wave(x):.1f}" for x in range(40, 1161, 8))
+
+
+def medal(cx, cy, c, kind, i):
+    ring = (f'<g transform="translate({cx} {cy})"><g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="{36 + i * 6}s" repeatCount="indefinite"/>'
+            + "".join(f'<line x1="{30 * math.cos(a):.1f}" y1="{30 * math.sin(a):.1f}" x2="{39 * math.cos(a):.1f}" y2="{39 * math.sin(a):.1f}" stroke="{c}" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>'
+                      for a in (k * math.pi / 6 for k in range(12))) + '</g>'
+            f'<circle r="27" fill="{c}" fill-opacity=".12" stroke="{c}" stroke-width="2"/><circle r="22" fill="none" stroke="{c}" stroke-opacity=".35"/>')
+    st = f'fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+    if kind == "finalist":   # trophy
+        ring += (f'<path d="M-10,-13H10V-3C10,3 5,7 0,7C-5,7 -10,3 -10,-3Z" {st}/><path d="M-10,-10H-15C-15,-3 -12,-1 -10,-1M10,-10H15C15,-3 12,-1 10,-1" {st}/>'
+                 f'<path d="M0,7V12M-6,13H6" {st}/>')
+    else:                    # rocket
+        ring += (f'<path d="M0,-15C6,-8 6,4 4,10H-4C-6,4 -6,-8 0,-15Z" {st}/><circle cy="-4" r="2.2" {st}/><path d="M-4,6L-9,12L-4,10M4,6L9,12L4,10M-2,12Q0,18 2,12" {st}/>')
+    return ring + "</g>"
+
+
 b = [head(W, H, f'<radialGradient id="r"><stop offset="0" stop-color="{SIG}" stop-opacity=".10"/><stop offset="1" stop-color="{SIG}" stop-opacity="0"/></radialGradient>'),
      f'<circle cx="400" cy="40" r="320" fill="url(#r)"/>', stars(W, H, 35), frame(W, H)]
-cw, gap = 350, 35
-b.append(f'<line x1="60" y1="52" x2="1140" y2="52" stroke="url(#g)" stroke-width="3" stroke-opacity=".7"/>'
-         f'<circle cy="52" r="5" fill="{TEXT}"><animate attributeName="cx" values="60;1140" dur="6s" repeatCount="indefinite"/></circle>')
-for i, (e, tag, c, lines, yr) in enumerate(cards):
-    x = 40 + i * (cw + gap)
-    cx = x + cw / 2
-    dash = ' stroke-dasharray="6 6"' if tag == "NEXT MISSION" else ""
-    b.append(f'<circle cx="{cx}" cy="52" r="11" fill="{BG}" stroke="{c}" stroke-width="3"/><circle cx="{cx}" cy="52" r="4" fill="{c}"><animate attributeName="opacity" values="1;.3;1" dur="2.4s" begin="{i*.6}s" repeatCount="indefinite"/></circle>'
-             f'<line x1="{cx}" y1="64" x2="{cx}" y2="90" stroke="{c}" stroke-opacity=".6"/>'
-             f'<rect x="{x}" y="90" width="{cw}" height="214" rx="16" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".6"{dash}/>'
-             f'<text x="{x+30}" y="150" font-size="44">{e}<animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3s" begin="{i*.5}s" repeatCount="indefinite"/></text>'
-             f'<rect x="{x+cw-30-(30+len(tag)*9)}" y="116" width="{30+len(tag)*9}" height="26" rx="13" fill="{c}" fill-opacity=".16" stroke="{c}"/>'
-             f'<text x="{x+cw-30-(30+len(tag)*9)/2}" y="134" text-anchor="middle" font-family="{FONT}" font-size="12" font-weight="800" fill="{tx(c)}">{tag}</text>'
-             f'<line x1="{x+30}" y1="176" x2="{x+cw-30}" y2="176" stroke="{c}" stroke-opacity=".25"/>'
-             f'<text x="{x+30}" y="212" font-family="{FONT}" font-size="19" font-weight="800" fill="{TEXT}">{esc(lines[0])}</text>'
-             f'<text x="{x+30}" y="238" font-family="{FONT}" font-size="14" fill="{DIM}">{esc(lines[1])}</text>'
-             f'<text x="{x+30}" y="282" font-family="{FONT}" font-size="13" letter-spacing="3" fill="{tx(c)}">{yr}</text>')
+b.append(f'<text x="40" y="40" font-family="{FONT}" font-size="13" letter-spacing="4" fill="{AC}">MILESTONES</text>'
+         f'<text x="1160" y="40" text-anchor="end" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{MUTED}">{n_fin} FINALIST FINISHES · {" · ".join(years)}</text>'
+         f'<path d="{path}" fill="none" stroke="url(#g)" stroke-width="2.5" stroke-opacity=".75"/>'
+         f'<circle r="5" fill="{TEXT}"><animateMotion dur="9s" repeatCount="indefinite" path="{path}"/></circle>')
+for i, m in enumerate(MILESTONES):
+    gold = m["kind"] == "finalist"
+    c = SIG if gold else AC
+    x = 40 + i * (CW + GAP)
+    cx = x + CW / 2
+    ny = wave(cx)
+    dash = "" if gold else ' stroke-dasharray="6 6"'
+    tag = "FINALIST" if gold else "NEXT"
+    b.append(f'<circle cx="{cx}" cy="{ny:.1f}" r="11" fill="{BG}" stroke="{c}" stroke-width="3"/><circle cx="{cx}" cy="{ny:.1f}" r="4" fill="{c}"><animate attributeName="opacity" values="1;.3;1" dur="2.4s" begin="{i * .6}s" repeatCount="indefinite"/></circle>'
+             f'<line x1="{cx}" y1="{ny + 12:.1f}" x2="{cx}" y2="{CY0}" stroke="{c}" stroke-opacity=".6"/>'
+             f'<rect x="{x}" y="{CY0}" width="{CW}" height="232" rx="16" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".6"{dash}/>'
+             f'{medal(x + 74, CY0 + 76, c, m["kind"], i)}'
+             f'<path d="M{x + CW - 112},{CY0}h82v44l-41,-13l-41,13Z" fill="{c}"/>'
+             f'<text x="{x + CW - 71}" y="{CY0 + 24}" text-anchor="middle" font-family="{FONT}" font-size="11" font-weight="800" letter-spacing="1" fill="{BG}">{tag}</text>'
+             f'<line x1="{x + 30}" y1="{CY0 + 142}" x2="{x + CW - 30}" y2="{CY0 + 142}" stroke="{c}" stroke-opacity=".25"/>'
+             f'<text x="{x + 30}" y="{CY0 + 176}" font-family="{FONT}" font-size="19" font-weight="800" fill="{TEXT}">{esc(m["title"])}</text>'
+             f'<text x="{x + 30}" y="{CY0 + 200}" font-family="{FONT}" font-size="14" fill="{DIM}">{esc(m["org"])}</text>'
+             f'<text x="{x + 30}" y="{CY0 + 220}" font-family="{FONT}" font-size="13" letter-spacing="3" fill="{c}">{m["when"]}</text>')
 b.append('</svg>')
 open("assets/milestones.svg", "w").write("".join(b))
 print("ok")

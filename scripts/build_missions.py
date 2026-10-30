@@ -6,6 +6,7 @@ import datetime as dt, html, json, math, os, random, sys, textwrap, urllib.error
 
 sys.path.insert(0, os.path.dirname(__file__))
 from palette import AC, AC_D, AC_L, SIG, BG, PANEL, TRACK, TEXT, SOFT, DIM, MUTED, FONT, GRAD_STOPS, RAMP
+from ghdata import SCAFFOLD
 
 DIST = sys.argv[1]
 USER = os.environ.get("PROFILE_USER", "Rishivardhan-J")
@@ -27,7 +28,6 @@ MISSIONS = [  # editorial: pitch, stack and stage (1-4) are written by hand; eve
     dict(key="transit", name="Transit", stage=2, status="BUILDING", w=380, stack="Python · ML · VRP",
          desc="Real-time logistics optimization: ML delivery-time prediction and Hybrid Genetic Search routing."),
 ]
-SCAFFOLD = {"C", "C++", "CMake", "Objective-C", "Swift", "Kotlin", "Shell", "HTML", "Ruby"}  # Flutter platform runners, not app code
 
 
 # ------------------------------------------------------------------ data

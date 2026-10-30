@@ -72,7 +72,7 @@
 
 <div align="center">
 
-<img src="assets/stack.svg" width="100%" alt="Tech stack"/>
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/stack.svg" width="100%" alt="Toolkit: 37 technologies across languages, frameworks, data and tools, with the ones found in my repositories highlighted"/>
 
 </div>
 
