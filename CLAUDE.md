@@ -31,6 +31,15 @@ Rules:
 - Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py`.
 - The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 
+## Stats panel (`github-stats.svg`)
+
+Built by the first half of `build_stats.py` as a star chart plus a language solar system (the Flight Deck above it is the radar/gauge panel; keep the two visually distinct).
+- Rank comes from all-time contributions via the `RANKS` ladder (CADET 0, PILOT 100, NAVIGATOR 300, COMMANDER 1000, ADMIRAL 3000).
+- Star chart: `x` is the real date; height within the band is decorative (a smooth wave plus a hash of the date), and the on-image caption says so. Lines join active days less than a week apart. Don't present the height as data.
+- Solar system: planets rotate (SMIL), so they can't carry labels. Static ring numbers `01-06` match the legend. Planet size is share of code; legend bars are relative to the top language.
+- Numbers use size steps by digit count (tiles and hero) so six-figure counts don't overflow. Test layout changes against other accounts with `PROFILE_USER=torvalds` (huge) and `PROFILE_USER=octocat` (zero activity), not just this profile.
+- Rollback tags: `pre-starlight`, `pre-stats-redesign`.
+
 ## SVG gotchas hit in this repo
 
 - Gradients on zero-height shapes (horizontal lines) don't render with the default `objectBoundingBox` units; use `gradientUnits="userSpaceOnUse"` (see `GRAD` / `#g`).

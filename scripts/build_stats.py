@@ -7,9 +7,8 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "github-stats.svg"
 
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from palette import AC, AC_D, AC_L, SIG, BG, TRACK, FONT, GRAD_STOPS, HEAT, RAMP, TEXT, SOFT, DIM, MUTED, tx
+from palette import AC, AC_D, AC_L, SIG, BG, PANEL, TRACK, FONT, GRAD_STOPS, HEAT, RAMP, TEXT, SOFT, DIM, MUTED, tx
 
-LANG_COLORS = RAMP  # ordered by rank; "Other" is neutral
 
 QUERY = """
 query($login:String!){ user(login:$login){
@@ -107,90 +106,179 @@ other = sum(v for _, v in ranked[6:])
 if other:
     top.append(("Other", other))
 
-W, H = 1200, 700
+# ---------- stats panel: star chart + language solar system ----------
+import math, random, zlib
+
+RANKS = [("CADET", 0), ("PILOT", 100), ("NAVIGATOR", 300), ("COMMANDER", 1000), ("ADMIRAL", 3000)]  # all-time contributions
+rank_i = max(i for i, (_, floor) in enumerate(RANKS) if total_all >= floor)
+rank_name, rank_floor = RANKS[rank_i]
+if rank_i + 1 < len(RANKS):
+    rank_next, rank_ceil = RANKS[rank_i + 1]
+    rank_frac = (total_all - rank_floor) / (rank_ceil - rank_floor)
+    rank_note = f"{rank_ceil - total_all:,} to {rank_next}"
+else:
+    rank_frac, rank_note = 1.0, "MAX RANK"
+
+W, H = 1200, 846
+SKY_X, SKY_Y, SKY_W, SKY_H = 40, 296, 1120, 220
+BAND_T, BAND_H = 318, 150          # stars live in this band; height within it is decorative
+SYS_X, SYS_Y = 270, 694            # solar-system centre
+
+d_first = dt.date.fromisoformat(past[0]["date"])
+d_last = dt.date.fromisoformat(today)
+span = max((d_last - d_first).days, 1)
+sx_of = lambda d: SKY_X + 28 + (d - d_first).days / span * (SKY_W - 56)
+sy_of = lambda iso, dd: BAND_T + BAND_H * (.5 + .30 * math.sin(dd.toordinal() / 23) + .12 * math.sin(dd.toordinal() / 7)) + ((zlib.crc32(iso.encode()) % 1000) / 1000 - .5) * 28
+
+act = [(dt.date.fromisoformat(d["date"]), d["date"], d["contributionCount"]) for d in past if d["contributionCount"]]
+mx = max((c for _, _, c in act), default=1)
+slevel = lambda n: 1 if n / mx <= .25 else 2 if n / mx <= .5 else 3 if n / mx <= .75 else 4
+STAR_COL = {1: HEAT[2], 2: HEAT[2], 3: HEAT[3], 4: HEAT[4]}
+by_month = {}
+for d in past:
+    by_month[d["date"][:7]] = by_month.get(d["date"][:7], 0) + d["contributionCount"]
+months = sorted(by_month)[-12:]
+trunc = lambda s, n=18: s if len(s) <= n else s[:n - 1] + "…"
+
+planets = [(n, v) for n, v in top if n != "Other"]
+other_v = next((v for n, v in top if n == "Other"), 0)
+lang_col = lambda i, n: RAMP[-1] if n == "Other" else RAMP[min(i, len(RAMP) - 2)]
+summary = (f'{cal["totalContributions"]} contributions in the last year, rank {rank_name}, '
+           f'top languages: {", ".join(n for n, _ in top[:3]) or "none yet"}.')
+
 o = []
 a = o.append
-a(f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">')
+a(f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
+  f'<title>GitHub stats for {esc(u["login"])}</title><desc>{esc(summary)}</desc>')
 a(f'<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{W}" y2="0">{GRAD_STOPS}</linearGradient>'
-  f'<radialGradient id="r1"><stop offset="0" stop-color="{AC_D}" stop-opacity=".30"/><stop offset="1" stop-color="{AC_D}" stop-opacity="0"/></radialGradient>'
-  f'<radialGradient id="r2"><stop offset="0" stop-color="{AC}" stop-opacity=".22"/><stop offset="1" stop-color="{AC}" stop-opacity="0"/></radialGradient>'
+  f'<radialGradient id="r1"><stop offset="0" stop-color="{AC_D}" stop-opacity=".26"/><stop offset="1" stop-color="{AC_D}" stop-opacity="0"/></radialGradient>'
+  f'<radialGradient id="r2"><stop offset="0" stop-color="{AC}" stop-opacity=".16"/><stop offset="1" stop-color="{AC}" stop-opacity="0"/></radialGradient>'
+  f'<radialGradient id="sg"><stop offset="0" stop-color="{AC_L}" stop-opacity=".5"/><stop offset="1" stop-color="{AC_L}" stop-opacity="0"/></radialGradient>'
+  f'<radialGradient id="sun"><stop offset="0" stop-color="{AC_L}"/><stop offset="1" stop-color="{AC}"/></radialGradient>'
   f'<clipPath id="card"><rect width="{W}" height="{H}" rx="18"/></clipPath><clipPath id="av"><circle cx="76" cy="66" r="36"/></clipPath>'
-  f'<clipPath id="bar"><rect x="40" y="498" width="1120" height="18" rx="9"/></clipPath></defs>')
+  f'<clipPath id="sky"><rect x="{SKY_X}" y="{SKY_Y}" width="{SKY_W}" height="{SKY_H}" rx="14"/></clipPath></defs>')
 a(f'<rect width="{W}" height="{H}" rx="18" fill="{BG}"/><g clip-path="url(#card)">'
-  f'<circle cx="150" cy="40" r="320" fill="url(#r2)"/><circle cx="1080" cy="640" r="380" fill="url(#r1)"/></g>')
+  f'<circle cx="150" cy="40" r="320" fill="url(#r2)"/><circle cx="1080" cy="800" r="380" fill="url(#r1)"/></g>')
 a(f'<rect x="1" y="1" width="{W-2}" height="{H-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>')
 
-# header
-a(f'<circle cx="76" cy="66" r="40" fill="none" stroke="url(#g)" stroke-width="3"/>'
-  f'<image x="40" y="30" width="72" height="72" clip-path="url(#av)" xlink:href="data:image/jpeg;base64,{avatar_b64(u["avatarUrl"])}"/>')
+# ---- header: mission patch + rank
 joined = dt.datetime.fromisoformat(u["createdAt"].replace("Z", "+00:00")).strftime("%b %Y")
-a(f'<text x="128" y="62" font-family="{FONT}" font-size="30" font-weight="800" fill="url(#g)">{esc(u["name"] or u["login"])}</text>')
-a(f'<text x="128" y="90" font-family="{FONT}" font-size="14" fill="{DIM}">@{esc(u["login"])} · joined {joined} · {u["followers"]["totalCount"]} followers · {u["following"]["totalCount"]} following</text>')
-a(f'<text x="1160" y="62" text-anchor="end" font-family="{FONT}" font-size="12" letter-spacing="4" fill="{AC}" opacity=".85">FLIGHT DATA</text>'
-  f'<text x="1160" y="82" text-anchor="end" font-family="{FONT}" font-size="12" fill="{MUTED}">live from the GitHub API</text>')
+a(f'<circle cx="76" cy="66" r="46" fill="none" stroke="{AC}" stroke-opacity=".45" stroke-dasharray="3 6"><animateTransform attributeName="transform" type="rotate" from="0 76 66" to="360 76 66" dur="40s" repeatCount="indefinite"/></circle>'
+  f'<circle cx="76" cy="66" r="40" fill="none" stroke="url(#g)" stroke-width="3"/>'
+  f'<image x="40" y="30" width="72" height="72" clip-path="url(#av)" xlink:href="data:image/jpeg;base64,{avatar_b64(u["avatarUrl"])}"/>')
+a(f'<text x="144" y="62" font-family="{FONT}" font-size="30" font-weight="800" fill="url(#g)">{esc(u["name"] or u["login"])}</text>'
+  f'<text x="144" y="90" font-family="{FONT}" font-size="14" fill="{DIM}">@{esc(u["login"])} · joined {joined} · {u["followers"]["totalCount"]:,} followers · {u["following"]["totalCount"]:,} following</text>')
+a(f'<text x="1160" y="40" text-anchor="end" font-family="{FONT}" font-size="11" letter-spacing="4" fill="{MUTED}">RANK</text>'
+  f'<text x="1160" y="70" text-anchor="end" font-family="{FONT}" font-size="28" font-weight="800" letter-spacing="2" fill="{AC_L}">{rank_name}</text>'
+  f'<rect x="900" y="82" width="260" height="6" rx="3" fill="{TRACK}"/><rect x="900" y="82" width="{260*rank_frac:.1f}" height="6" rx="3" fill="{AC}"/>'
+  f'<text x="1160" y="108" text-anchor="end" font-family="{FONT}" font-size="11" fill="{DIM}">{rank_note}</text>')
 
-# tiles
-tiles = [
-    (cal["totalContributions"], "CONTRIBUTIONS · 1Y", AC),
-    (u["contributionsCollection"]["totalCommitContributions"], "COMMITS · 1Y", AC),
-    (u["repositories"]["totalCount"], "REPOSITORIES", AC),
-    (u["pullRequests"]["totalCount"], "PULL REQUESTS", AC),
-    (stars, "STARS EARNED", AC),
-    (u["followers"]["totalCount"], "FOLLOWERS", AC),
-]
-tw, gap = 170, 20
-for i, (n, label, c) in enumerate(tiles):
-    x = 40 + i * (tw + gap)
-    a(f'<g>'
-      f'<rect x="{x}" y="130" width="{tw}" height="96" rx="14" fill="{c}" fill-opacity=".08" stroke="{c}" stroke-opacity=".6"/>'
-      f'<rect x="{x+16}" y="130" width="40" height="3" rx="1.5" fill="{c}"><animate attributeName="width" values="40;110;40" dur="4s" begin="{i*0.4:.1f}s" repeatCount="indefinite"/></rect>'
-      f'<text x="{x+16}" y="182" font-family="{FONT}" font-size="36" font-weight="800" fill="{tx(c)}">{n:,}</text>'
-      f'<text x="{x+16}" y="206" font-family="{FONT}" font-size="10" letter-spacing="1" fill="{DIM}">{label}</text></g>')
+# ---- telemetry: hero tile + five readouts
+a(f'<rect x="40" y="130" width="340" height="120" rx="14" fill="{AC}" fill-opacity=".07" stroke="{AC}" stroke-opacity=".45"/>'
+  f'<text x="60" y="158" font-family="{FONT}" font-size="10" letter-spacing="2" fill="{DIM}">CONTRIBUTIONS · LAST 12 MONTHS</text>'
+  f'<text x="58" y="218" font-family="{FONT}" font-size="{52 if len(f"{cal["totalContributions"]:,}") <= 3 else 40 if len(f"{cal["totalContributions"]:,}") <= 5 else 30}" font-weight="800" fill="{AC}">{cal["totalContributions"]:,}</text>')
+mmax = max((by_month[m] for m in months), default=1) or 1
+bx0 = 40 + 340 - 18 - (len(months) * 13 - 4)
+for i, m in enumerate(months):
+    h = max(3, 56 * by_month[m] / mmax)
+    a(f'<rect x="{bx0 + i*13}" y="{236-h:.1f}" width="9" height="{h:.1f}" rx="2.5" fill="{AC_L if i == len(months)-1 else AC}" fill-opacity="{1 if i == len(months)-1 else .6}"><title>{m}: {by_month[m]}</title></rect>')
+reads = [(u["contributionsCollection"]["totalCommitContributions"], "COMMITS · 1Y"), (u["repositories"]["totalCount"], "REPOSITORIES"),
+         (u["pullRequests"]["totalCount"], "PULL REQUESTS"), (stars, "STARS EARNED"), (u["followers"]["totalCount"], "FOLLOWERS")]
+for i, (n, label) in enumerate(reads):
+    x = 400 + i * 155
+    a(f'<rect x="{x}" y="130" width="140" height="120" rx="14" fill="{AC}" fill-opacity=".04" stroke="{AC}" stroke-opacity=".3"/>'
+      f'<rect x="{x+16}" y="130" width="28" height="3" rx="1.5" fill="{AC}"/>'
+      f'<text x="{x+16}" y="196" font-family="{FONT}" font-size="{36 if len(f"{n:,}") <= 5 else 26 if len(f"{n:,}") <= 7 else 20}" font-weight="800" fill="{AC}">{n:,}</text>'
+      f'<text x="{x+16}" y="222" font-family="{FONT}" font-size="10" letter-spacing="1" fill="{DIM}">{label}</text>')
 
-# heatmap
-a(f'<text x="40" y="268" font-family="{FONT}" font-size="14" letter-spacing="3" fill="{AC}">CONTRIBUTION GRID</text>')
-mx = max(d["contributionCount"] for d in past) or 1
-def level(n):
-    if n == 0: return 0
-    r = n / mx
-    return 1 if r <= .25 else 2 if r <= .5 else 3 if r <= .75 else 4
-x0, y0, cs, cg = 40, 284, 15, 3
-for wi, w in enumerate(cal["weeks"]):
-    for d in w["contributionDays"]:
-        if d["date"] > today: continue
-        cx, cy = x0 + wi * (cs + cg), y0 + d["weekday"] * (cs + cg)
-        if d["date"] == today:
-            a(f'<rect x="{cx-2}" y="{cy-2}" width="{cs+4}" height="{cs+4}" rx="5" fill="none" stroke="{SIG}" stroke-width="1.5"><animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/></rect>')
-        a(f'<rect x="{cx}" y="{cy}" width="{cs}" height="{cs}" rx="3.5" fill="{HEAT[level(d["contributionCount"])]}">'
-          f'<title>{d["date"]}: {d["contributionCount"]}</title></rect>')
-for i, c in enumerate(HEAT):
-    a(f'<rect x="{40 + i*20}" y="424" width="14" height="14" rx="3" fill="{c}"/>')
-a(f'<text x="150" y="436" font-family="{FONT}" font-size="11" fill="{MUTED}">less → more</text>')
-sx = 1030
-a(f'<text x="{sx}" y="300" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{MUTED}">ACTIVE DAYS</text>'
-  f'<text x="{sx}" y="330" font-family="{FONT}" font-size="28" font-weight="800" fill="{AC}">{active}</text>'
-  f'<text x="{sx}" y="362" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{MUTED}">BEST DAY</text>'
-  f'<text x="{sx}" y="392" font-family="{FONT}" font-size="28" font-weight="800" fill="{SIG}">{top_day["contributionCount"]}</text>'
-  f'<text x="{sx+50}" y="392" font-family="{FONT}" font-size="11" fill="{MUTED}">{top_day["date"]}</text>')
-
-# languages
-a(f'<text x="40" y="474" font-family="{FONT}" font-size="14" letter-spacing="3" fill="{AC}">LANGUAGE ORBITS</text>')
-a(f'<g clip-path="url(#bar)"><rect x="40" y="498" width="1120" height="18" fill="{BG}"/>')
-x = 40.0
-for i, (n, v) in enumerate(top):
-    w = 1120 * v / total
-    a(f'<rect x="{x:.1f}" y="498" width="{max(w-2,1):.1f}" height="18" fill="{LANG_COLORS[i]}"/>')
-    x += w
+# ---- star chart
+a(f'<text x="40" y="284" font-family="{FONT}" font-size="14" letter-spacing="3" fill="{AC}">STAR CHART</text>'
+  f'<text x="1160" y="284" text-anchor="end" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{MUTED}">{active} ACTIVE DAYS · LAST 12 MONTHS</text>')
+a(f'<rect x="{SKY_X}" y="{SKY_Y}" width="{SKY_W}" height="{SKY_H}" rx="14" fill="{PANEL}" stroke="{AC}" stroke-opacity=".18"/><g clip-path="url(#sky)">')
+rng = random.Random(42)
+for _ in range(80):
+    a(f'<circle cx="{rng.uniform(SKY_X+6, SKY_X+SKY_W-6):.1f}" cy="{rng.uniform(SKY_Y+6, SKY_Y+SKY_H-6):.1f}" r="{rng.choice([.5, .7, 1]):.1f}" fill="{TEXT}" fill-opacity="{rng.uniform(.1, .28):.2f}"/>')
+pos = {iso: (sx_of(dd), sy_of(iso, dd)) for dd, iso, _ in act}
+for (d1, i1, _), (d2, i2, _) in zip(act, act[1:]):
+    if (d2 - d1).days <= 6:
+        (x1, y1), (x2, y2) = pos[i1], pos[i2]
+        a(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{AC}" stroke-opacity=".38" stroke-width="1"/>')
+twinkle = {iso for _, iso, c in sorted(act, key=lambda t: zlib.crc32(t[1].encode())) if slevel(c) >= 2}
+twinkle = set(sorted(twinkle, key=lambda i: zlib.crc32(i.encode()))[:25])
+for dd, iso, c in act:
+    x, y = pos[iso]
+    lvl = slevel(c)
+    r = 1.8 + 4.2 * math.sqrt(c / mx)
+    tw = (f'<animate attributeName="opacity" values="1;.5;1" dur="{2.4 + (zlib.crc32(iso.encode()) % 30) / 10:.1f}s" begin="{(zlib.crc32(iso.encode()) % 40) / 10:.1f}s" repeatCount="indefinite"/>'
+          if iso in twinkle else "")
+    if lvl == 4:
+        R = r * 2.2
+        a(f'<g><circle cx="{x:.1f}" cy="{y:.1f}" r="{r*4:.1f}" fill="url(#sg)" fill-opacity=".7"/>'
+          f'<path d="M{x:.1f},{y-R:.1f}Q{x:.1f},{y:.1f} {x+R:.1f},{y:.1f}Q{x:.1f},{y:.1f} {x:.1f},{y+R:.1f}Q{x:.1f},{y:.1f} {x-R:.1f},{y:.1f}Q{x:.1f},{y:.1f} {x:.1f},{y-R:.1f}Z" fill="{STAR_COL[4]}">'
+          f'<title>{iso}: {c}</title>{tw}</path></g>')
+    else:
+        a(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" fill="{STAR_COL[lvl]}"><title>{iso}: {c}</title>{tw}</circle>')
+if top_day["contributionCount"]:
+    bx, by = pos[top_day["date"]]
+    left = bx > SKY_X + SKY_W * .7
+    a(f'<circle cx="{bx:.1f}" cy="{by:.1f}" r="13" fill="none" stroke="{SIG}" stroke-width="1.2"/>'
+      f'<text x="{bx + (-20 if left else 20):.1f}" y="{by+4:.1f}" text-anchor="{"end" if left else "start"}" font-family="{FONT}" font-size="11" font-weight="700" fill="{SIG}" stroke="{PANEL}" stroke-width="3" paint-order="stroke">BEST DAY · {top_day["contributionCount"]} · {top_day["date"]}</text>')
+tx_, ty_ = pos.get(today, (sx_of(d_last), BAND_T + BAND_H / 2))
+a(f'<circle cx="{tx_:.1f}" cy="{ty_:.1f}" r="9" fill="none" stroke="{SIG}" stroke-width="1.5"><animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/></circle>'
+  f'<text x="{tx_+8:.1f}" y="{ty_+26:.1f}" text-anchor="end" font-family="{FONT}" font-size="9" letter-spacing="2" fill="{MUTED}" stroke="{PANEL}" stroke-width="3" paint-order="stroke">TODAY</text>')
+if not act:
+    a(f'<text x="{SKY_X + SKY_W / 2}" y="{BAND_T + BAND_H / 2}" text-anchor="middle" font-family="{FONT}" font-size="13" letter-spacing="3" fill="{MUTED}">QUIET SKY · NO ACTIVITY IN THE LAST 12 MONTHS</text>')
+last_lx = -99
+for k in range((d_last - d_first).days + 1):
+    day = d_first + dt.timedelta(days=k)
+    if day.day == 1:
+        x = sx_of(day)
+        a(f'<line x1="{x:.1f}" y1="484" x2="{x:.1f}" y2="492" stroke="{AC}" stroke-opacity=".3"/>')
+        if x - last_lx >= 56:
+            a(f'<text x="{x:.1f}" y="508" text-anchor="middle" font-family="{FONT}" font-size="10" fill="{MUTED}">{day.strftime("%b %y" if day.month == 1 else "%b").upper()}</text>')
+            last_lx = x
 a('</g>')
-for i, (n, v) in enumerate(top):
-    cx, cy = 40 + (i % 4) * 285, 556 + (i // 4) * 38
-    a(f'<circle cx="{cx+7}" cy="{cy-5}" r="7" fill="{LANG_COLORS[i]}"/>'
-      f'<text x="{cx+24}" y="{cy}" font-family="{FONT}" font-size="15" fill="{TEXT}">{esc(n)}</text>'
-      f'<text x="{cx+24}" y="{cy+17}" font-family="{FONT}" font-size="12" fill="{MUTED}">{100*v/total:.1f}%</text>')
+a(f'<text x="40" y="538" font-family="{FONT}" font-size="10" fill="{MUTED}">x = date · size = contributions · height is decorative · lines join active days less than a week apart</text>')
 
-a(f'<line x1="40" y1="650" x2="1160" y2="650" stroke="url(#g)" stroke-opacity=".4"/>'
-  f'<text x="600" y="678" text-anchor="middle" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{MUTED}">'
-  f'{stars} STARS · UPDATED {dt.datetime.now(dt.timezone.utc).strftime("%d %b %Y %H:%M UTC").upper()}</text>')
+# ---- language solar system
+a(f'<text x="40" y="574" font-family="{FONT}" font-size="14" letter-spacing="3" fill="{AC}">LANGUAGE ORBITS</text>'
+  f'<text x="1160" y="574" text-anchor="end" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{MUTED}">SUN = {u["repositories"]["totalCount"]} REPOSITORIES</text>')
+a(f'<circle cx="{SYS_X}" cy="{SYS_Y}" r="70" fill="url(#sg)"/>')
+for i in range(len(planets)):
+    a(f'<circle cx="{SYS_X}" cy="{SYS_Y}" r="{36 + i*12.5:.1f}" fill="none" stroke="{AC}" stroke-opacity=".14"/>')
+if other_v:
+    a(f'<circle cx="{SYS_X}" cy="{SYS_Y}" r="106" fill="none" stroke="{RAMP[-1]}" stroke-opacity=".28" stroke-dasharray="1 6"/>')
+a(f'<circle cx="{SYS_X}" cy="{SYS_Y}" r="18" fill="url(#sun)"/>')
+for i, (n, v) in enumerate(planets):
+    r = 36 + i * 12.5
+    pr = 4 + 14 * math.sqrt(v / total)
+    a0 = (i * 137.5) % 360
+    a(f'<g><animateTransform attributeName="transform" type="rotate" from="{a0:.1f} {SYS_X} {SYS_Y}" to="{a0+360:.1f} {SYS_X} {SYS_Y}" dur="{16 + i*9}s" repeatCount="indefinite"/>'
+      f'<circle cx="{SYS_X + r:.1f}" cy="{SYS_Y}" r="{pr:.1f}" fill="{lang_col(i, n)}" stroke="{AC_L}" stroke-opacity=".5"><title>{esc(n)}: {100*v/total:.1f}%</title></circle></g>')
+    la = math.radians(-100 + i * 34)   # fan the ring numbers out so they don't stack
+    a(f'<text x="{SYS_X + r * math.cos(la):.1f}" y="{SYS_Y + r * math.sin(la) + 3:.1f}" text-anchor="middle" font-family="{FONT}" font-size="8" fill="{SOFT}" stroke="{BG}" stroke-width="3" paint-order="stroke">{i+1:02d}</text>')
+if other_v:
+    belt = "".join(
+        f'<circle cx="{SYS_X + (106 + rng.uniform(-3, 3)) * math.cos(k * 2 * math.pi / 40):.1f}" cy="{SYS_Y + (106 + rng.uniform(-3, 3)) * math.sin(k * 2 * math.pi / 40):.1f}" r="{rng.choice([1, 1.4, 1.8]):.1f}" fill="{RAMP[-1]}"/>'
+        for k in range(40))
+    a(f'<g><animateTransform attributeName="transform" type="rotate" from="0 {SYS_X} {SYS_Y}" to="360 {SYS_X} {SYS_Y}" dur="90s" repeatCount="indefinite"/>{belt}</g>')
+a(f'<text x="{SYS_X}" y="{SYS_Y+4}" text-anchor="middle" font-family="{FONT}" font-size="11" font-weight="800" fill="{BG}">{u["repositories"]["totalCount"]}</text>')
+if not top:
+    a(f'<text x="560" y="{SYS_Y}" font-family="{FONT}" font-size="14" fill="{DIM}">no language data yet</text>')
+topv = max((v for _, v in top), default=1)
+for i, (n, v) in enumerate(top):
+    y = 612 + i * 27
+    other = n == "Other"
+    a(f'<text x="540" y="{y}" font-family="{FONT}" font-size="11" fill="{MUTED}">{"··" if other else f"{i+1:02d}"}</text>'
+      f'<circle cx="582" cy="{y-5}" r="6" fill="{lang_col(i, n)}"/>'
+      f'<text x="602" y="{y}" font-family="{FONT}" font-size="15" fill="{TEXT}">{esc(trunc(n))}</text>'
+      f'<rect x="860" y="{y-8}" width="200" height="6" rx="3" fill="{TRACK}"/><rect x="860" y="{y-8}" width="{200*v/topv:.1f}" height="6" rx="3" fill="{lang_col(i, n)}"/>'
+      f'<text x="1160" y="{y}" text-anchor="end" font-family="{FONT}" font-size="13" fill="{SOFT}">{100*v/total:.1f}%</text>')
+a(f'<text x="540" y="806" font-family="{FONT}" font-size="10" fill="{MUTED}">planet size = share of code · orbit order = rank · bars are relative to the top language</text>')
+
+a(f'<line x1="40" y1="820" x2="1160" y2="820" stroke="url(#g)" stroke-opacity=".4"/>'
+  f'<text x="600" y="838" text-anchor="middle" font-family="{FONT}" font-size="10" letter-spacing="2" fill="{MUTED}">'
+  f'{stars:,} STARS · LIVE FROM THE GITHUB API · UPDATED {dt.datetime.now(dt.timezone.utc).strftime("%d %b %Y %H:%M UTC").upper()}</text>')
 a('</svg>')
 open(OUT, "w").write("".join(o))
 print("wrote", OUT, len("".join(o)) // 1024, "KB")
