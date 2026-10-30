@@ -9,12 +9,12 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 ## Two kinds of generated SVGs (this is the key thing to know)
 
 1. **Static assets, committed to `main` under `assets/`.** Regenerate locally and commit the output (run from the repo root, since paths are relative):
-   - `python3 scripts/build_assets.py`: header, marquee, divider, footer (planet horizon), `mission-*.svg` and `hangar-*.svg` cards, `btn-*.svg` / `pill-*.svg` buttons. Seeded RNG, so output is deterministic.
+   - `python3 scripts/build_assets.py`: header, marquee, divider, footer (planet horizon), `hangar-*.svg` cards, the `mission-row-*.svg` label strips, `btn-*.svg` / `pill-*.svg` buttons. Seeded RNG, so output is deterministic.
    - `python3 scripts/build_panels.py`: `briefing.svg` (terminal + about card) and `milestones.svg`.
    - `python3 scripts/build_stack.py`: `stack.svg`. Needs network: it fetches icons from skillicons.dev / cdn.simpleicons.org and embeds them as base64.
 2. **Live data SVGs, built by CI and published to the `output` branch, never committed to `main`.** `scripts/build_stats.py <stats.svg> <flight.svg>` calls the GitHub GraphQL API (needs `GH_TOKEN`; locally use `GH_TOKEN=$(gh auth token)`) and writes the stats dashboard and the flight-deck HUD (plus `orbit-data.json` for the Orbit Log). `scripts/build_closing.py <snake-raw.svg> <orbit-data.json> <dir>` then turns the raw snk snake into the framed `orbit-log.svg` and builds `transmission.svg`. The README references them via `raw.githubusercontent.com/.../output/github-stats.svg` and `github-flight.svg`, so they will not show up in a local render of the README.
 
-`.github/workflows/profile-visuals.yml` runs daily (00:00 UTC), on manual dispatch, and on pushes to `main` that touch `.github/workflows/**` or `scripts/**`. It generates one raw snake SVG (Platane/snk, `dist/snake-raw.svg`), runs `build_stats.py` and `build_closing.py`, deletes the raw intermediates, then publishes the whole `dist/` folder to `output` in one step with `crazy-max/ghaction-github-pages`. That step replaces the branch contents, so every file the README needs from `output` must be written into `dist/` in the same job. Changes to assets under `assets/` don't need CI; they're served straight from `main`.
+`.github/workflows/profile-visuals.yml` runs daily (00:00 UTC), on manual dispatch, and on pushes to `main` that touch `.github/workflows/**` or `scripts/**`. It generates one raw snake SVG (Platane/snk, `dist/snake-raw.svg`), runs `build_stats.py`, `build_closing.py` and `build_missions.py`, deletes the raw intermediates, then publishes the whole `dist/` folder to `output` in one step with `crazy-max/ghaction-github-pages`. That step replaces the branch contents, so every file the README needs from `output` must be written into `dist/` in the same job. Changes to assets under `assets/` don't need CI; they're served straight from `main`.
 
 `METRICS_TOKEN` (a repo secret) lets `build_stats.py` count private contributions; without it the job falls back to `GITHUB_TOKEN` and the numbers are lower.
 
@@ -45,6 +45,14 @@ Built by the first half of `build_stats.py` as a star chart plus a language sola
 - `orbit-log.svg` nests the snk snake inside our own panel: it overrides snk's `:root` CSS variables, turns the square cells into circles (same classes, so snk's eating animation still works), and restyles the cargo bar. snk's class names (`.c`, `.s`, `.u`) are global, so don't reuse them elsewhere in that SVG. The grid sits low so the snake's start position (one cell above the grid) clears the month labels.
 - `transmission.svg` shows the profile-view count. The count only grows while the README requests the komarev image, so the README keeps a 1x1 komarev `<img>`; CI reads the number once a day (this adds about one view per day). If komarev fails, the number comes from the previously published panel (`views=` in its `<desc>`), then `—`.
 - Headless Chrome screenshots of these SVGs don't advance the snake's CSS transform animation (the original snk file behaves the same), so judge comet motion by the keyframes, not by screenshots.
+
+## Flagship and mission cards (`build_missions.py`)
+
+- CI-built from one GraphQL call (commit count, pushed date, stars, language bytes, per repo); `flagship.svg` and `mission-*.svg` live on `output`, not in `assets/`. Pitches, stacks and stages (`STAGES`: DESIGN/BUILD/ACTIVE/LIVE) are editorial constants in the script; update them there when a project's status changes (BUILDING = stage 2, ACTIVE = 3).
+- Language mix ignores Flutter platform scaffolding (`SCAFFOLD`: C, C++, CMake, Swift, Kotlin, HTML...) when a repo's top language is Dart, so Flutter apps read as Dart. A repo that can't be fetched renders dashes instead of failing the build.
+- The flagship's window shows a stylised warp tunnel (looping `stroke-dashoffset`), not a screenshot, plus a real HTTP check of the live site (gold ONLINE light, OFFLINE if it fails). Set `FLAGSHIP_URL` to test the failure case.
+- Adding a project means: a `MISSIONS` entry, a `glyph()` branch for its patch, and a README line.
+- Rollback tags: `pre-missions`.
 
 ## SVG gotchas hit in this repo
 

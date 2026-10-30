@@ -31,7 +31,7 @@
 
 <div align="center">
 
-<a href="https://rishi-galaxy.vercel.app"><img src="assets/mission-galaxy.svg" width="60%" alt="Galaxy"/></a>
+<a href="https://rishi-galaxy.vercel.app"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/flagship.svg" width="100%" alt="Flagship mission: Galaxy, a no-scroll space-themed portfolio. Live site, React, Vite and TypeScript."/></a>
 <br/><a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-demo.svg" height="40" alt="Live demo"/></a>
 <a href="https://github.com/Rishivardhan-J/Galaxy"><img src="assets/btn-repo.svg" height="40" alt="View repo"/></a>
 
@@ -41,12 +41,19 @@
 
 ## 🪐 Missions Launched
 
+<img src="assets/mission-row-active.svg" width="100%" alt="Active missions"/>
+
 <p align="center">
-<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="assets/mission-trackit.svg" width="49%" alt="TrackIt"/></a>
-<a href="https://github.com/Rishivardhan-J/Bench"><img src="assets/mission-bench.svg" width="49%" alt="Bench"/></a>
-<a href="https://github.com/Rishivardhan-J/Forge"><img src="assets/mission-forge.svg" width="49%" alt="Forge"/></a>
-<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="assets/mission-harvestpro.svg" width="49%" alt="HarvestPro"/></a>
-<a href="https://github.com/Rishivardhan-J/Transit"><img src="assets/mission-transit.svg" width="49%" alt="Transit"/></a>
+<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-trackit.svg" width="49%" alt="TrackIt: deadline-driven tracker for internship and hackathon applications"/></a>
+<a href="https://github.com/Rishivardhan-J/Bench"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-bench.svg" width="49%" alt="Bench: freelancer discovery by skills, availability and project needs"/></a>
+</p>
+
+<img src="assets/mission-row-building.svg" width="100%" alt="Missions being built"/>
+
+<p align="center">
+<a href="https://github.com/Rishivardhan-J/Forge"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-forge.svg" width="32.5%" alt="Forge: habit-formation app built on Atomic Habits"/></a>
+<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-harvestpro.svg" width="32.5%" alt="HarvestPro: AI crop advice for Indian farmers"/></a>
+<a href="https://github.com/Rishivardhan-J/Transit"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-transit.svg" width="32.5%" alt="Transit: logistics optimization with ML and Hybrid Genetic Search"/></a>
 </p>
 
 <img src="assets/divider.svg" width="100%"/>

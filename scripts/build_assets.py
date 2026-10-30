@@ -58,7 +58,6 @@ out("divider.svg",wrap(1200,30,b))
 # ---- footer: planet horizon finale
 import math
 from palette import AC_L, PANEL, MUTED, TRACK
-stars(1200,100,30)  # burn the old footer's draws so the seeded mission-card output below stays unchanged
 fr=random.Random(23)
 FW,FH,PR=1200,240,1400                     # card size, planet radius (centre sits PR below the horizon line)
 PCX,PCY=600,140+PR
@@ -107,24 +106,13 @@ for i,(k,l1,l2,lang,_) in enumerate(HG):
         f'<circle cx="200" cy="109" r="3" fill="{A}"><animate attributeName="opacity" values="1;.25;1" dur="{2+i*.4:.1f}s" repeatCount="indefinite"/></circle>')
     out(f"hangar-{k}.svg",wrap(220,124,b))
 
-# ---- mission cards 460x200 with description inside
-M=[("trackit","TrackIt","📋","ACTIVE","React · TypeScript",["Deadline-driven tracker for internship &amp;","hackathon applications, with an admin","pipeline to post and moderate listings."]),
-("bench","Bench","🧑‍💻","ACTIVE","React · TypeScript",["Intelligent, high-performance freelancer","discovery by skills, availability and","project needs."]),
-("forge","Forge","⚒️","BUILDING","Flutter · Dart",["Habit-formation app built on the","framework from Atomic Habits."]),
-("harvestpro","HarvestPro","🌾","BUILDING","Flutter · AI",["Turns AI crop predictions into advice","Indian farmers can trust and act on,","in their own language."]),
-("transit","Transit","🚦","BUILDING","Python · ML · VRP",["Real-time logistics optimization: ML","delivery-time prediction + Hybrid Genetic","Search routing with explainability."]),
-("galaxy","Galaxy","🌌","LIVE","React · Vite · TypeScript",["A no-scroll, space-themed portfolio where","you travel between projects, skills and","contact through warp transitions."])]
-for k,n,e,st,stack,desc in M:
-    b=f'<rect x="1.5" y="1.5" width="457" height="215" rx="16" fill="{N}" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>'+stars(460,218,22)
-    b+=f'<circle cx="52" cy="52" r="30" fill="{B}" fill-opacity=".15" stroke="{A}" stroke-opacity=".6" stroke-dasharray="3 5"><animateTransform attributeName="transform" type="rotate" from="0 52 52" to="360 52 52" dur="18s" repeatCount="indefinite"/></circle><text x="52" y="63" text-anchor="middle" font-size="28">{e}</text>'
-    b+=f'<text x="98" y="48" font-family="{FONT}" font-size="26" font-weight="800" fill="url(#g)">{n}</text><text x="98" y="68" font-family="{FONT}" font-size="12" fill="{DIM}">{stack}</text>'
-    pw=34+len(st)*9; sc=Y if st=="LIVE" else A
-    b+=f'<rect x="{458-pw-16}" y="22" width="{pw}" height="24" rx="12" fill="{sc}" fill-opacity=".14" stroke="{sc}"/><circle cx="{458-pw-2}" cy="34" r="3.5" fill="{sc}"><animate attributeName="opacity" values="1;.2;1" dur="2s" repeatCount="indefinite"/></circle><text x="{458-pw+8}" y="39" font-family="{FONT}" font-size="11" font-weight="700" fill="{tx(sc)}">{st}</text>'
-    b+=f'<line x1="24" y1="96" x2="436" y2="96" stroke="{A}" stroke-opacity=".25"/>'
-    for i,l in enumerate(desc):
-        b+=f'<text x="24" y="{124+i*24}" font-family="{FONT}" font-size="13.5" fill="{TEXT}">{l}</text>'
-    b+=f'<text x="436" y="203" text-anchor="end" font-family="{FONT}" font-size="12" font-weight="700" letter-spacing="2" fill="{tx(A)}">{"VISIT SITE ↗" if k=="galaxy" else "VIEW REPO ↗"}</text>'
-    out(f"mission-{k}.svg",wrap(460,218,b))
+# ---- mission row labels (the cards themselves are built by CI: scripts/build_missions.py)
+for k,label in (("active","ACTIVE · IN ORBIT"),("building","BUILDING · ON THE LAUNCHPAD")):
+    tx0=34+len(label)*11.5
+    b=(f'<circle cx="12" cy="15" r="4" fill="{A}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
+       f'<text x="28" y="19" font-family="{FONT}" font-size="11" font-weight="700" letter-spacing="4" fill="{A}">{label}</text>'
+       f'<line x1="{tx0:.0f}" y1="15" x2="1200" y2="15" stroke="url(#g)" stroke-opacity=".4" stroke-width="2"/>')
+    out(f"mission-row-{k}.svg",wrap(1200,30,b))
 
 # ---- accessible buttons (shields.io always prints white text, which fails on cyan)
 def btn(name, label, fill, text, stroke=None, w=None):
