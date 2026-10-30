@@ -85,25 +85,19 @@
 
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" />
-  <img alt="Contribution snake" src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/github-contribution-grid-snake.svg" width="100%"/>
-</picture>
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/orbit-log.svg" width="100%" alt="Orbit log: a year of contributions as a star grid with an animated comet"/>
 
 </div>
 
-<details>
-<summary><b>🛸 More from the hangar</b></summary>
-<br/>
+### 🛸 More from the hangar
 
-- [Smart Hostel Management System](https://github.com/Rishivardhan-J/Smart_Hostel_Management_System)
-- [DoctorV](https://github.com/Rishivardhan-J/DoctorV)
-- [Mood-based Music Playlist Generator](https://github.com/Rishivardhan-J/Mood-based-Music-Playlist-Generator)
-- [AI-Powered WorkLog & Productivity Tracker](https://github.com/Rishivardhan-J/AI-Powered-WorkLog-and-Productivity-Tracker)
-- [Food Delivery App](https://github.com/Rishivardhan-J/Food_delivery_app)
-
-</details>
+<p align="center">
+<a href="https://github.com/Rishivardhan-J/Smart_Hostel_Management_System"><img src="assets/hangar-hostel.svg" width="19%" alt="Smart Hostel Management System"/></a>
+<a href="https://github.com/Rishivardhan-J/DoctorV"><img src="assets/hangar-doctorv.svg" width="19%" alt="DoctorV"/></a>
+<a href="https://github.com/Rishivardhan-J/Mood-based-Music-Playlist-Generator"><img src="assets/hangar-music.svg" width="19%" alt="Mood-based Music Playlist Generator"/></a>
+<a href="https://github.com/Rishivardhan-J/AI-Powered-WorkLog-and-Productivity-Tracker"><img src="assets/hangar-worklog.svg" width="19%" alt="AI-Powered WorkLog and Productivity Tracker"/></a>
+<a href="https://github.com/Rishivardhan-J/Food_delivery_app"><img src="assets/hangar-food.svg" width="19%" alt="Food Delivery App"/></a>
+</p>
 
 <img src="assets/divider.svg" width="100%"/>
 
@@ -111,12 +105,14 @@
 
 <div align="center">
 
-*"A computer is a stupid machine with the ability to do incredibly smart things,*
-*while computer programmers are smart people with the ability to do incredibly*
-*stupid things. They are, in short, a perfect match."*
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/transmission.svg" width="100%" alt="Transmission: A computer is a stupid machine with the ability to do incredibly smart things, while computer programmers are smart people with the ability to do incredibly stupid things. They are, in short, a perfect match."/>
 
-![Profile Views](https://komarev.com/ghpvc/?username=Rishivardhan-J&color=3F66A6&style=for-the-badge&label=SIGNALS+RECEIVED)
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="40" alt="Portfolio: Galaxy"/></a>
+<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="40" alt="LinkedIn"/></a>
+<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="40" alt="Email"/></a>
 
-<img src="assets/footer.svg" width="100%"/>
+<img src="https://komarev.com/ghpvc/?username=Rishivardhan-J&label=views" width="1" height="1" alt=""/>
+
+<img src="assets/footer.svg" width="100%" alt="End of transmission. See you in orbit."/>
 
 </div>

@@ -283,6 +283,12 @@ a('</svg>')
 open(OUT, "w").write("".join(o))
 print("wrote", OUT, len("".join(o)) // 1024, "KB")
 
+# data for the Orbit Log panel (build_closing.py): week start dates + daily counts
+orbit = {"weeks": [{"start": w["contributionDays"][0]["date"], "counts": [d["contributionCount"] for d in w["contributionDays"]]}
+                   for w in cal["weeks"] if w["contributionDays"]],
+         "total": cal["totalContributions"], "active": active}
+open(os.path.join(os.path.dirname(OUT) or ".", "orbit-data.json"), "w").write(json.dumps(orbit))
+
 
 # ---------- flight deck HUD ----------
 import math

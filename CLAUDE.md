@@ -9,18 +9,18 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 ## Two kinds of generated SVGs (this is the key thing to know)
 
 1. **Static assets, committed to `main` under `assets/`.** Regenerate locally and commit the output (run from the repo root, since paths are relative):
-   - `python3 scripts/build_assets.py`: header, marquee, divider, footer, `mission-*.svg` cards, `btn-*.svg` / `pill-*.svg` buttons. Seeded RNG, so output is deterministic.
+   - `python3 scripts/build_assets.py`: header, marquee, divider, footer (planet horizon), `mission-*.svg` and `hangar-*.svg` cards, `btn-*.svg` / `pill-*.svg` buttons. Seeded RNG, so output is deterministic.
    - `python3 scripts/build_panels.py`: `briefing.svg` (terminal + about card) and `milestones.svg`.
    - `python3 scripts/build_stack.py`: `stack.svg`. Needs network: it fetches icons from skillicons.dev / cdn.simpleicons.org and embeds them as base64.
-2. **Live data SVGs, built by CI and published to the `output` branch, never committed to `main`.** `scripts/build_stats.py <stats.svg> <flight.svg>` calls the GitHub GraphQL API (needs `GH_TOKEN`; locally use `GH_TOKEN=$(gh auth token)`) and writes the stats dashboard and the flight-deck HUD. The README references them via `raw.githubusercontent.com/.../output/github-stats.svg` and `github-flight.svg`, so they will not show up in a local render of the README.
+2. **Live data SVGs, built by CI and published to the `output` branch, never committed to `main`.** `scripts/build_stats.py <stats.svg> <flight.svg>` calls the GitHub GraphQL API (needs `GH_TOKEN`; locally use `GH_TOKEN=$(gh auth token)`) and writes the stats dashboard and the flight-deck HUD (plus `orbit-data.json` for the Orbit Log). `scripts/build_closing.py <snake-raw.svg> <orbit-data.json> <dir>` then turns the raw snk snake into the framed `orbit-log.svg` and builds `transmission.svg`. The README references them via `raw.githubusercontent.com/.../output/github-stats.svg` and `github-flight.svg`, so they will not show up in a local render of the README.
 
-`.github/workflows/profile-visuals.yml` runs daily (00:00 UTC), on manual dispatch, and on pushes to `main` that touch `.github/workflows/**` or `scripts/**`. It generates the contribution-snake SVGs (Platane/snk, colours set in the `outputs:` query strings), runs `build_stats.py`, then publishes the whole `dist/` folder to `output` in one step with `crazy-max/ghaction-github-pages`. That step replaces the branch contents, so every file the README needs from `output` must be written into `dist/` in the same job. Changes to assets under `assets/` don't need CI; they're served straight from `main`.
+`.github/workflows/profile-visuals.yml` runs daily (00:00 UTC), on manual dispatch, and on pushes to `main` that touch `.github/workflows/**` or `scripts/**`. It generates one raw snake SVG (Platane/snk, `dist/snake-raw.svg`), runs `build_stats.py` and `build_closing.py`, deletes the raw intermediates, then publishes the whole `dist/` folder to `output` in one step with `crazy-max/ghaction-github-pages`. That step replaces the branch contents, so every file the README needs from `output` must be written into `dist/` in the same job. Changes to assets under `assets/` don't need CI; they're served straight from `main`.
 
 `METRICS_TOKEN` (a repo secret) lets `build_stats.py` count private contributions; without it the job falls back to `GITHUB_TOKEN` and the numbers are lower.
 
 ## Design system
 
-`scripts/palette.py` is the single source of truth for colours (the Starlight palette: one ice-blue accent plus muted gold on `#0B0F19`), the shared font, `GRAD_STOPS`, the `HEAT` and `RAMP` ramps and a WCAG `contrast()` helper. `python3 scripts/palette.py` exits non-zero if any colour pair drops below its threshold; run it after changing colours. The generators import from it by inserting their own directory in `sys.path`. Don't hardcode hex in the generators. The snake colours in the workflow and the typing-SVG and badge colours in `README.md` can't import it, so keep them in sync by hand.
+`scripts/palette.py` is the single source of truth for colours (the Starlight palette: one ice-blue accent plus muted gold on `#0B0F19`), the shared font, `GRAD_STOPS`, the `HEAT` and `RAMP` ramps and a WCAG `contrast()` helper. `python3 scripts/palette.py` exits non-zero if any colour pair drops below its threshold; run it after changing colours. The generators import from it by inserting their own directory in `sys.path`. Don't hardcode hex in the generators. The snake colours in the workflow and the typing-SVG colour in `README.md` can't import it, so keep them in sync by hand (`build_closing.py` overrides the snake's CSS variables anyway).
 
 Rules:
 - One accent only. `AC` is for links, labels, key numbers and primary buttons; don't give sections or chips their own hues.
@@ -39,6 +39,12 @@ Built by the first half of `build_stats.py` as a star chart plus a language sola
 - Solar system: planets rotate (SMIL), so they can't carry labels. Static ring numbers `01-06` match the legend. Planet size is share of code; legend bars are relative to the top language.
 - Numbers use size steps by digit count (tiles and hero) so six-figure counts don't overflow. Test layout changes against other accounts with `PROFILE_USER=torvalds` (huge) and `PROFILE_USER=octocat` (zero activity), not just this profile.
 - Rollback tags: `pre-starlight`, `pre-stats-redesign`.
+
+## Orbit Log and Transmission (`build_closing.py`)
+
+- `orbit-log.svg` nests the snk snake inside our own panel: it overrides snk's `:root` CSS variables, turns the square cells into circles (same classes, so snk's eating animation still works), and restyles the cargo bar. snk's class names (`.c`, `.s`, `.u`) are global, so don't reuse them elsewhere in that SVG. The grid sits low so the snake's start position (one cell above the grid) clears the month labels.
+- `transmission.svg` shows the profile-view count. The count only grows while the README requests the komarev image, so the README keeps a 1x1 komarev `<img>`; CI reads the number once a day (this adds about one view per day). If komarev fails, the number comes from the previously published panel (`views=` in its `<desc>`), then `—`.
+- Headless Chrome screenshots of these SVGs don't advance the snake's CSS transform animation (the original snk file behaves the same), so judge comet motion by the keyframes, not by screenshots.
 
 ## SVG gotchas hit in this repo
 

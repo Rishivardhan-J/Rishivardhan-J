@@ -55,11 +55,57 @@ out("marquee.svg",wrap(1200,120,b,fade))
 b=f'<line x1="0" y1="15" x2="1200" y2="15" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/><circle cx="600" cy="15" r="5" fill="{Y}"><animate attributeName="r" values="3;7;3" dur="3s" repeatCount="indefinite"/></circle><circle cy="15" r="3" fill="{TEXT}"><animate attributeName="cx" values="0;1200" dur="5s" repeatCount="indefinite"/></circle>'
 out("divider.svg",wrap(1200,30,b))
 
-# ---- footer
+# ---- footer: planet horizon finale
 import math
-pts=" ".join(f"{x},{48+22*math.sin(x/38)*math.sin(x/260)}" for x in range(0,1201,10))
-b=f'<rect width="1200" height="100" fill="{N}"/>'+stars(1200,100,30)+f'<polyline points="{pts}" fill="none" stroke="url(#g)" stroke-width="2.5"/><text x="600" y="92" text-anchor="middle" font-family="{FONT}" font-size="13" letter-spacing="5" fill="{tx(A)}" opacity=".85">END OF TRANSMISSION · THANKS FOR VISITING</text>'
-out("footer.svg",wrap(1200,100,b))
+from palette import AC_L, PANEL, MUTED, TRACK
+stars(1200,100,30)  # burn the old footer's draws so the seeded mission-card output below stays unchanged
+fr=random.Random(23)
+FW,FH,PR=1200,240,1400                     # card size, planet radius (centre sits PR below the horizon line)
+PCX,PCY=600,140+PR
+fd=(f'<clipPath id="fc"><rect width="{FW}" height="{FH}" rx="18"/></clipPath>'
+    f'<radialGradient id="pl" cx=".5" cy="0" r=".5"><stop offset="0" stop-color="{PANEL}"/><stop offset="1" stop-color="{N}"/></radialGradient>'
+    f'<linearGradient id="rim" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{FW}" y2="0"><stop offset="0" stop-color="{A}" stop-opacity="0"/><stop offset=".5" stop-color="{AC_L}"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></linearGradient>'
+    f'<radialGradient id="atm" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="{A}" stop-opacity=".28"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></radialGradient>')
+b=f'<rect width="{FW}" height="{FH}" rx="18" fill="{N}"/><g clip-path="url(#fc)">'
+for i in range(80):
+    x,y=fr.uniform(10,FW-10),fr.uniform(8,128)
+    tw=f'<animate attributeName="opacity" values=".15;.7;.15" dur="{fr.uniform(2.4,5.5):.1f}s" begin="{fr.uniform(0,4):.1f}s" repeatCount="indefinite"/>' if i%3==0 else ''
+    b+=f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{fr.choice([.6,.9,1.3]):.1f}" fill="{TEXT}" fill-opacity="{fr.uniform(.2,.5):.2f}">{tw}</circle>'
+b+=(f'<ellipse cx="{PCX}" cy="150" rx="620" ry="80" fill="url(#atm)"/>'
+    f'<circle cx="{PCX}" cy="{PCY}" r="{PR}" fill="url(#pl)"/>'
+    f'<circle cx="{PCX}" cy="{PCY}" r="{PR}" fill="none" stroke="url(#rim)" stroke-width="2.5"/>'
+    f'<circle cx="{PCX}" cy="{PCY}" r="{PR+7}" fill="none" stroke="url(#rim)" stroke-opacity=".25" stroke-width="8"/>')
+# a satellite riding just above the rim (quadratic path lifted 14px over the horizon)
+b+=(f'<g><rect x="-5" y="-1.5" width="10" height="3" rx="1" fill="{AC_L}"/><rect x="-1.5" y="-4" width="3" height="8" rx="1" fill="{A}"/>'
+    f'<animateMotion dur="26s" repeatCount="indefinite" rotate="auto" path="M80,226 Q600,18 1120,226"/></g>')
+b+='</g>'
+b+=(f'<text x="600" y="78" text-anchor="middle" font-family="{FONT}" font-size="14" letter-spacing="6" fill="{A}">END OF TRANSMISSION · SEE YOU IN ORBIT</text>'
+    f'<text x="600" y="104" text-anchor="middle" font-family="{FONT}" font-size="11" letter-spacing="3" fill="{MUTED}">THANKS FOR VISITING</text>'
+    f'<rect x="1" y="1" width="{FW-2}" height="{FH-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>')
+out("footer.svg",wrap(FW,FH,b,fd))
+
+# ---- hangar: five docking-bay cards (name, language), 220x124
+HG=[("hostel","Smart Hostel","Management System","JavaScript","Smart_Hostel_Management_System"),
+    ("doctorv","DoctorV","","TypeScript","DoctorV"),
+    ("music","Mood-based Music","Playlist Generator","Java","Mood-based-Music-Playlist-Generator"),
+    ("worklog","AI WorkLog &amp;","Productivity Tracker","Python","AI-Powered-WorkLog-and-Productivity-Tracker"),
+    ("food","Food Delivery","App","JavaScript","Food_delivery_app")]
+hr=random.Random(5)
+for i,(k,l1,l2,lang,_) in enumerate(HG):
+    cw=22+len(lang)*6.6
+    b=f'<rect x="1.5" y="1.5" width="217" height="121" rx="16" fill="{N}" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>'
+    for _ in range(9):
+        b+=f'<circle cx="{hr.uniform(8,212):.1f}" cy="{hr.uniform(8,116):.1f}" r="{hr.choice([.6,.9,1.2]):.1f}" fill="{TEXT}" fill-opacity="{hr.uniform(.15,.4):.2f}"/>'
+    b+=(f'<text x="20" y="31" font-family="{FONT}" font-size="10" letter-spacing="3" fill="{MUTED}">BAY {i+1:02d}</text>'
+        f'<rect x="{200-cw:.1f}" y="17" width="{cw:.1f}" height="21" rx="10.5" fill="{A}" fill-opacity=".1" stroke="{A}" stroke-opacity=".5"/>'
+        f'<text x="{200-cw/2:.1f}" y="31" text-anchor="middle" font-family="{FONT}" font-size="10" font-weight="700" fill="{A}">{lang}</text>')
+    ys=(64,84) if l2 else (74,)
+    for yy,t in zip(ys,(l1,l2)):
+        b+=f'<text x="20" y="{yy}" font-family="{FONT}" font-size="14" font-weight="800" fill="{TEXT}">{t}</text>'
+    b+=(f'<line x1="20" y1="96" x2="200" y2="96" stroke="{A}" stroke-opacity=".2"/>'
+        f'<text x="20" y="113" font-family="{FONT}" font-size="10" font-weight="700" letter-spacing="2" fill="{A}">VIEW REPO ↗</text>'
+        f'<circle cx="200" cy="109" r="3" fill="{A}"><animate attributeName="opacity" values="1;.25;1" dur="{2+i*.4:.1f}s" repeatCount="indefinite"/></circle>')
+    out(f"hangar-{k}.svg",wrap(220,124,b))
 
 # ---- mission cards 460x200 with description inside
 M=[("trackit","TrackIt","📋","ACTIVE","React · TypeScript",["Deadline-driven tracker for internship &amp;","hackathon applications, with an admin","pipeline to post and moderate listings."]),
