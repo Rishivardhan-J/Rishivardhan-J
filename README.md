@@ -21,7 +21,7 @@
 
 <div align="center">
 
-<img src="assets/briefing.svg" width="100%" alt="Mission briefing: Rishivardhan J, Full Stack and Mobile Developer, open to internships and full-time roles"/>
+<img src="assets/briefing.svg" width="100%" alt="Mission briefing: pilot ID for Rishivardhan J, Full Stack and Mobile Developer; briefing.js profile, capabilities (full stack, mobile, ML, DevOps), 6 missions launched, 2 finalist finishes, 3 in orbit, 37 technologies; open to internships and full-time roles"/>
 
 </div>
 

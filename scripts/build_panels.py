@@ -39,52 +39,6 @@ def colorize(line):
     return "".join(out)
 
 
-# ------------------------------------------------ briefing
-W, H = 1200, 420
-code = [
-    'const rishivardhan = {',
-    '  callsign: "Rishivardhan J",',
-    '  role: "Full Stack & Mobile Developer",',
-    '  education: "Computer Science",',
-    '  activeOrbits: ["Forge", "HarvestPro",',
-    '                 "Transit", "TrackIt", "Bench"],',
-    '  charting: ["DevOps", "System Design"],',
-    '  motto: "Learn by building.",',
-    '};',
-]
-b = [head(W, H, f'<radialGradient id="r"><stop offset="0" stop-color="{AC_D}" stop-opacity=".24"/><stop offset="1" stop-color="{AC_D}" stop-opacity="0"/></radialGradient>'),
-     f'<circle cx="1000" cy="60" r="300" fill="url(#r)"/>', stars(W, H, 40), frame(W, H)]
-# terminal
-b.append(f'<rect x="40" y="36" width="650" height="300" rx="14" fill="{PANEL}" stroke="{AC}" stroke-opacity=".3"/>'
-         f'<path d="M40 50a14 14 0 0 1 14-14h622a14 14 0 0 1 14 14v26H40z" fill="{TRACK}"/>'
-         f'<circle cx="64" cy="56" r="6" fill="{MUTED}" fill-opacity=".45"/><circle cx="84" cy="56" r="6" fill="{MUTED}" fill-opacity=".45"/><circle cx="104" cy="56" r="6" fill="{MUTED}" fill-opacity=".45"/>'
-         f'<text x="365" y="61" text-anchor="middle" font-family="{FONT}" font-size="13" fill="{MUTED}">~/mission-control — briefing.js</text>')
-for i, l in enumerate(code):
-    b.append(f'<text x="64" y="{106+i*23}" font-family="{FONT}" font-size="15" xml:space="preserve">'
-             f'<tspan fill="{MUTED}" fill-opacity=".55">{i+1:>2}&#160;&#160;</tspan>{colorize(l)}</text>')
-b.append(f'<text x="64" y="{106+len(code)*23+6}" font-family="{FONT}" font-size="15" fill="{AC}">&gt; <tspan fill="{MUTED}">ready for the next mission</tspan></text>'
-         f'<rect x="{64+9*28+10}" y="{106+len(code)*23-6}" width="9" height="18" fill="{AC}"><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect>')
-# about card
-b.append(f'<rect x="720" y="36" width="440" height="300" rx="14" fill="{AC}" fill-opacity=".05" stroke="{AC}" stroke-opacity=".3"/>'
-         f'<text x="744" y="72" font-family="{FONT}" font-size="12" letter-spacing="4" fill="{AC}">// ABOUT</text>')
-about = ["I'm a Computer Science student who", "turns ideas into working products:", "web apps, mobile apps and ML-backed", "tools.", "", "I pick up problems people actually", "face and ship something that solves", "them, not just tutorials."]
-for i, l in enumerate(about):
-    b.append(f'<text x="744" y="{104+i*22}" font-family="{FONT}" font-size="14" fill="{TEXT}">{esc(l)}</text>')
-chips = [("FULL STACK", AC), ("MOBILE", AC), ("ML", AC), ("DEVOPS", AC)]
-x = 744
-for t, c in chips:
-    w = 22 + len(t) * 9
-    b.append(f'<rect x="{x}" y="290" width="{w}" height="28" rx="14" fill="{c}" fill-opacity=".14" stroke="{c}" stroke-opacity=".7"/>'
-             f'<text x="{x+w/2}" y="309" text-anchor="middle" font-family="{FONT}" font-size="11" font-weight="700" fill="{tx(c)}">{t}</text>')
-    x += w + 8
-# status bar
-b.append(f'<rect x="40" y="358" width="1120" height="42" rx="21" fill="{AC}" fill-opacity=".06" stroke="url(#g)" stroke-opacity=".6"/>'
-         f'<circle cx="72" cy="379" r="5" fill="{SIG}"><animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite"/></circle>'
-         f'<text x="92" y="384" font-family="{FONT}" font-size="14" font-weight="700" fill="{SIG}">OPEN TO WORK</text>'
-         f'<text x="1136" y="384" text-anchor="end" font-family="{FONT}" font-size="14" fill="{SOFT}">Internships &amp; Full-time  ·  Tamil Nadu, India  ·  Currently building Forge, HarvestPro &amp; Transit</text>')
-b.append('</svg>')
-open("assets/briefing.svg", "w").write("".join(b))
-
 # ------------------------------------------------ milestones
 # One entry per milestone: add a line here and re-run. kind "finalist" = achievement (gold); "next" = what's in progress (accent).
 MILESTONES = [
@@ -92,6 +46,102 @@ MILESTONES = [
     dict(kind="finalist", title="AI for Social Impact", org="Startup TN × HCL Foundations", when="2026"),
     dict(kind="next", title="Three missions in orbit", org="Forge · HarvestPro · Transit", when="NOW"),
 ]
+# ------------------------------------------------ briefing
+# Editorial constants: keep in sync with the README sections they summarise.
+LAUNCHED = ["Galaxy", "TrackIt", "Bench", "Forge", "HarvestPro", "Transit"]
+IN_ORBIT = ["Forge", "HarvestPro", "Transit"]
+TECH_COUNT = 37   # Navigation Systems tiles (build_stack.py LANES)
+W, H = 1200, 566
+CH = 14 * .6      # Fira Code advance at 14px, only used to place the cursor
+code = [
+    'const rishivardhan = {',
+    '  callsign: "Rishivardhan J",',
+    '  role: "Full Stack & Mobile Developer",',
+    '  base: "Tamil Nadu, India",',
+    '  orbits: ["Forge", "HarvestPro", "Transit"],',
+    '  shipped: ["TrackIt", "Bench", "Galaxy"],',
+    '  finalist: ["TechSprint", "Social Impact"],',
+    '  charting: ["DevOps", "System Design"],',
+    '  motto: "Learn by building.",',
+    '};',
+]
+lab = lambda x, y, t, size=12, ls=4, c=AC, anchor="start": (
+    f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-family="{FONT}" font-size="{size}" letter-spacing="{ls}" fill="{c}">{t}</text>')
+b = [head(W, H, f'<radialGradient id="r"><stop offset="0" stop-color="{AC_D}" stop-opacity=".24"/><stop offset="1" stop-color="{AC_D}" stop-opacity="0"/></radialGradient>'),
+     f'<circle cx="1000" cy="60" r="300" fill="url(#r)"/>', stars(W, H, 50), frame(W, H)]
+b.append(lab(40, 40, "MISSION BRIEFING", 13)
+         + lab(1160, 40, "CLEARANCE OPEN · SECTOR TAMIL NADU", 11, 2, MUTED, "end"))
+CT, CHT = 64, 316   # card top / height
+
+# --- pilot ID card (x 40-340)
+cx = 190
+ring = "".join(f'<line x1="{30 * math.cos(a):.1f}" y1="{30 * math.sin(a):.1f}" x2="{39 * math.cos(a):.1f}" y2="{39 * math.sin(a):.1f}" stroke="{AC}" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>'
+               for a in (k * math.pi / 12 for k in range(24)))
+bars, x = [], 70
+while x < 300:
+    w_ = random.choice([1.5, 1.5, 3, 4.5]); bars.append(f'<rect x="{x}" y="318" width="{w_}" height="16" fill="{AC}" fill-opacity=".45"/>'); x += w_ + random.choice([2, 3, 4])
+b.append(f'<rect x="40" y="{CT}" width="300" height="{CHT}" rx="14" fill="{PANEL}" stroke="{AC}" stroke-opacity=".3"/>'
+         + lab(64, CT + 30, "// PILOT ID")
+         + f'<g transform="translate({cx} 168)"><g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="40s" repeatCount="indefinite"/>{ring}</g>'
+           f'<circle r="27" fill="{AC}" fill-opacity=".12" stroke="{AC}" stroke-width="2"/><circle r="22" fill="none" stroke="{AC}" stroke-opacity=".35"/>'
+           f'<text y="9" text-anchor="middle" font-family="{FONT}" font-size="24" font-weight="800" fill="{AC_L}">RJ</text></g>'
+         + f'<text x="{cx}" y="244" text-anchor="middle" font-family="{FONT}" font-size="18" font-weight="800" fill="{TEXT}">Rishivardhan J</text>'
+         + f'<text x="{cx}" y="266" text-anchor="middle" font-family="{FONT}" font-size="12" fill="{DIM}">Full Stack &amp; Mobile Developer</text>'
+         + f'<text x="{cx}" y="286" text-anchor="middle" font-family="{FONT}" font-size="12" fill="{MUTED}">Computer Science</text>'
+         + f'<line x1="64" y1="302" x2="316" y2="302" stroke="{AC}" stroke-opacity=".25"/>' + "".join(bars)
+         + lab(cx, 360, "ID · RJ-2026", 10, 3, MUTED, "middle"))
+
+# --- terminal (x 360-840)
+b.append(f'<rect x="360" y="{CT}" width="480" height="{CHT}" rx="14" fill="{PANEL}" stroke="{AC}" stroke-opacity=".3"/>'
+         f'<path d="M360 {CT + 14}a14 14 0 0 1 14-14h452a14 14 0 0 1 14 14v26H360z" fill="{TRACK}"/>'
+         + "".join(f'<circle cx="{384 + 20 * k}" cy="{CT + 20}" r="6" fill="{MUTED}" fill-opacity=".45"/>' for k in range(3))
+         + f'<text x="600" y="{CT + 25}" text-anchor="middle" font-family="{FONT}" font-size="13" fill="{MUTED}">~/mission-control — briefing.js</text>')
+for i, l in enumerate(code):
+    b.append(f'<text x="384" y="{134 + i * 21}" font-family="{FONT}" font-size="14" xml:space="preserve">'
+             f'<tspan fill="{MUTED}" fill-opacity=".55">{i+1:>2}&#160;&#160;</tspan>{colorize(l)}</text>')
+py = 134 + len(code) * 21 + 4
+prompt = "> ready for the next mission"
+b.append(f'<text x="384" y="{py}" font-family="{FONT}" font-size="14" fill="{AC}">&gt; <tspan fill="{MUTED}">{prompt[2:]}</tspan></text>'
+         f'<rect x="{384 + len(prompt) * CH + 4:.1f}" y="{py - 12}" width="8" height="16" fill="{AC}"><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect>')
+
+# --- capabilities card (x 860-1160)
+st = f'fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+GLYPH = {
+    "FULL STACK": f'<path d="M-8,-3L0,-8L8,-3L0,2Z" {st}/><path d="M-8,2L0,7L8,2" {st}/>',
+    "MOBILE": f'<rect x="-5" y="-8" width="10" height="16" rx="2" {st}/><path d="M-2,5H2" {st}/>',
+    "ML": f'<path d="M-6,-4L6,0L-6,4" {st}/><circle cx="-6" cy="-4" r="2" {st}/><circle cx="-6" cy="4" r="2" {st}/><circle cx="6" cy="0" r="2" {st}/>',
+    "DEVOPS": f'<path d="M6,-3A7,7 0 1 0 7,2" {st}/><path d="M7,-7V-3H3" {st}/>',
+}
+CAPS = [("FULL STACK", "React · Vite · Galaxy"), ("MOBILE", "Flutter apps · Forge"), ("ML", "HarvestPro · Transit"), ("DEVOPS", "CI pipelines · this profile")]
+b.append(f'<rect x="860" y="{CT}" width="300" height="{CHT}" rx="14" fill="{AC}" fill-opacity=".05" stroke="{AC}" stroke-opacity=".3"/>'
+         + lab(884, CT + 30, "// CAPABILITIES")
+         + f'<text x="884" y="{CT + 62}" font-family="{FONT}" font-size="12" fill="{SOFT}">I turn real problems into shipped</text>'
+         + f'<text x="884" y="{CT + 80}" font-family="{FONT}" font-size="12" fill="{SOFT}">products, not just tutorials.</text>')
+for i, (name, proof) in enumerate(CAPS):
+    cy = 168 + i * 52 + 22
+    if i: b.append(f'<line x1="884" y1="{cy - 26}" x2="1136" y2="{cy - 26}" stroke="{AC}" stroke-opacity=".15"/>')
+    b.append(f'<circle cx="904" cy="{cy}" r="16" fill="{AC}" fill-opacity=".12" stroke="{AC}" stroke-opacity=".6"/><g transform="translate(904 {cy})">{GLYPH[name]}</g>'
+             f'<text x="934" y="{cy - 2}" font-family="{FONT}" font-size="12" font-weight="700" letter-spacing="2" fill="{AC}">{name}</text>'
+             f'<text x="934" y="{cy + 14}" font-family="{FONT}" font-size="11" fill="{MUTED}">{esc(proof)}</text>')
+
+# --- telemetry strip
+n_fin = sum(m["kind"] == "finalist" for m in MILESTONES)
+TILES = [(len(LAUNCHED), "MISSIONS LAUNCHED", AC), (n_fin, "FINALIST FINISHES", SIG), (len(IN_ORBIT), "IN ORBIT NOW", AC), (TECH_COUNT, "TECHNOLOGIES", AC)]
+for i, (n, t, c) in enumerate(TILES):
+    x = 40 + i * 285
+    b.append(f'<rect x="{x}" y="400" width="265" height="64" rx="14" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".35"/>'
+             f'<text x="{x + 24}" y="443" font-family="{FONT}" font-size="30" font-weight="800" fill="{c}">{n}</text>'
+             f'<text x="{x + 24 + 62}" y="436" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{DIM}">{t}</text>')
+
+# --- status bar
+b.append(f'<rect x="40" y="484" width="1120" height="42" rx="21" fill="{AC}" fill-opacity=".06" stroke="url(#g)" stroke-opacity=".6"/>'
+         f'<circle cx="72" cy="505" r="5" fill="{SIG}"><animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite"/></circle>'
+         f'<text x="92" y="510" font-family="{FONT}" font-size="14" font-weight="700" fill="{SIG}">OPEN TO WORK</text>'
+         f'<text x="1136" y="510" text-anchor="end" font-family="{FONT}" font-size="14" fill="{SOFT}">Internships &amp; Full-time  ·  Tamil Nadu, India  ·  Currently building Forge, HarvestPro &amp; Transit</text>')
+b.append('</svg>')
+open("assets/briefing.svg", "w").write("".join(b))
+
+# ------------------------------------------------ milestones (layout)
 W, H = 1200, 384
 CW, GAP, CY0 = 350, 35, 122          # card width, gap, card top
 n_fin = sum(m["kind"] == "finalist" for m in MILESTONES)

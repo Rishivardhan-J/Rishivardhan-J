@@ -52,6 +52,8 @@ if __name__ == "__main__":
     check("bg on accent button", BG, AC, 4.5)
     check("muted on accent 6% card", MUTED, mix(AC, BG, .06), 4.5)
     check("muted on panel", MUTED, PANEL, 4.5)
+    check("soft on capabilities card (5% accent)", SOFT, mix(AC, BG, .05), 4.5)
+    check("dim label on gold telemetry tile", DIM, mix(SIG, BG, .06), 4.5)
     check("deep accent stroke on bg", AC_D, BG, 3)
     prev = None
     for i, h in enumerate(HEAT):
