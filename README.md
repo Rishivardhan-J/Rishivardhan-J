@@ -32,12 +32,9 @@
 
 <div align="center">
 <img src="assets/mission-row-active.svg" width="100%" alt="Active missions"/><br/>
-<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-trackit.svg" width="100%" alt="TrackIt: deadline-driven tracker for internship and hackathon applications"/></a><br/>
-<a href="https://github.com/Rishivardhan-J/Bench"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-bench.svg" width="100%" alt="Bench: freelancer discovery by skills, availability and project needs"/></a><br/>
+<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/card-trackit.svg" width="50%" alt="TrackIt: deadline-driven tracker for internship and hackathon applications"/></a><a href="https://github.com/Rishivardhan-J/Bench"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/card-bench.svg" width="50%" alt="Bench: freelancer discovery by skills, availability and project needs"/></a><br/>
 <img src="assets/mission-row-building.svg" width="100%" alt="Missions being built"/><br/>
-<a href="https://github.com/Rishivardhan-J/Forge"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-forge.svg" width="100%" alt="Forge: habit-formation app built on Atomic Habits"/></a><br/>
-<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-harvestpro.svg" width="100%" alt="HarvestPro: AI crop advice for Indian farmers"/></a><br/>
-<a href="https://github.com/Rishivardhan-J/Transit"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-transit.svg" width="100%" alt="Transit: logistics optimization with ML and Hybrid Genetic Search"/></a><br/>
+<a href="https://github.com/Rishivardhan-J/Forge"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/card-forge.svg" width="33.33%" alt="Forge: habit-formation app built on Atomic Habits"/></a><a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/card-harvestpro.svg" width="33.33%" alt="HarvestPro: AI crop advice for Indian farmers"/></a><a href="https://github.com/Rishivardhan-J/Transit"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/card-transit.svg" width="33.33%" alt="Transit: logistics optimization with ML and Hybrid Genetic Search"/></a>
 </div>
 
 <img src="assets/divider.svg" width="100%"/>

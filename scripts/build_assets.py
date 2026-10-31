@@ -144,9 +144,7 @@ for i,(k,l1,l2,lang,_) in enumerate(HG):
 # ---- mission row labels (the cards themselves are built by CI: scripts/build_missions.py)
 for k,label in (("active","ACTIVE · IN ORBIT"),("building","BUILDING · ON THE LAUNCHPAD")):
     tx0=26+len(label)*11.5
-    rail=f'<line x1="5" y1="27" x2="5" y2="42" stroke="{A}" stroke-opacity=".7" stroke-width="2"{"" if k=="active" else " stroke-dasharray=\'4 5\'"}/>'
-    if k=="building": rail+=f'<line x1="5" y1="0" x2="5" y2="27" stroke="{A}" stroke-opacity=".7" stroke-width="2"/>'
-    b=(rail+f'<circle cx="5" cy="27" r="4" fill="{A}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
+    b=(f'<circle cx="5" cy="27" r="4" fill="{A}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
        f'<text x="20" y="31" font-family="{FONT}" font-size="11" font-weight="700" letter-spacing="4" fill="{A}">{label}</text>'
        f'<line x1="{tx0:.0f}" y1="27" x2="1200" y2="27" stroke="url(#g)" stroke-opacity=".4" stroke-width="2"/>')
     out(f"mission-row-{k}.svg",wrap(1200,42,b))

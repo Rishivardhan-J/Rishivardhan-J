@@ -51,11 +51,12 @@ Built by the first half of `build_stats.py` as a star chart plus a language sola
 
 ## Flagship and mission cards (`build_missions.py`)
 
-- CI-built from one GraphQL call (commit count, pushed date, stars, language bytes, per repo); `flagship.svg` and `mission-*.svg` live on `output`, not in `assets/`. Pitches, stacks and stages (`STAGES`: DESIGN/BUILD/ACTIVE/LIVE) are editorial constants in the script; update them there when a project's status changes (BUILDING = stage 2, ACTIVE = 3).
+- CI-built from one GraphQL call (commit count, pushed date, stars, language bytes, per repo); `flagship.svg` and `card-*.svg` live on `output`, not in `assets/`. Pitches, stacks and stages (`STAGES`: DESIGN/BUILD/ACTIVE/LIVE) are editorial constants in the script; update them there when a project's status changes (BUILDING = stage 2, ACTIVE = 3).
 - Language mix ignores Flutter platform scaffolding (`SCAFFOLD`: C, C++, CMake, Swift, Kotlin, HTML...) when a repo's top language is Dart, so Flutter apps read as Dart. A repo that can't be fetched renders dashes instead of failing the build.
 - The flagship's window shows a stylised warp tunnel (looping `stroke-dashoffset`), not a screenshot, plus a real HTTP check of the live site (gold ONLINE light, OFFLINE if it fails). Set `FLAGSHIP_URL` to test the failure case.
-- Adding a project means: a `MISSIONS` entry, `glyph()` and `scene()` branches, and a README line. `MISSIONS` order is the page order.
-- Missions are stacked full-width strips (1200x182, `strip()`), with a stylised product scene per project (`scene()`, illustration, not data). The flight rail at x=5 runs through every strip and both `mission-row-*.svg` labels, so keep them in one README block with `<br/>` separators. Solid rail = active, dashed = building.
+- Adding a project means: a `MISSIONS` entry, a `glyph()` branch for its patch, and a README line.
+- Mission cards use a 1200 grid: each image is a transparent 1200/cols canvas with the card offset inside it (`GUTTER`), and README `<a>` tags in a row have no whitespace between them. Card height comes from the longest description in the row.
+- Browsers cache `output` images for minutes. If a card's canvas size changes, rename the files too, or the new README shows old images at the wrong size.
 - Rollback tags: `pre-missions`.
 
 ## Toolkit panel (`build_stack.py`)
