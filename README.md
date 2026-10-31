@@ -22,8 +22,7 @@
 <div align="center">
 
 <a href="https://rishi-galaxy.vercel.app"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/flagship.svg" width="100%" alt="Flagship mission: Galaxy, a no-scroll space-themed portfolio. Live site, React, Vite and TypeScript."/></a>
-<br/><a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-demo.svg" height="44" alt="Live demo"/></a>
-<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="assets/btn-repo.svg" height="44" alt="View repo"/></a>
+<br/><a href="https://rishi-galaxy.vercel.app"><img src="assets/bay-demo.svg" width="50%" alt="Live demo: rishi-galaxy.vercel.app"/></a><a href="https://github.com/Rishivardhan-J/Galaxy"><img src="assets/bay-repo.svg" width="50%" alt="View repo: Rishivardhan-J/Galaxy"/></a>
 
 </div>
 

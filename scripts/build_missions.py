@@ -16,6 +16,7 @@ esc = html.escape
 FLAGSHIP = dict(name="Galaxy", url=os.environ.get("FLAGSHIP_URL", "https://rishi-galaxy.vercel.app"), stack="React · Vite · TypeScript",
                 desc="A no-scroll, space-themed portfolio where you travel between projects, skills and contact through warp transitions.")
 STAGES = ["DESIGN", "BUILD", "ACTIVE", "LIVE"]
+PAD = 10         # transparent space under the flagship panel, the same gap as the hero
 GUTTER = 20      # gap between cards; each image is a 1200/cols transparent canvas so rows sit flush with the section
 DISPLAY = {"Jupyter Notebook": "Jupyter"}
 MISSIONS = [  # editorial: pitch, stack and stage (1-4) are written by hand; everything else comes from GitHub
@@ -229,7 +230,7 @@ def flagship(repo, online):
     clip = (f'<clipPath id="vp"><path d="M41,74H559V335a14,14 0 0 1 -14,14H55a14,14 0 0 1 -14,-14Z"/></clipPath>'
             f'<clipPath id="card"><rect width="{W}" height="{H}" rx="18"/></clipPath>'
             f'<radialGradient id="warp"><stop offset="0" stop-color="{AC}" stop-opacity=".32"/><stop offset="1" stop-color="{AC}" stop-opacity="0"/></radialGradient>')
-    o = [f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg"><title>Flagship: Galaxy</title>'
+    o = [f'<svg width="{W}" height="{H + PAD}" viewBox="0 0 {W} {H + PAD}" xmlns="http://www.w3.org/2000/svg"><title>Flagship: Galaxy</title>'
          f'<desc>{esc(FLAGSHIP["desc"])} Site is {"online" if online else "unreachable"}.</desc>', defs(W, H, clip),
          f'<rect width="{W}" height="{H}" rx="18" fill="{BG}"/><g clip-path="url(#card)"><circle cx="1000" cy="40" r="360" fill="url(#gl)"/>{dust(rng, 40, 850, 12, 1188, 170)}</g>',
          f'<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>']

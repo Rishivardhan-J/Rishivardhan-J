@@ -30,6 +30,7 @@ Rules:
 - Keep one filled primary button per group; the others are outlined.
 - Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py` (44px, vector icons, no emoji).
 - The hero (header, status strip, bays, marquee) is one contiguous README block with `<br/>` separators. Each image uses `panel()` or the matching bay frame and carries `PAD` transparent pixels at the bottom so gaps are equal; `pill()` is the only pill style. The tagline is built into `header.svg` (`LOG`), not a third-party image.
+- Flagship uses the same stitched bays (`bay-demo.svg`, `bay-repo.svg`, 50% each, no whitespace between tags).
 - The header's Comms Console is `console-status.svg` plus three stitched `bay-*.svg` links (`build_assets.py`). Keep the three bay `<a>` tags on one README line with no whitespace between them, or they stop joining into one panel.
 - The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 

@@ -159,8 +159,6 @@ def _icon(kind, c):
         "in": f'<path d="M-6,-1V6M-6,-5V-5M-1,6V-1M-1,2C-1,-2 6,-2 6,2V6" {st}/>',
         "mail": f'<rect x="-8" y="-5.5" width="16" height="11" rx="2" {st}/><path d="M-7,-4L0,2L7,-4" {st}/>',
         "pin": f'<path d="M0,8C-6,1 -6,-7 0,-7C6,-7 6,1 0,8Z" {st}/><circle cy="-2" r="2" {st}/>',
-        "play": f'<path d="M-3,-6L6,0L-3,6Z" {st}/>',
-        "repo": f'<path d="M-3,-5L-8,0L-3,5M3,-5L8,0L3,5" {st}/>',
     }[kind]
 def btn(name, label, icon, kind, w):
     """kind: primary (filled), secondary (outlined), status (gold, pulsing dot), info (outlined, no chevron)."""
@@ -187,12 +185,9 @@ def btn(name, label, icon, kind, w):
     cx = (46 + right) / 2
     out(name, wrap(w, 44, body + badge + ic + chev +
         f'<text x="{cx:.1f}" y="27" text-anchor="middle" font-family="{FONT}" font-size="13" font-weight="800" letter-spacing="1.2" fill="{c}">{label}</text>', defs))
-auto = lambda label: int(len(label.replace("&amp;", "&")) * 9.0 + 84)
 btn("btn-portfolio.svg", "PORTFOLIO · GALAXY", "globe", "primary", 288)
 btn("btn-linkedin.svg", "LINKEDIN", "in", "secondary", 168)
 btn("btn-email.svg", "EMAIL", "mail", "secondary", 184)
-btn("btn-demo.svg", "LIVE DEMO", "play", "primary", auto("LIVE DEMO"))
-btn("btn-repo.svg", "VIEW REPO", "repo", "secondary", auto("VIEW REPO"))
 
 # ---- comms console (header): one status strip plus three stitched link bays
 TX = lambda x, y, t, size, c, extra="": f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{size}" fill="{c}" {extra}>{t}</text>'
@@ -209,19 +204,20 @@ out("console-status.svg", panel(1200, 96, f'<circle cx="64" cy="48" r="150" fill
     + TX(1160, 44, "SECTOR TAMIL NADU, IN", 13, A, 'text-anchor="end" letter-spacing="2"')
     + TX(1160, 67, "UTC+05:30", 12, MUTED, 'text-anchor="end" letter-spacing="2"'), sig))
 
-def bay(name, ch, title, sub, scene, first=False, last=False, primary=False):
-    W_, H_, r = 400, 132, 17
-    x0, x1 = (1 if first else 0), (399 if last else 400)
+def bay(name, ch, title, sub, scene, first=False, last=False, primary=False, W_=400, H_=132):
+    r = 17
+    x0, x1 = (1 if first else 0), (W_ - 1 if last else W_)
     left = f"M{x0 + r},1" if first else f"M{x0},1"
     d = (left + f"H{x1 - r if last else x1}" + (f"a{r},{r} 0 0 1 {r},{r}V{H_ - 1 - r}a{r},{r} 0 0 1 {-r},{r}" if last else f"V{H_ - 1}")
          + f"H{x0 + r if first else x0}" + (f"a{r},{r} 0 0 1 {-r},{-r}V{1 + r}a{r},{r} 0 0 1 {r},{-r}" if first else "") + "Z")
     c, sub_c = (N, N) if primary else (A, SOFT)
     d_p = (f'<linearGradient id="p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{AC_L}"/><stop offset="1" stop-color="{A}"/></linearGradient>'
            f'<radialGradient id="gl"><stop offset="0" stop-color="{B}" stop-opacity=".22"/><stop offset="1" stop-color="{B}" stop-opacity="0"/></radialGradient><clipPath id="bc"><path d="{d}"/></clipPath>')
-    fill = f'<path d="{d}" fill="url(#p)"/>' if primary else f'<path d="{d}" fill="{N}"/><g clip-path="url(#bc)"><circle cx="320" cy="76" r="150" fill="url(#gl)"/></g>'
-    arrow = f'<path d="M364,34L378,20M366,20H378V32" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    fill = f'<path d="{d}" fill="url(#p)"/>' if primary else f'<path d="{d}" fill="{N}"/><g clip-path="url(#bc)"><circle cx="{W_ - 80}" cy="{H_ / 2 + 10}" r="150" fill="url(#gl)"/></g>'
+    ax = W_ - 22
+    arrow = f'<path d="M{ax - 14},34L{ax},20M{ax - 12},20H{ax}V32" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
     out(name, wrap(W_, H_ + PAD, fill + f'<path d="{d}" fill="none" stroke="{N if primary else "url(#g)"}" stroke-opacity=".5" stroke-width="2"/>' + scene(c) + arrow
-        + TX(28, 34, ch, 12, c, 'letter-spacing="3"') + TX(28, 84, title, 26, N if primary else TEXT, 'font-weight="800"') + TX(28, 108, sub, 13, sub_c), d_p))
+        + TX(28, 34 if H_ > 120 else 28, ch, 12, c, 'letter-spacing="3"') + TX(28, H_ - 48, title, 26, N if primary else TEXT, 'font-weight="800"') + TX(28, H_ - 24, sub, 13, sub_c), d_p))
 
 def planet(c):
     orbit = "M-34,0a34,11 0 1 0 68,0a34,11 0 1 0 -68,0"
@@ -242,3 +238,17 @@ def envelope(c):
 bay("bay-portfolio.svg", "CH-01", "PORTFOLIO", "Galaxy live site", planet, first=True, primary=True)
 bay("bay-linkedin.svg", "CH-02", "LINKEDIN", "in/rishivardhan-j", network)
 bay("bay-email.svg", "CH-03", "EMAIL", "Direct line", envelope, last=True)
+
+# ---- flagship launch bays: the same stitched frame, under the Flagship panel
+def launch(c):
+    st = f'fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+    return (f'<circle cx="508" cy="62" r="22" fill="{c}" fill-opacity=".12" stroke="{c}" stroke-width="2"/><path d="M501,50L521,62L501,74Z" {st}/>'
+            f'<circle cx="508" cy="62" r="22" fill="none" stroke="{c}"><animate attributeName="r" values="22;36" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values=".6;0" dur="2.4s" repeatCount="indefinite"/></circle>')
+def commits(c):
+    st = f'fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+    main, side = "M456,76H548", "M476,76C492,76 490,46 508,46H528"
+    nodes = "".join(f'<circle cx="{x}" cy="{y}" r="5" fill="{N}" stroke="{c}" stroke-width="2"/>' for x, y in ((456, 76), (496, 76), (548, 76), (528, 46)))
+    return (f'<path d="{main}" {st}/><path d="{side}" {st}/><path d="M528,46C542,46 536,76 548,76" {st} stroke-opacity=".5"/>{nodes}'
+            f'<circle r="3" fill="{AC_L}"><animateMotion dur="4s" repeatCount="indefinite" path="{main}"/></circle>')
+bay("bay-demo.svg", "LAUNCH", "LIVE DEMO", "rishi-galaxy.vercel.app", launch, first=True, primary=True, W_=600, H_=112)
+bay("bay-repo.svg", "SOURCE", "VIEW REPO", "Rishivardhan-J/Galaxy", commits, last=True, W_=600, H_=112)
