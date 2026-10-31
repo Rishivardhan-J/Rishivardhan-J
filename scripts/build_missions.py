@@ -17,6 +17,7 @@ FLAGSHIP = dict(name="Galaxy", url=os.environ.get("FLAGSHIP_URL", "https://rishi
                 desc="A no-scroll, space-themed portfolio where you travel between projects, skills and contact through warp transitions.")
 STAGES = ["DESIGN", "BUILD", "ACTIVE", "LIVE"]
 PAD = 10         # transparent space under the flagship panel, the same gap as the hero
+COMET_SPEED = 147   # border light, px per second: the same on every card size
 ROW_GAP = 14     # transparent space under each card row
 GUTTER = 20      # gap between cards; each image is a 1200/cols transparent canvas so rows sit flush with the section
 DISPLAY = {"Jupyter Notebook": "Jupyter"}
@@ -160,6 +161,17 @@ def patch(cx, cy, kind):
 
 
 # ------------------------------------------------------------------ mission card
+def comet(w, h, phase):
+    """A light orbiting the card border: halo, tail and head share a leading edge. pathLength makes dashes a share of the lap."""
+    dur = (2 * (w + h)) / COMET_SPEED
+    o = ""
+    for length, width, c, alpha in ((8, 6, AC, .16), (22, 2, AC, .3), (14, 2, AC_L, .55), (8, 2, AC_L, 1)):
+        start = phase + length - 8
+        o += (f'<rect x="1" y="1" width="{w - 2:.2f}" height="{h - 2}" rx="16" pathLength="100" fill="none" stroke="{c}" stroke-opacity="{alpha}" stroke-width="{width}" '
+              f'stroke-dasharray="{length} {100 - length}" stroke-dashoffset="{start}"><animate attributeName="stroke-dashoffset" from="{start}" to="{start - 100}" dur="{dur:.1f}s" repeatCount="indefinite"/></rect>')
+    return f'<g clip-path="url(#cc)">{o}</g>'
+
+
 def desc_lines(m):
     width = int((card_w(m["cols"]) - 56) / (13 * .62))
     lines = textwrap.wrap(m["desc"], width)
@@ -220,7 +232,8 @@ def card(m, repo, slot, row_lines):
     ax, ay = w - P, D + 25
     o.append(f'<line x1="{P}" y1="{D}" x2="{w - P:.1f}" y2="{D}" stroke="{AC}" stroke-opacity=".18"/>'
              f'<text x="{P}" y="{D + 24}" font-family="{FONT}" font-size="11" letter-spacing="1" fill="{MUTED}">{tele}</text>'
-             f'<path d="M{ax - 10:.1f},{ay}L{ax:.1f},{ay - 10}M{ax - 8:.1f},{ay - 10}H{ax:.1f}V{ay - 2}" fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>')
+             f'<path d="M{ax - 10:.1f},{ay}L{ax:.1f},{ay - 10}M{ax - 8:.1f},{ay - 10}H{ax:.1f}V{ay - 2}" fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+             f'{comet(w, h, MISSIONS.index(m) * 37 % 100)}</g></svg>')
     return "".join(o)
 
 

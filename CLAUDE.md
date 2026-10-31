@@ -56,6 +56,7 @@ Built by the first half of `build_stats.py` as a star chart plus a language sola
 - The flagship's window shows a stylised warp tunnel (looping `stroke-dashoffset`), not a screenshot, plus a real HTTP check of the live site (gold ONLINE light, OFFLINE if it fails). Set `FLAGSHIP_URL` to test the failure case.
 - Adding a project means: a `MISSIONS` entry, a `glyph()` branch for its patch, and a README line.
 - Mission cards use a 1200 grid: each image is a transparent 1200/cols canvas with the card offset inside it (`GUTTER`), and README `<a>` tags in a row have no whitespace between them. Card height comes from the longest description in the row.
+- Each card border carries an orbiting light (`comet()`): same speed on all cards via `COMET_SPEED`, start phase from the card's index so the five stay out of step, ice-blue only.
 - Browsers cache `output` images for minutes. If a card's canvas size changes, rename the files too, or the new README shows old images at the wrong size.
 - Rollback tags: `pre-missions`.
 
