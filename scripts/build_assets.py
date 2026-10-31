@@ -1,7 +1,7 @@
 import os, sys, random
 sys.path.insert(0, os.path.dirname(__file__))
 random.seed(11)
-from palette import AC_L, SOFT, MUTED, AC as A, AC_D as B, SIG as Y, BG as N, FONT, GRAD_STOPS, STAR_PEAK, TEXT, DIM, tx
+from palette import AC_L, SOFT, MUTED, PANEL, AC as A, AC_D as B, SIG as Y, BG as N, FONT, GRAD_STOPS, STAR_PEAK, TEXT, DIM, tx
 
 GRAD=lambda w:f'<linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{w}" y2="0">{GRAD_STOPS}</linearGradient>'
 def stars(w,h,n,cls=""):
@@ -15,47 +15,76 @@ def wrap(w,h,body,defs=""):
     return f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg"><defs>{GRAD(w)}{defs}</defs>{body}</svg>'
 def out(n,s): open(f"assets/{n}","w").write(s)
 
+# ---- hero: header, status strip, bays and marquee share one frame and one bottom gap
+PAD=10                                     # transparent space under each hero image, so every gap matches
+def panel(w,h,back,front="",defs=""):
+    clip=f'<clipPath id="pc"><rect width="{w}" height="{h}" rx="18"/></clipPath>'
+    return wrap(w,h+PAD,f'<rect width="{w}" height="{h}" rx="18" fill="{N}"/><g clip-path="url(#pc)">{back}</g>'
+                f'<rect x="1" y="1" width="{w-2}" height="{h-2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>{front}',defs+clip)
+def pill(x,y,w,c,label,mark):
+    """Mark and label are centred together. mark(cx,cy) draws the 16px icon or dot."""
+    size,h=13,36
+    total=16+8+len(label)*size*.6
+    x0=x+(w-total)/2
+    return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="18" fill="{c}" fill-opacity=".12" stroke="{c}" stroke-opacity=".7"/>{mark(x0+8,y+h/2)}'
+            f'<text x="{x0+24:.1f}" y="{y+23}" font-family="{FONT}" font-size="{size}" font-weight="700" fill="{tx(c)}">{label}</text>')
+
 # ---- header
-d=f'<radialGradient id="a1"><stop offset="0" stop-color="{A}" stop-opacity=".22"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></radialGradient><radialGradient id="a2"><stop offset="0" stop-color="{B}" stop-opacity=".32"/><stop offset="1" stop-color="{B}" stop-opacity="0"/></radialGradient><radialGradient id="a3"><stop offset="0" stop-color="{A}" stop-opacity=".14"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></radialGradient><clipPath id="hc"><rect width="1200" height="320" rx="16"/></clipPath>'
-b=f'<rect width="1200" height="320" rx="16" fill="{N}"/><g clip-path="url(#hc)">'
-b+=f'<circle cx="220" cy="90" r="260" fill="url(#a1)"><animate attributeName="cx" values="220;300;220" dur="14s" repeatCount="indefinite"/></circle>'
-b+=f'<circle cx="640" cy="330" r="300" fill="url(#a2)"><animate attributeName="cx" values="640;560;640" dur="16s" repeatCount="indefinite"/></circle>'
-b+=f'<circle cx="1020" cy="80" r="250" fill="url(#a3)"><animate attributeName="cy" values="80;150;80" dur="12s" repeatCount="indefinite"/></circle>'
-b+=stars(1200,320,110)
-for i,(y,dl) in enumerate([(40,0),(120,5),(210,9)]):
-    b+=f'<line x1="0" y1="0" x2="90" y2="0" stroke="url(#g)" stroke-width="2" stroke-linecap="round" opacity="0"><animateTransform attributeName="transform" type="translate" values="-100 {y};1300 {y+130}" dur="1.8s" begin="{dl}s;{dl+12}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.8s" begin="{dl}s;{dl+12}s" repeatCount="indefinite"/></line>'
-b+='</g>'
-b+=f'<text x="600" y="62" text-anchor="middle" font-family="{FONT}" font-size="14" letter-spacing="7" fill="{tx(A)}" opacity=".85">&lt; SYSTEM ONLINE /&gt;</text>'
-b+=f'<text x="600" y="152" text-anchor="middle" font-family="{FONT}" font-size="68" font-weight="800" fill="url(#g)">Rishivardhan J</text>'
-b+=f'<text x="600" y="200" text-anchor="middle" font-family="{FONT}" font-size="22" fill="{TEXT}">Full Stack &amp; Mobile Developer · CS Student</text>'
 def chip_glyph(k,c):
     st=f'fill="none" stroke="{c}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'
     return {"trophy":f'<path d="M-5,-7H5V-2C5,2 2,4 0,4C-2,4 -5,2 -5,-2ZM-5,-5H-8C-8,-2 -7,-1 -5,-1M5,-5H8C8,-2 7,-1 5,-1M0,4V7M-3,7H3" {st}/>',
             "rocket":f'<path d="M0,-8C4,-4 4,2 3,5H-3C-4,2 -4,-4 0,-8ZM-3,3L-6,7L-3,5.5M3,3L6,7L3,5.5" {st}/><circle cy="-2" r="1.3" {st}/>',
             "phone":f'<rect x="-4.5" y="-7.5" width="9" height="15" rx="2" {st}/><path d="M-1.5,5H1.5" {st}/>',
             "nodes":f'<path d="M-5,-4L5,0L-5,4" {st}/><circle cx="-5" cy="-4" r="1.8" {st}/><circle cx="-5" cy="4" r="1.8" {st}/><circle cx="5" r="1.8" {st}/>'}[k]
+HW,HH,HR,HTOP=1200,372,2400,336            # size, planet radius, top of the planet's rim
+LOG=["Launching ideas into working products","CS Student | Builder | Problem Solver",
+     "2x Finalist · GDG TechSprint &amp; AI for Social Impact","Currently in orbit: Forge, HarvestPro and Transit"]
+d=(f'<radialGradient id="a1"><stop offset="0" stop-color="{A}" stop-opacity=".18"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></radialGradient>'
+   f'<linearGradient id="nm" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0" spreadMethod="repeat">{GRAD_STOPS}<animateTransform attributeName="gradientTransform" type="translate" values="0 0;1200 0" dur="12s" repeatCount="indefinite"/></linearGradient>'
+   f'<radialGradient id="pl" cx=".5" cy="0" r=".5"><stop offset="0" stop-color="{PANEL}"/><stop offset="1" stop-color="{N}"/></radialGradient>'
+   f'<linearGradient id="rim" gradientUnits="userSpaceOnUse" x1="120" y1="0" x2="1080" y2="0"><stop offset="0" stop-color="{A}" stop-opacity="0"/><stop offset=".5" stop-color="{AC_L}"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></linearGradient>'
+   f'<radialGradient id="atm"><stop offset="0" stop-color="{A}" stop-opacity=".24"/><stop offset="1" stop-color="{A}" stop-opacity="0"/></radialGradient>')
+hr=random.Random(41)
+sky=[]
+while len(sky)<80:                         # stars stay out of the text block and off the planet
+    x,y=hr.randint(10,HW-10),hr.randint(8,HTOP-14)
+    if not (190<x<1010 and 36<y<306): sky.append((x,y))
+back=f'<circle cx="220" cy="90" r="260" fill="url(#a1)"><animate attributeName="cx" values="220;300;220" dur="14s" repeatCount="indefinite"/></circle><circle cx="1020" cy="80" r="250" fill="url(#a1)"><animate attributeName="cy" values="80;130;80" dur="12s" repeatCount="indefinite"/></circle>'
+back+="".join(f'<circle cx="{x}" cy="{y}" r="{hr.choice([.7,1,1.4])}" fill="{TEXT}"><animate attributeName="opacity" values="0.1;{STAR_PEAK};0.1" dur="{hr.uniform(2,5):.1f}s" begin="{hr.uniform(0,4):.1f}s" repeatCount="indefinite"/></circle>' for x,y in sky)
+back+=(f'<g transform="translate(-200 -200)"><animateTransform attributeName="transform" type="translate" values="700 -30;700 -30;1300 90;1300 90" keyTimes="0;.86;.95;1" dur="15s" repeatCount="indefinite"/>'
+       f'<line x1="-90" y1="-18" x2="0" y2="0" stroke="{AC_L}" stroke-width="2" stroke-linecap="round"/></g>')
+back+=(f'<ellipse cx="600" cy="{HTOP+6}" rx="620" ry="70" fill="url(#atm)"/><circle cx="600" cy="{HTOP+HR}" r="{HR}" fill="url(#pl)"/>'
+       f'<circle cx="600" cy="{HTOP+HR}" r="{HR}" fill="none" stroke="url(#rim)" stroke-width="2.5"/><circle cx="600" cy="{HTOP+HR}" r="{HR+7}" fill="none" stroke="url(#rim)" stroke-opacity=".25" stroke-width="8"/>'
+       f'<g><rect x="-5" y="-1.5" width="10" height="3" rx="1" fill="{AC_L}"/><rect x="-1.5" y="-4" width="3" height="8" rx="1" fill="{A}"/><animateMotion dur="26s" repeatCount="indefinite" rotate="auto" path="M180,372 Q600,272 1020,372"/></g>')
+fr_=f'<text x="600" y="60" text-anchor="middle" font-family="{FONT}" font-size="14" letter-spacing="7" fill="{A}">&lt; SYSTEM ONLINE /&gt;</text>'
+fr_+=f'<text x="600" y="144" text-anchor="middle" font-family="{FONT}" font-size="68" font-weight="800" fill="url(#nm)">Rishivardhan J</text>'
+fr_+=f'<text x="600" y="190" text-anchor="middle" font-family="{FONT}" font-size="22" fill="{TEXT}">Full Stack &amp; Mobile Developer · CS Student</text>'
+for i,l in enumerate(LOG):                 # first line shows by default; the rest fade in on their turn
+    n=len(l.replace("&amp;","&"))
+    fr_+=(f'<g opacity="{1 if i==0 else 0}"><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.02;.23;.25;1" dur="16s" begin="{i*4}s" repeatCount="indefinite"/>'
+          f'<text x="600" y="230" text-anchor="middle" font-family="{FONT}" font-size="18" fill="{A}">{l}</text>'
+          f'<rect x="{600+n*5.4+6:.1f}" y="215" width="9" height="18" fill="{A}"><animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite"/></rect></g>')
 chips=[("2× FINALIST",Y,"trophy"),("6 MISSIONS",A,"rocket"),("WEB + MOBILE",A,"phone"),("ML CURIOUS",A,"nodes")]
 x=600-(4*190+3*14)/2
 for t,c,k in chips:
-    b+=f'<rect x="{x}" y="240" width="190" height="36" rx="18" fill="{c}" fill-opacity=".12" stroke="{c}" stroke-opacity=".7"/><g transform="translate({x+30} 258)">{chip_glyph(k,tx(c))}</g><text x="{x+106}" y="263" text-anchor="middle" font-family="{FONT}" font-size="13" font-weight="700" fill="{tx(c)}">{t}</text>'
+    fr_+=pill(x,258,190,c,t,lambda cx,cy,k=k,c=c:f'<g transform="translate({cx:.1f} {cy})">{chip_glyph(k,tx(c))}</g>')
     x+=204
-b+=f'<rect x="1" y="1" width="1198" height="318" rx="15" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>'
-out("header.svg",wrap(1200,320,b,d))
+out("header.svg",panel(HW,HH,back,fr_,d))
 
-# ---- marquee (2 counter-scrolling rows, fixed-width cells)
+# ---- marquee (2 counter-scrolling rows, fixed-width cells, labelled over the edge fade)
 def row(y,items,cell,col,dur,rev):
     total=cell*len(items); g=""
     for k in range(3):
-        for i,(e,t) in enumerate(items):
-            cx=k*total+i*cell+cell/2
-            g+=f'<rect x="{cx-cell/2+8}" y="{y}" width="{cell-16}" height="40" rx="20" fill="{col}" fill-opacity=".1" stroke="{col}" stroke-opacity=".55"/><circle cx="{cx-cell/2+30}" cy="{y+20}" r="3.5" fill="{col}"/><text x="{cx+8}" y="{y+26}" text-anchor="middle" font-family="{FONT}" font-size="17" font-weight="700" fill="{tx(col)}">{t}</text>'
+        for i,t in enumerate(items):
+            g+=pill(k*total+i*cell+8,y,cell-16,col,t,lambda cx,cy:f'<circle cx="{cx:.1f}" cy="{cy}" r="3.5" fill="{col}"/>')
     fr,to=("-%d 0"%total,"0 0") if rev else ("0 0","-%d 0"%total)
     return f'<g>{g}<animateTransform attributeName="transform" type="translate" from="{fr}" to="{to}" dur="{dur}s" repeatCount="indefinite"/></g>'
-P=[(None,n) for n in ("Bench","Forge","HarvestPro","TrackIt","Transit","Galaxy")]
-T=[(None,n) for n in ("React","TypeScript","Python","Flutter","Node.js","Docker","MongoDB","PostgreSQL","Java","Firebase")]
-fade=f'<linearGradient id="f" x1="0" x2="1"><stop offset="0" stop-color="{N}"/><stop offset=".08" stop-color="{N}" stop-opacity="0"/><stop offset=".92" stop-color="{N}" stop-opacity="0"/><stop offset="1" stop-color="{N}"/></linearGradient><clipPath id="mc"><rect width="1200" height="120" rx="14"/></clipPath>'
-b=f'<rect width="1200" height="120" rx="14" fill="{N}"/><g clip-path="url(#mc)">{row(14,P,240,A,24,False)}{row(66,T,190,A,34,True)}<rect width="1200" height="120" fill="url(#f)"/></g><rect x=".5" y=".5" width="1199" height="119" rx="14" fill="none" stroke="url(#g)" stroke-opacity=".4"/>'
-out("marquee.svg",wrap(1200,120,b,fade))
+P=("Bench","Forge","HarvestPro","TrackIt","Transit","Galaxy")
+T=("React","TypeScript","Python","Flutter","Node.js","Docker","MongoDB","PostgreSQL","Java","Firebase")
+fade=f'<linearGradient id="f" x1="0" x2="1"><stop offset="0" stop-color="{N}"/><stop offset=".12" stop-color="{N}"/><stop offset=".2" stop-color="{N}" stop-opacity="0"/><stop offset=".93" stop-color="{N}" stop-opacity="0"/><stop offset="1" stop-color="{N}"/></linearGradient>'
+back=f'{row(14,P,200,A,24,False)}{row(58,T,170,A,34,True)}<rect width="1200" height="108" fill="url(#f)"/>'
+front="".join(f'<text x="28" y="{y}" font-family="{FONT}" font-size="11" font-weight="700" letter-spacing="3" fill="{A}">{t}</text>' for y,t in ((36,"MISSIONS"),(80,"STACK")))
+out("marquee.svg",panel(1200,108,back,front,fade))
 
 # ---- divider (gradient in userSpace so the line renders)
 b=f'<line x1="0" y1="15" x2="1200" y2="15" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/><circle cx="600" cy="15" r="5" fill="{AC_L}"><animate attributeName="r" values="3;7;3" dur="3s" repeatCount="indefinite"/></circle><circle cy="15" r="3" fill="{TEXT}"><animate attributeName="cx" values="0;1200" dur="5s" repeatCount="indefinite"/></circle>'
@@ -166,21 +195,19 @@ btn("btn-demo.svg", "LIVE DEMO", "play", "primary", auto("LIVE DEMO"))
 btn("btn-repo.svg", "VIEW REPO", "repo", "secondary", auto("VIEW REPO"))
 
 # ---- comms console (header): one status strip plus three stitched link bays
-T = lambda x, y, t, size, c, extra="": f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{size}" fill="{c}" {extra}>{t}</text>'
+TX = lambda x, y, t, size, c, extra="": f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="{size}" fill="{c}" {extra}>{t}</text>'
 sig = (f'<radialGradient id="r"><stop offset="0" stop-color="{Y}" stop-opacity=".16"/><stop offset="1" stop-color="{Y}" stop-opacity="0"/></radialGradient>')
 rings = "".join(f'<circle cx="64" cy="48" r="8" fill="none" stroke="{Y}" stroke-width="2" stroke-opacity=".5"><animate attributeName="r" values="8;32" dur="3s" begin="{k}s" repeatCount="indefinite"/>'
                 f'<animate attributeName="stroke-opacity" values=".6;0" dur="3s" begin="{k}s" repeatCount="indefinite"/></circle>' for k in (0, 1.5))
 bars = "".join(f'<rect x="{566 + i * 14}" y="{70 - h}" width="8" height="{h}" rx="2" fill="{A}"><animate attributeName="opacity" values="1;.35;1" dur="2.4s" begin="{i * .25}s" repeatCount="indefinite"/></rect>'
                for i, h in enumerate((10, 18, 26, 34, 42)))
-out("console-status.svg", wrap(1200, 96,
-    f'<rect width="1200" height="96" rx="18" fill="{N}"/><circle cx="64" cy="48" r="150" fill="url(#r)"/>'
-    f'<rect x="1" y="1" width="1198" height="94" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>'
-    + rings + f'<circle cx="64" cy="48" r="6" fill="{Y}"/>'
-    + T(116, 46, "OPEN TO WORK", 24, Y, 'font-weight="800" letter-spacing="2"')
-    + T(116, 69, "Internships &amp; Full-time", 13, SOFT)
+out("console-status.svg", panel(1200, 96, f'<circle cx="64" cy="48" r="150" fill="url(#r)"/>',
+    rings + f'<circle cx="64" cy="48" r="6" fill="{Y}"/>'
+    + TX(116, 46, "OPEN TO WORK", 24, Y, 'font-weight="800" letter-spacing="2"')
+    + TX(116, 69, "Internships &amp; Full-time", 13, SOFT)
     + bars
-    + T(1160, 44, "SECTOR TAMIL NADU, IN", 13, A, 'text-anchor="end" letter-spacing="2"')
-    + T(1160, 67, "UTC+05:30", 12, MUTED, 'text-anchor="end" letter-spacing="2"'), sig))
+    + TX(1160, 44, "SECTOR TAMIL NADU, IN", 13, A, 'text-anchor="end" letter-spacing="2"')
+    + TX(1160, 67, "UTC+05:30", 12, MUTED, 'text-anchor="end" letter-spacing="2"'), sig))
 
 def bay(name, ch, title, sub, scene, first=False, last=False, primary=False):
     W_, H_, r = 400, 132, 17
@@ -189,11 +216,12 @@ def bay(name, ch, title, sub, scene, first=False, last=False, primary=False):
     d = (left + f"H{x1 - r if last else x1}" + (f"a{r},{r} 0 0 1 {r},{r}V{H_ - 1 - r}a{r},{r} 0 0 1 {-r},{r}" if last else f"V{H_ - 1}")
          + f"H{x0 + r if first else x0}" + (f"a{r},{r} 0 0 1 {-r},{-r}V{1 + r}a{r},{r} 0 0 1 {r},{-r}" if first else "") + "Z")
     c, sub_c = (N, N) if primary else (A, SOFT)
-    d_p = f'<linearGradient id="p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{AC_L}"/><stop offset="1" stop-color="{A}"/></linearGradient>'
-    fill = f'<path d="{d}" fill="url(#p)"/>' if primary else f'<path d="{d}" fill="{N}"/><path d="{d}" fill="{A}" fill-opacity=".06"/>'
+    d_p = (f'<linearGradient id="p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{AC_L}"/><stop offset="1" stop-color="{A}"/></linearGradient>'
+           f'<radialGradient id="gl"><stop offset="0" stop-color="{B}" stop-opacity=".22"/><stop offset="1" stop-color="{B}" stop-opacity="0"/></radialGradient><clipPath id="bc"><path d="{d}"/></clipPath>')
+    fill = f'<path d="{d}" fill="url(#p)"/>' if primary else f'<path d="{d}" fill="{N}"/><g clip-path="url(#bc)"><circle cx="320" cy="76" r="150" fill="url(#gl)"/></g>'
     arrow = f'<path d="M364,34L378,20M366,20H378V32" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    out(name, wrap(W_, H_, fill + f'<path d="{d}" fill="none" stroke="{N if primary else "url(#g)"}" stroke-opacity=".5" stroke-width="2"/>' + scene(c) + arrow
-        + T(28, 34, ch, 12, c, 'letter-spacing="3"') + T(28, 84, title, 26, N if primary else TEXT, 'font-weight="800"') + T(28, 108, sub, 13, sub_c), d_p))
+    out(name, wrap(W_, H_ + PAD, fill + f'<path d="{d}" fill="none" stroke="{N if primary else "url(#g)"}" stroke-opacity=".5" stroke-width="2"/>' + scene(c) + arrow
+        + TX(28, 34, ch, 12, c, 'letter-spacing="3"') + TX(28, 84, title, 26, N if primary else TEXT, 'font-weight="800"') + TX(28, 108, sub, 13, sub_c), d_p))
 
 def planet(c):
     orbit = "M-34,0a34,11 0 1 0 68,0a34,11 0 1 0 -68,0"

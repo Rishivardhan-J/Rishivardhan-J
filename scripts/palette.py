@@ -67,8 +67,8 @@ if __name__ == "__main__":
         check(f"language ramp {i}->{i+1} separation", RAMP[i], RAMP[i + 1], 1.2)
     for i, h in enumerate(RAMP):
         check(f"language {i} legend dot on bg", h, BG, 2.5)
-    check("typing line on GitHub dark (large text)", AC_D, "#0d1117", 3)
-    check("typing line on GitHub light (large text)", AC_D, "#ffffff", 3)
+    check("header log line on bg", AC, BG, 4.5)
+    check("pill text on its 12% tint", AC, mix(AC, BG, .12), 4.5)
     check("dimmest star on panel", HEAT[2], PANEL, 3)
     check("brightest star on panel", HEAT[4], PANEL, 3)
     check("constellation line on panel", mix(AC, PANEL, .38), PANEL, 1.3)

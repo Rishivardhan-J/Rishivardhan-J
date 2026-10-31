@@ -1,15 +1,8 @@
 <div align="center">
-
-<img src="assets/header.svg" width="100%" alt="Rishivardhan J"/>
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=5B82C2&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
-
-<img src="assets/console-status.svg" width="100%" alt="Open to work: internships and full-time. Tamil Nadu, India, UTC+05:30"/>
-
-<a href="https://rishi-galaxy.vercel.app"><img src="assets/bay-portfolio.svg" width="33.33%" alt="Portfolio: Galaxy live site"/></a><a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/bay-linkedin.svg" width="33.33%" alt="LinkedIn"/></a><a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/bay-email.svg" width="33.33%" alt="Email"/></a>
-
+<img src="assets/header.svg" width="100%" alt="Rishivardhan J: Full Stack and Mobile Developer, CS student. 2x finalist, 6 missions, web and mobile, ML curious"/><br/>
+<img src="assets/console-status.svg" width="100%" alt="Open to work: internships and full-time. Tamil Nadu, India, UTC+05:30"/><br/>
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/bay-portfolio.svg" width="33.33%" alt="Portfolio: Galaxy live site"/></a><a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/bay-linkedin.svg" width="33.33%" alt="LinkedIn"/></a><a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/bay-email.svg" width="33.33%" alt="Email"/></a><br/>
 <img src="assets/marquee.svg" width="100%" alt="Projects and stack"/>
-
 </div>
 
 <img src="assets/divider.svg" width="100%"/>

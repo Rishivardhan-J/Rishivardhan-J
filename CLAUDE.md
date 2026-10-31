@@ -19,7 +19,7 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 
 ## Design system
 
-`scripts/palette.py` is the single source of truth for colours (the Starlight palette: one ice-blue accent plus muted gold on `#0B0F19`), the shared font, `GRAD_STOPS`, the `HEAT` and `RAMP` ramps and a WCAG `contrast()` helper. `python3 scripts/palette.py` exits non-zero if any colour pair drops below its threshold; run it after changing colours. The generators import from it by inserting their own directory in `sys.path`. Don't hardcode hex in the generators. The snake colours in the workflow and the typing-SVG colour in `README.md` can't import it, so keep them in sync by hand (`build_closing.py` overrides the snake's CSS variables anyway).
+`scripts/palette.py` is the single source of truth for colours (the Starlight palette: one ice-blue accent plus muted gold on `#0B0F19`), the shared font, `GRAD_STOPS`, the `HEAT` and `RAMP` ramps and a WCAG `contrast()` helper. `python3 scripts/palette.py` exits non-zero if any colour pair drops below its threshold; run it after changing colours. The generators import from it by inserting their own directory in `sys.path`. Don't hardcode hex in the generators. The snake colours in the workflow can't import it, so keep them in sync by hand (`build_closing.py` overrides the snake's CSS variables anyway).
 
 Rules:
 - One accent only. `AC` is for links, labels, key numbers and primary buttons; don't give sections or chips their own hues.
@@ -29,6 +29,7 @@ Rules:
 - Muted text is `MUTED`.
 - Keep one filled primary button per group; the others are outlined.
 - Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py` (44px, vector icons, no emoji).
+- The hero (header, status strip, bays, marquee) is one contiguous README block with `<br/>` separators. Each image uses `panel()` or the matching bay frame and carries `PAD` transparent pixels at the bottom so gaps are equal; `pill()` is the only pill style. The tagline is built into `header.svg` (`LOG`), not a third-party image.
 - The header's Comms Console is `console-status.svg` plus three stitched `bay-*.svg` links (`build_assets.py`). Keep the three bay `<a>` tags on one README line with no whitespace between them, or they stop joining into one panel.
 - The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 
