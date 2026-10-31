@@ -9,7 +9,7 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 ## Two kinds of generated SVGs (this is the key thing to know)
 
 1. **Static assets, committed to `main` under `assets/`.** Regenerate locally and commit the output (run from the repo root, since paths are relative):
-   - `python3 scripts/build_assets.py`: header, marquee, divider, footer (planet horizon), `hangar-*.svg` cards, the `mission-row-*.svg` label strips, `btn-*.svg` / `pill-*.svg` buttons. Seeded RNG, so output is deterministic.
+   - `python3 scripts/build_assets.py`: header, marquee, divider, footer (planet horizon), `hangar-*.svg` cards, the `mission-row-*.svg` label strips, `console-status.svg` and the `bay-*.svg` link bays. Seeded RNG, so output is deterministic.
    - `python3 scripts/build_panels.py`: `briefing.svg` (pilot ID card, briefing.js terminal, capabilities card, telemetry tiles, status bar; counts come from the editorial `LAUNCHED`/`IN_ORBIT`/`TECH_COUNT` constants and `MILESTONES`, so update them when projects change; the terminal cursor x is computed from the prompt length) and `milestones.svg` (entries come from the `MILESTONES` list at the top of that block; `kind` is `finalist` (gold) or `next` (accent)).
 2. **Live data SVGs, built by CI and published to the `output` branch, never committed to `main`.** `scripts/build_stats.py <stats.svg> <flight.svg>` calls the GitHub GraphQL API (needs `GH_TOKEN`; locally use `GH_TOKEN=$(gh auth token)`) and writes the stats dashboard and the flight-deck HUD (plus `orbit-data.json` for the Orbit Log). `scripts/build_closing.py <snake-raw.svg> <orbit-data.json> <dir>` then turns the raw snk snake into the framed `orbit-log.svg` and builds `transmission.svg`. The README references them via `raw.githubusercontent.com/.../output/github-stats.svg` and `github-flight.svg`, so they will not show up in a local render of the README.
 
@@ -28,9 +28,9 @@ Rules:
 - No emoji inside generated SVGs; draw glyphs instead. Stars and dust must never sit behind text (put an opaque `BG` rect under tinted cards).
 - Muted text is `MUTED`.
 - Keep one filled primary button per group; the others are outlined.
-- Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py` (44px, vector icons, no emoji).
+- Don't use shields.io badges for coloured buttons: they always print white text. Use the stitched `bay-*.svg` links from `build_assets.py` (vector scenes, no emoji).
 - The hero (header, status strip, bays, marquee) is one contiguous README block with `<br/>` separators. Each image uses `panel()` or the matching bay frame and carries `PAD` transparent pixels at the bottom so gaps are equal; `pill()` is the only pill style. The tagline is built into `header.svg` (`LOG`), not a third-party image.
-- Flagship uses the same stitched bays (`bay-demo.svg`, `bay-repo.svg`, 50% each, no whitespace between tags).
+- Transmission reuses the header's three bays. Flagship uses the same stitched bays (`bay-demo.svg`, `bay-repo.svg`, 50% each, no whitespace between tags).
 - The header's Comms Console is `console-status.svg` plus three stitched `bay-*.svg` links (`build_assets.py`). Keep the three bay `<a>` tags on one README line with no whitespace between them, or they stop joining into one panel.
 - The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 

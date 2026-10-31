@@ -13,8 +13,8 @@ esc = html.escape
 W = 1200
 
 
-def head(h, title, desc, extra=""):
-    return (f'<svg width="{W}" height="{h}" viewBox="0 0 {W} {h}" xmlns="http://www.w3.org/2000/svg">'
+def head(h, title, desc, extra="", pad=0):
+    return (f'<svg width="{W}" height="{h + pad}" viewBox="0 0 {W} {h + pad}" xmlns="http://www.w3.org/2000/svg">'
             f'<title>{esc(title)}</title><desc>{esc(desc)}</desc>'
             f'<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{W}" y2="0">{GRAD_STOPS}</linearGradient>'
             f'<radialGradient id="r1"><stop offset="0" stop-color="{AC_D}" stop-opacity=".24"/><stop offset="1" stop-color="{AC_D}" stop-opacity="0"/></radialGradient>'
@@ -123,7 +123,7 @@ QUOTE = ["A computer is a stupid machine with the", "ability to do incredibly sm
 rng = random.Random(14)
 fade = (f'<linearGradient id="tr" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="1160" y2="0"><stop offset="0" stop-color="{AC}" stop-opacity="0"/>'
         f'<stop offset=".2" stop-color="{AC}"/><stop offset=".8" stop-color="{AC}"/><stop offset="1" stop-color="{AC}" stop-opacity="0"/></linearGradient>')
-t = [head(TH, "Transmission", f'A quote about computers and programmers. Signals received (profile views): {views if views is not None else "unavailable"}. views={views if views is not None else ""}', fade),
+t = [head(TH, "Transmission", f'A quote about computers and programmers. Signals received (profile views): {views if views is not None else "unavailable"}. views={views if views is not None else ""}', fade, pad=10),
      f'<g clip-path="url(#card)"><circle cx="990" cy="130" r="300" fill="url(#r1)"/>{dust(rng, 55, 8, TH - 8)}</g>', frame(TH)]
 t.append(f'<circle cx="46" cy="48" r="4" fill="{AC}"><animate attributeName="opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></circle>'
          f'<text x="62" y="52" font-family="{FONT}" font-size="12" letter-spacing="5" fill="{AC}">INCOMING TRANSMISSION</text>'

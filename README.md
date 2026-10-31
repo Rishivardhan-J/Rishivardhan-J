@@ -96,14 +96,8 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/transmission.svg" width="100%" alt="Transmission: A computer is a stupid machine with the ability to do incredibly smart things, while computer programmers are smart people with the ability to do incredibly stupid things. They are, in short, a perfect match."/>
-
-<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="44" alt="Portfolio: Galaxy"/></a>
-<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="44" alt="LinkedIn"/></a>
-<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="44" alt="Email"/></a>
-
-<img src="https://komarev.com/ghpvc/?username=Rishivardhan-J&label=views" width="1" height="1" alt=""/>
-
+<img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/transmission.svg" width="100%" alt="Transmission: A computer is a stupid machine with the ability to do incredibly smart things, while computer programmers are smart people with the ability to do incredibly stupid things. They are, in short, a perfect match."/><br/>
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/bay-portfolio.svg" width="33.33%" alt="Portfolio: Galaxy live site"/></a><a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/bay-linkedin.svg" width="33.33%" alt="LinkedIn"/></a><a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/bay-email.svg" width="33.33%" alt="Email"/></a><br/>
 <img src="assets/footer.svg" width="100%" alt="End of transmission. See you in orbit."/>
-
+<img src="https://komarev.com/ghpvc/?username=Rishivardhan-J&label=views" width="1" height="1" alt=""/>
 </div>
