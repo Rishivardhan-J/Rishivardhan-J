@@ -1,8 +1,8 @@
-"""Builds flagship.svg and the five mission cards from live GitHub data (run by CI).
+"""Builds flagship.svg and the five mission strips from live GitHub data (run by CI).
 
 usage: build_missions.py <out-dir>      (needs GH_TOKEN)
 """
-import datetime as dt, html, json, math, os, random, sys, textwrap, urllib.error, urllib.request, zlib
+import datetime as dt, html, json, math, os, random, re, sys, textwrap, urllib.error, urllib.request, zlib
 
 sys.path.insert(0, os.path.dirname(__file__))
 from palette import AC, AC_D, AC_L, SIG, BG, PANEL, TRACK, TEXT, SOFT, DIM, MUTED, FONT, GRAD_STOPS, RAMP
@@ -17,18 +17,18 @@ FLAGSHIP = dict(name="Galaxy", url=os.environ.get("FLAGSHIP_URL", "https://rishi
                 desc="A no-scroll, space-themed portfolio where you travel between projects, skills and contact through warp transitions.")
 STAGES = ["DESIGN", "BUILD", "ACTIVE", "LIVE"]
 PAD = 10         # transparent space under the flagship panel, the same gap as the hero
-GUTTER = 20      # gap between cards; each image is a 1200/cols transparent canvas so rows sit flush with the section
+RAIL, CARD_X = 5, 30   # flight rail x (matches the row-label dots), card left edge
 DISPLAY = {"Jupyter Notebook": "Jupyter"}
 MISSIONS = [  # editorial: pitch, stack and stage (1-4) are written by hand; everything else comes from GitHub
-    dict(key="trackit", name="TrackIt", stage=3, status="ACTIVE", cols=2, stack="React · TypeScript",
+    dict(key="trackit", name="TrackIt", stage=3, status="ACTIVE", stack="React · TypeScript",
          desc="Deadline-driven tracker for internship & hackathon applications, with an admin pipeline to post and moderate listings."),
-    dict(key="bench", name="Bench", stage=3, status="ACTIVE", cols=2, stack="React · TypeScript",
+    dict(key="bench", name="Bench", stage=3, status="ACTIVE", stack="React · TypeScript",
          desc="Intelligent, high-performance freelancer discovery by skills, availability and project needs."),
-    dict(key="forge", name="Forge", stage=2, status="BUILDING", cols=3, stack="Flutter · Dart",
+    dict(key="forge", name="Forge", stage=2, status="BUILDING", stack="Flutter · Dart",
          desc="Habit-formation app built on the framework from Atomic Habits."),
-    dict(key="harvestpro", name="HarvestPro", stage=2, status="BUILDING", cols=3, stack="Flutter · AI",
+    dict(key="harvestpro", name="HarvestPro", stage=2, status="BUILDING", stack="Flutter · AI",
          desc="Turns AI crop predictions into advice Indian farmers can trust and act on, in their own language."),
-    dict(key="transit", name="Transit", stage=2, status="BUILDING", cols=3, stack="Python · ML · VRP",
+    dict(key="transit", name="Transit", stage=2, status="BUILDING", stack="Python · ML · VRP",
          desc="Real-time logistics optimization: ML delivery-time prediction and Hybrid Genetic Search routing."),
 ]
 
@@ -159,66 +159,98 @@ def patch(cx, cy, kind):
 
 
 # ------------------------------------------------------------------ mission card
+# stylised product scenes drawn in a 352x144 window: what each mission does, not real data
+def scene(kind):
+    st = f'fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+    o = ""
+    if kind == "trackit":      # deadlines pass under a sweeping "now" line
+        o += f'<line x1="24" y1="104" x2="328" y2="104" stroke="{MUTED}" stroke-opacity=".6" stroke-width="2"/>'
+        o += "".join(f'<line x1="{x}" y1="100" x2="{x}" y2="108" stroke="{MUTED}" stroke-opacity=".6"/>' for x in range(24, 329, 38))
+        for x in (100, 214, 290):
+            t = (x - 24) / 304 * .9
+            o += (f'<g opacity=".35"><animate attributeName="opacity" values=".35;.35;1;1;.35" keyTimes="0;{t:.3f};{t + .02:.3f};.96;1" dur="9s" repeatCount="indefinite"/>'
+                  f'<path d="M{x},104V50L{x + 24},60L{x},70" {st}/><path d="M{x - 6},122l4,4l8,-8" {st}/></g>')
+        o += (f'<line x1="0" y1="26" x2="0" y2="124" stroke="{AC_L}" stroke-width="2"><animateTransform attributeName="transform" type="translate" values="24 0;328 0;328 0" keyTimes="0;.9;1" dur="9s" repeatCount="indefinite"/></line>')
+    elif kind == "bench":      # a search lens finds matches in a grid of people
+        pos = [(40 + i * 54, 34 + j * 38) for j in range(3) for i in range(6)]
+        for x, y in pos:
+            o += f'<circle cx="{x}" cy="{y - 5}" r="5" fill="none" stroke="{MUTED}" stroke-opacity=".7"/><path d="M{x - 8},{y + 11}a8,8 0 0 1 16,0" fill="none" stroke="{MUTED}" stroke-opacity=".7"/>'
+        hits = [pos[1], pos[9], pos[16]]
+        for i, (x, y) in enumerate(hits):
+            t = i / 3
+            o += (f'<circle cx="{x}" cy="{y}" r="17" fill="{AC}" fill-opacity=".14" stroke="{AC_L}" stroke-width="2" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;{t + .1:.2f};{t + .13:.2f};{t + .3:.2f};{t + .33:.2f};1" dur="9s" repeatCount="indefinite"/></circle>')
+        path = ";".join(f"{x} {y}" for x, y in (hits[0], hits[0], hits[1], hits[1], hits[2], hits[2], hits[0]))
+        o += (f'<g transform="translate({hits[0][0]} {hits[0][1]})"><animateTransform attributeName="transform" type="translate" values="{path}" keyTimes="0;.23;.33;.56;.66;.89;1" dur="9s" repeatCount="indefinite"/>'
+              f'<circle r="22" {st.replace(AC, AC_L)}/><path d="M16,16L27,27" {st.replace(AC, AC_L)}/></g>')
+    elif kind == "forge":      # a habit chain filling one day at a time
+        for k in range(21):
+            i, j = k % 7, k // 7
+            t = k / 21 * .85
+            o += (f'<rect x="{43 + i * 38}" y="{18 + j * 38}" width="28" height="28" rx="6" fill="{AC_L if k == 20 else AC}" fill-opacity=".12"><animate attributeName="fill-opacity" values=".12;.12;1;1;.12" keyTimes="0;{t:.3f};{t + .01:.3f};.96;1" dur="10.5s" repeatCount="indefinite"/></rect>')
+    elif kind == "harvestpro": # crops grow while advice arrives on the phone
+        o += f'<line x1="20" y1="120" x2="332" y2="120" stroke="{MUTED}" stroke-opacity=".6" stroke-width="2"/>'
+        for i, x in enumerate(range(36, 226, 38)):
+            o += (f'<g transform="translate({x} 120)"><g><animateTransform attributeName="transform" type="scale" values="1 .25;1 1;1 1;1 .25" keyTimes="0;.45;.92;1" dur="8s" begin="{i * .3:.1f}s" repeatCount="indefinite"/>'
+                  f'<path d="M0,0V-70M0,-22C-12,-24 -14,-34 -14,-38C-6,-38 0,-32 0,-22M0,-38C12,-40 14,-50 14,-54C6,-54 0,-48 0,-38" {st}/></g></g>')
+        o += f'<rect x="248" y="16" width="80" height="50" rx="10" {st.replace(AC, AC_L)}/><path d="M264,66v12l14,-12" {st.replace(AC, AC_L)}/>'
+        for i, w in enumerate((56, 40)):
+            o += f'<line x1="260" y1="{32 + i * 16}" x2="{260 + w}" y2="{32 + i * 16}" stroke="{AC}" stroke-width="2" stroke-linecap="round"><animate attributeName="stroke-opacity" values=".2;1;1;.2" dur="4s" begin="{i * .5}s" repeatCount="indefinite"/></line>'
+    else:                      # transit: vehicles run optimised routes out of a depot
+        routes = ("M176,72L110,30L50,52L70,112L140,118Z", "M176,72L238,26L304,46L296,108L226,122Z")
+        for r, dur in zip(routes, (9, 11)):
+            o += f'<path d="{r}" fill="none" stroke="{AC}" stroke-opacity=".6" stroke-width="2" stroke-dasharray="5 5"/>'
+            o += "".join(f'<circle cx="{x}" cy="{y}" r="5" fill="{PANEL}" stroke="{AC}" stroke-width="2"/>' for x, y in (tuple(map(int, q.split(","))) for q in re.findall(r"[ML](\d+,\d+)", r)[1:]))
+            o += f'<g><rect x="-7" y="-4" width="14" height="8" rx="2" fill="{AC_L}"/><animateMotion dur="{dur}s" repeatCount="indefinite" rotate="auto" path="{r}"/></g>'
+        o += f'<rect x="166" y="62" width="20" height="20" rx="4" fill="{PANEL}" stroke="{AC_L}" stroke-width="2"/>'
+    return o
+
+
 def desc_lines(m):
-    width = int((card_w(m["cols"]) - 48) / (13 * .62))
+    width = 50
     lines = textwrap.wrap(m["desc"], width)
     if len(lines) > 3:   # cut at a word boundary
         lines = lines[:2] + [textwrap.shorten(" ".join(lines[2:]), width=width, placeholder="…")]
     return lines
 
 
-def card_w(cols):
-    return (1200 - GUTTER * (cols - 1)) / cols
-
-
-def card(m, repo, slot, row_lines):
-    """slot: position in the row. row_lines: longest description in the row, so cards in a row match in height."""
-    cols, w = m["cols"], card_w(m["cols"])
-    canvas = 1200 // cols
-    ox = slot * (w + GUTTER) - slot * canvas     # card's offset inside its canvas
-    ls = 124 + (row_lines - 1) * 20              # last description baseline
-    T, B, D = ls + 36, ls + 80, ls + 120         # flight track, language bar, footer rule
-    h = D + 38
-    rng = random.Random(zlib.crc32(m["key"].encode()))
-    clip = f'<clipPath id="cc"><rect width="{w:.2f}" height="{h}" rx="17"/></clipPath>'
-    o = [f'<svg width="{canvas}" height="{h}" viewBox="0 0 {canvas} {h}" xmlns="http://www.w3.org/2000/svg"><title>{m["name"]}</title>'
-         f'<desc>{esc(m["desc"])} {m["status"]}.</desc>', defs(w, h, clip), f'<g transform="translate({ox:.2f} 0)">',
-         f'<rect x="1" y="1" width="{w - 2:.2f}" height="{h - 2}" rx="16" fill="{BG}" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>',
-         f'<g clip-path="url(#cc)"><circle cx="58" cy="58" r="150" fill="url(#gl)"/></g>{dust(rng, 8, w - 120, 54, w - 16, 98)}', patch(58, 58, m["key"]),
-         f'<text x="108" y="54" font-family="{FONT}" font-size="24" font-weight="800" fill="url(#g)">{m["name"]}</text>'
-         f'<text x="108" y="75" font-family="{FONT}" font-size="12" fill="{DIM}">{esc(m["stack"])}</text>']
+def strip(m, repo, last):
+    """One full-width mission strip. The rail runs through the whole canvas so stacked strips form one line."""
+    W, CH, H = 1200, 172, 182
+    active = m["status"] == "ACTIVE"
+    dash = "" if active else ' stroke-dasharray="4 5"'
+    rail_end = CH / 2 if last else H
+    clip = (f'<clipPath id="cc"><rect x="{CARD_X}" width="{W - CARD_X}" height="{CH}" rx="18"/></clipPath>'
+            f'<clipPath id="sc"><rect width="352" height="144" rx="12"/></clipPath>')
+    o = [f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg"><title>{m["name"]}</title>'
+         f'<desc>{esc(m["desc"])} {m["status"]}.</desc>', defs(W, H, clip),
+         f'<line x1="{RAIL}" y1="0" x2="{RAIL}" y2="{rail_end}" stroke="{AC}" stroke-opacity=".7" stroke-width="2"{dash}/>'
+         f'<line x1="{RAIL}" y1="{CH / 2}" x2="{CARD_X}" y2="{CH / 2}" stroke="{AC}" stroke-opacity=".7" stroke-width="2"/>'
+         f'<circle cx="{RAIL}" cy="{CH / 2}" r="5" fill="{AC_L if active else BG}" stroke="{AC_L}" stroke-width="2"/>'
+         f'<circle cx="{RAIL}" cy="{CH / 2}" r="5" fill="none" stroke="{AC_L}"><animate attributeName="r" values="5;11" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values=".7;0" dur="2.4s" repeatCount="indefinite"/></circle>',
+         f'<rect x="{CARD_X}" width="{W - CARD_X}" height="{CH}" rx="18" fill="{BG}"/><g clip-path="url(#cc)"><circle cx="88" cy="70" r="170" fill="url(#gl)"/></g>'
+         f'<rect x="{CARD_X + 1}" y="1" width="{W - CARD_X - 2}" height="{CH - 2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>',
+         patch(88, 66, m["key"]),
+         f'<text x="138" y="62" font-family="{FONT}" font-size="28" font-weight="800" fill="url(#g)">{m["name"]}</text>'
+         f'<text x="138" y="86" font-family="{FONT}" font-size="13" fill="{DIM}">{esc(m["stack"])}</text>']
     pw = 26 + len(m["status"]) * 8.2
-    px = w - pw - 24
-    dash = ' stroke-dasharray="4 3"' if m["status"] == "BUILDING" else ""
-    o.append(f'<rect x="{px:.1f}" y="24" width="{pw:.1f}" height="24" rx="12" fill="{AC}" fill-opacity=".12" stroke="{AC}" stroke-opacity=".6"{dash}/>'
-             f'<circle cx="{px + 12:.1f}" cy="36" r="3.5" fill="{AC}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
-             f'<text x="{px + 22:.1f}" y="40" font-family="{FONT}" font-size="10.5" font-weight="700" fill="{AC}">{m["status"]}</text>')
+    o.append(f'<rect x="54" y="124" width="{pw:.1f}" height="24" rx="12" fill="{AC}" fill-opacity=".12" stroke="{AC}" stroke-opacity=".6"{dash}/>'
+             f'<circle cx="66" cy="136" r="3.5" fill="{AC}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
+             f'<text x="76" y="140" font-family="{FONT}" font-size="10.5" font-weight="700" fill="{AC}">{m["status"]}</text>')
+    for i in range(len(STAGES)):                                 # stage ticks beside the status
+        lit = i < m["stage"]
+        o.append(f'<circle cx="{54 + pw + 18 + i * 16:.1f}" cy="136" r="4" fill="{AC if lit else BG}" stroke="{AC if lit else MUTED}"/>')
+    o.append(f'<line x1="324" y1="20" x2="324" y2="152" stroke="{AC}" stroke-opacity=".18"/>')
     for i, ln in enumerate(desc_lines(m)):
-        o.append(f'<text x="24" y="{124 + i * 20}" font-family="{FONT}" font-size="13" fill="{TEXT}">{esc(ln)}</text>')
-    sw = (w - 48) / 4                                            # flight track: one node per stage
-    node = lambda i: 24 + sw * (i + .5)
-    cur = m["stage"] - 1
-    o.append(f'<line x1="24" y1="{T}" x2="{w - 24:.1f}" y2="{T}" stroke="{TRACK}" stroke-width="2" stroke-linecap="round"/>'
-             f'<line x1="24" y1="{T}" x2="{node(cur):.1f}" y2="{T}" stroke="{AC}" stroke-width="2" stroke-linecap="round"/>')
-    for i, name in enumerate(STAGES):
-        x = node(i)
-        if i == cur:
-            o.append(f'<circle cx="{x:.1f}" cy="{T}" r="6" fill="none" stroke="{AC_L}"><animate attributeName="r" values="6;12" dur="2.4s" repeatCount="indefinite"/>'
-                     f'<animate attributeName="stroke-opacity" values=".7;0" dur="2.4s" repeatCount="indefinite"/></circle><circle cx="{x:.1f}" cy="{T}" r="6" fill="{AC_L}"/>')
-        elif i < cur:
-            o.append(f'<circle cx="{x:.1f}" cy="{T}" r="4" fill="{AC}"/>')
-        else:
-            o.append(f'<circle cx="{x:.1f}" cy="{T}" r="4" fill="{BG}" stroke="{MUTED}"/>')
-        o.append(f'<text x="{x:.1f}" y="{T + 22}" text-anchor="middle" font-family="{FONT}" font-size="10" letter-spacing="1"{" font-weight=\"700\"" if i == cur else ""} fill="{AC_L if i == cur else SOFT if i < cur else MUTED}">{name}</text>')
-    o.append(langbar(24, B, w - 48, lang_mix(repo), B + 24, 11))
+        o.append(f'<text x="344" y="{42 + i * 21}" font-family="{FONT}" font-size="15" fill="{TEXT}">{esc(ln)}</text>')
+    o.append(langbar(344, 108, 456, lang_mix(repo), 130, 11))
     n = commits(repo)
     tele = f'{n if n is not None else "—"} COMMITS · LAST LAUNCH {ago(repo["pushedAt"]) if repo else "—"}'
     if repo and repo["stargazerCount"]:
         tele += f' · ★ {repo["stargazerCount"]}'
-    ax, ay = w - 24, D + 25
-    o.append(f'<line x1="24" y1="{D}" x2="{w - 24:.1f}" y2="{D}" stroke="{AC}" stroke-opacity=".18"/>'
-             f'<text x="24" y="{D + 24}" font-family="{FONT}" font-size="11" letter-spacing="1" fill="{MUTED}">{tele}</text>'
-             f'<path d="M{ax - 10:.1f},{ay}L{ax:.1f},{ay - 10}M{ax - 8:.1f},{ay - 10}H{ax:.1f}V{ay - 2}" fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>')
+    ax, ay = 800, 158
+    o.append(f'<text x="344" y="156" font-family="{FONT}" font-size="11" letter-spacing="1" fill="{MUTED}">{tele}</text>'
+             f'<path d="M{ax - 10},{ay}L{ax},{ay - 10}M{ax - 8},{ay - 10}H{ax}V{ay - 2}" fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+             f'<g transform="translate(824 14)"><rect width="352" height="144" rx="12" fill="{PANEL}" stroke="{AC}" stroke-opacity=".3"/><g clip-path="url(#sc)">{scene(m["key"])}</g></g></svg>')
     return "".join(o)
 
 
@@ -281,9 +313,6 @@ def flagship(repo, online):
 data = fetch()
 online = site_online(FLAGSHIP["url"])
 open(os.path.join(DIST, "flagship.svg"), "w", encoding="utf8").write(flagship(data[FLAGSHIP["name"]], online))
-for cols in sorted({m["cols"] for m in MISSIONS}):
-    row = [m for m in MISSIONS if m["cols"] == cols]
-    row_lines = max(len(desc_lines(m)) for m in row)
-    for slot, m in enumerate(row):
-        open(os.path.join(DIST, f"mission-{m['key']}.svg"), "w", encoding="utf8").write(card(m, data[m["name"]], slot, row_lines))
-print("wrote flagship + %d mission cards; site online: %s" % (len(MISSIONS), online))
+for i, m in enumerate(MISSIONS):
+    open(os.path.join(DIST, f"mission-{m['key']}.svg"), "w", encoding="utf8").write(strip(m, data[m["name"]], i == len(MISSIONS) - 1))
+print("wrote flagship + %d mission strips; site online: %s" % (len(MISSIONS), online))
