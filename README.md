@@ -4,12 +4,12 @@
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=5B82C2&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
 
-<img src="assets/pill-status.svg" height="40" alt="Open to internships and full-time roles"/>
-<img src="assets/pill-location.svg" height="40" alt="Tamil Nadu, India"/>
+<img src="assets/pill-status.svg" height="44" alt="Open to internships and full-time roles"/>
+<img src="assets/pill-location.svg" height="44" alt="Tamil Nadu, India"/>
 
-<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="40" alt="Portfolio: Galaxy"/></a>
-<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="40" alt="LinkedIn"/></a>
-<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="40" alt="Email"/></a>
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="44" alt="Portfolio: Galaxy"/></a>
+<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="44" alt="LinkedIn"/></a>
+<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="44" alt="Email"/></a>
 
 <img src="assets/marquee.svg" width="100%" alt="Projects and stack"/>
 
@@ -32,8 +32,8 @@
 <div align="center">
 
 <a href="https://rishi-galaxy.vercel.app"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/flagship.svg" width="100%" alt="Flagship mission: Galaxy, a no-scroll space-themed portfolio. Live site, React, Vite and TypeScript."/></a>
-<br/><a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-demo.svg" height="40" alt="Live demo"/></a>
-<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="assets/btn-repo.svg" height="40" alt="View repo"/></a>
+<br/><a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-demo.svg" height="44" alt="Live demo"/></a>
+<a href="https://github.com/Rishivardhan-J/Galaxy"><img src="assets/btn-repo.svg" height="44" alt="View repo"/></a>
 
 </div>
 
@@ -114,9 +114,9 @@
 
 <img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/transmission.svg" width="100%" alt="Transmission: A computer is a stupid machine with the ability to do incredibly smart things, while computer programmers are smart people with the ability to do incredibly stupid things. They are, in short, a perfect match."/>
 
-<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="40" alt="Portfolio: Galaxy"/></a>
-<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="40" alt="LinkedIn"/></a>
-<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="40" alt="Email"/></a>
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="44" alt="Portfolio: Galaxy"/></a>
+<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="44" alt="LinkedIn"/></a>
+<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="44" alt="Email"/></a>
 
 <img src="https://komarev.com/ghpvc/?username=Rishivardhan-J&label=views" width="1" height="1" alt=""/>
 

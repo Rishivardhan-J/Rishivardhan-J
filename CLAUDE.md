@@ -27,7 +27,7 @@ Rules:
 - `SIG` (gold) is reserved for achievements and availability: FINALIST, OPEN TO WORK, LIVE, best day.
 - Muted text is `MUTED`.
 - Keep one filled primary button per group; the others are outlined.
-- Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py`.
+- Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py` (44px, vector icons, no emoji; header rows are both 640px wide: pills 372+268, buttons 288+168+184, so keep that when changing labels).
 - The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 
 ## Stats panel (`github-stats.svg`)

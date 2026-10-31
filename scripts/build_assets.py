@@ -1,7 +1,7 @@
 import os, sys, random
 sys.path.insert(0, os.path.dirname(__file__))
 random.seed(11)
-from palette import AC as A, AC_D as B, SIG as Y, BG as N, FONT, GRAD_STOPS, STAR_PEAK, TEXT, DIM, tx
+from palette import AC_L, AC as A, AC_D as B, SIG as Y, BG as N, FONT, GRAD_STOPS, STAR_PEAK, TEXT, DIM, tx
 
 GRAD=lambda w:f'<linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{w}" y2="0">{GRAD_STOPS}</linearGradient>'
 def stars(w,h,n,cls=""):
@@ -115,15 +115,49 @@ for k,label in (("active","ACTIVE · IN ORBIT"),("building","BUILDING · ON THE 
     out(f"mission-row-{k}.svg",wrap(1200,30,b))
 
 # ---- accessible buttons (shields.io always prints white text, which fails on cyan)
-def btn(name, label, fill, text, stroke=None, w=None):
-    w = w or int(len(label) * 10.6 + 44)
-    st = stroke or fill
-    out(name, wrap(w, 40, f'<rect x="1" y="1" width="{w-2}" height="38" rx="9" fill="{fill}" stroke="{st}" stroke-width="2"/>'
-        f'<text x="{w/2}" y="25" text-anchor="middle" font-family="{FONT}" font-size="13" font-weight="800" letter-spacing="1.5" fill="{text}">{label}</text>'))
-btn("btn-portfolio.svg", "🌌 PORTFOLIO · GALAXY", A, N)
-btn("btn-linkedin.svg", "LINKEDIN", N, A, A)
-btn("btn-email.svg", "✉ EMAIL", N, A, A)
-btn("btn-demo.svg", "LIVE DEMO ↗", A, N)
-btn("btn-repo.svg", "VIEW REPO ↗", N, A, A)
-btn("pill-status.svg", "● OPEN TO INTERNSHIPS &amp; FULL-TIME", N, Y, Y, 330)
-btn("pill-location.svg", "📍 TAMIL NADU, INDIA", N, tx(B), B, 232)
+# 44px console buttons with vector icons (no emoji: they render per platform). Row widths are chosen so
+# the header rows both total 640px: pills 372+268, buttons 288+168+184.
+_st = f'fill="none" stroke="{{c}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+def _icon(kind, c):
+    st = _st.format(c=c)
+    return {
+        "globe": f'<circle r="7" {st}/><ellipse rx="3" ry="7" {st}/><path d="M-7,0H7" {st}/>',
+        "in": f'<path d="M-6,-1V6M-6,-5V-5M-1,6V-1M-1,2C-1,-2 6,-2 6,2V6" {st}/>',
+        "mail": f'<rect x="-8" y="-5.5" width="16" height="11" rx="2" {st}/><path d="M-7,-4L0,2L7,-4" {st}/>',
+        "pin": f'<path d="M0,8C-6,1 -6,-7 0,-7C6,-7 6,1 0,8Z" {st}/><circle cy="-2" r="2" {st}/>',
+        "play": f'<path d="M-3,-6L6,0L-3,6Z" {st}/>',
+        "repo": f'<path d="M-3,-5L-8,0L-3,5M3,-5L8,0L3,5" {st}/>',
+    }[kind]
+def btn(name, label, icon, kind, w):
+    """kind: primary (filled), secondary (outlined), status (gold, pulsing dot), info (outlined, no chevron)."""
+    c = {"primary": N, "secondary": A, "status": Y, "info": A}[kind]
+    defs = f'<linearGradient id="p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{AC_L}"/><stop offset="1" stop-color="{A}"/></linearGradient>'
+    if kind == "primary":
+        body = f'<rect x="1" y="1" width="{w-2}" height="42" rx="12" fill="url(#p)"/><rect x="2" y="2" width="{w-4}" height="40" rx="11" fill="none" stroke="#fff" stroke-opacity=".35"/>'
+        badge = f'<circle cx="26" cy="22" r="14" fill="{N}" fill-opacity=".12"/>'
+    else:
+        edge = f'stroke="{Y}"' if kind == "status" else 'stroke="url(#g)" stroke-opacity=".85"'
+        tint = Y if kind == "status" else A
+        body = f'<rect x="1" y="1" width="{w-2}" height="42" rx="12" fill="{N}"/><rect x="1" y="1" width="{w-2}" height="42" rx="12" fill="{tint}" fill-opacity=".08" {edge} stroke-width="2"/>'
+        badge = f'<circle cx="26" cy="22" r="14" fill="{tint}" fill-opacity=".14"/>'
+    if icon == "dot":
+        ic = (f'<g transform="translate(26 22)"><circle r="4" fill="{Y}"><animate attributeName="r" values="3.5;5.5;3.5" dur="2s" repeatCount="indefinite"/></circle>'
+              f'<circle r="8" fill="none" stroke="{Y}" stroke-opacity=".5"><animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values=".6;0;.6" dur="2s" repeatCount="indefinite"/></circle></g>')
+    else:
+        ic = f'<g transform="translate(26 22)">{_icon(icon, c)}</g>'
+    chev = ""
+    right = w - 22
+    if kind in ("primary", "secondary"):
+        chev = f'<path d="M{w-30},17L{w-24},22L{w-30},27" fill="none" stroke="{c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".8"/>'
+        right = w - 38
+    cx = (46 + right) / 2
+    out(name, wrap(w, 44, body + badge + ic + chev +
+        f'<text x="{cx:.1f}" y="27" text-anchor="middle" font-family="{FONT}" font-size="13" font-weight="800" letter-spacing="1.2" fill="{c}">{label}</text>', defs))
+auto = lambda label: int(len(label.replace("&amp;", "&")) * 9.0 + 100)
+btn("btn-portfolio.svg", "PORTFOLIO · GALAXY", "globe", "primary", 288)
+btn("btn-linkedin.svg", "LINKEDIN", "in", "secondary", 168)
+btn("btn-email.svg", "EMAIL", "mail", "secondary", 184)
+btn("btn-demo.svg", "LIVE DEMO", "play", "primary", auto("LIVE DEMO"))
+btn("btn-repo.svg", "VIEW REPO", "repo", "secondary", auto("VIEW REPO"))
+btn("pill-status.svg", "OPEN TO INTERNSHIPS &amp; FULL-TIME", "dot", "status", 372)
+btn("pill-location.svg", "TAMIL NADU, INDIA", "pin", "info", 268)
