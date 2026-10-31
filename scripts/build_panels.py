@@ -113,7 +113,7 @@ GLYPH = {
     "DEVOPS": f'<path d="M6,-3A7,7 0 1 0 7,2" {st}/><path d="M7,-7V-3H3" {st}/>',
 }
 CAPS = [("FULL STACK", "React · Vite · Galaxy"), ("MOBILE", "Flutter apps · Forge"), ("ML", "HarvestPro · Transit"), ("DEVOPS", "CI pipelines · this profile")]
-b.append(f'<rect x="860" y="{CT}" width="300" height="{CHT}" rx="14" fill="{AC}" fill-opacity=".05" stroke="{AC}" stroke-opacity=".3"/>'
+b.append(f'<rect x="860" y="{CT}" width="300" height="{CHT}" rx="14" fill="{BG}"/><rect x="860" y="{CT}" width="300" height="{CHT}" rx="14" fill="{AC}" fill-opacity=".05" stroke="{AC}" stroke-opacity=".3"/>'
          + lab(884, CT + 30, "// CAPABILITIES")
          + f'<text x="884" y="{CT + 62}" font-family="{FONT}" font-size="12" fill="{SOFT}">I turn real problems into shipped</text>'
          + f'<text x="884" y="{CT + 80}" font-family="{FONT}" font-size="12" fill="{SOFT}">products, not just tutorials.</text>')
@@ -129,12 +129,12 @@ n_fin = sum(m["kind"] == "finalist" for m in MILESTONES)
 TILES = [(len(LAUNCHED), "MISSIONS LAUNCHED", AC), (n_fin, "FINALIST FINISHES", SIG), (len(IN_ORBIT), "IN ORBIT NOW", AC), (TECH_COUNT, "TECHNOLOGIES", AC)]
 for i, (n, t, c) in enumerate(TILES):
     x = 40 + i * 285
-    b.append(f'<rect x="{x}" y="400" width="265" height="64" rx="14" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".35"/>'
+    b.append(f'<rect x="{x}" y="400" width="265" height="64" rx="14" fill="{BG}"/><rect x="{x}" y="400" width="265" height="64" rx="14" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".35"/>'
              f'<text x="{x + 24}" y="443" font-family="{FONT}" font-size="30" font-weight="800" fill="{c}">{n}</text>'
              f'<text x="{x + 24 + 62}" y="436" font-family="{FONT}" font-size="11" letter-spacing="2" fill="{DIM}">{t}</text>')
 
 # --- status bar
-b.append(f'<rect x="40" y="484" width="1120" height="42" rx="21" fill="{AC}" fill-opacity=".06" stroke="url(#g)" stroke-opacity=".6"/>'
+b.append(f'<rect x="40" y="484" width="1120" height="42" rx="21" fill="{BG}"/><rect x="40" y="484" width="1120" height="42" rx="21" fill="{AC}" fill-opacity=".06" stroke="url(#g)" stroke-opacity=".6"/>'
          f'<circle cx="72" cy="505" r="5" fill="{SIG}"><animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite"/></circle>'
          f'<text x="92" y="510" font-family="{FONT}" font-size="14" font-weight="700" fill="{SIG}">OPEN TO WORK</text>'
          f'<text x="1136" y="510" text-anchor="end" font-family="{FONT}" font-size="14" fill="{SOFT}">Internships &amp; Full-time  ·  Tamil Nadu, India  ·  Currently building Forge, HarvestPro &amp; Transit</text>')
@@ -180,7 +180,7 @@ for i, m in enumerate(MILESTONES):
     tag = "FINALIST" if gold else "NEXT"
     b.append(f'<circle cx="{cx}" cy="{ny:.1f}" r="11" fill="{BG}" stroke="{c}" stroke-width="3"/><circle cx="{cx}" cy="{ny:.1f}" r="4" fill="{c}"><animate attributeName="opacity" values="1;.3;1" dur="2.4s" begin="{i * .6}s" repeatCount="indefinite"/></circle>'
              f'<line x1="{cx}" y1="{ny + 12:.1f}" x2="{cx}" y2="{CY0}" stroke="{c}" stroke-opacity=".6"/>'
-             f'<rect x="{x}" y="{CY0}" width="{CW}" height="232" rx="16" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".6"{dash}/>'
+             f'<rect x="{x}" y="{CY0}" width="{CW}" height="232" rx="16" fill="{BG}"/><rect x="{x}" y="{CY0}" width="{CW}" height="232" rx="16" fill="{c}" fill-opacity=".06" stroke="{c}" stroke-opacity=".6"{dash}/>'
              f'{medal(x + 74, CY0 + 76, c, m["kind"], i)}'
              f'<path d="M{x + CW - 112},{CY0}h82v44l-41,-13l-41,13Z" fill="{c}"/>'
              f'<text x="{x + CW - 71}" y="{CY0 + 24}" text-anchor="middle" font-family="{FONT}" font-size="11" font-weight="800" letter-spacing="1" fill="{BG}">{tag}</text>'

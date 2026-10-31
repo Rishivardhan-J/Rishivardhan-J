@@ -52,6 +52,7 @@ if __name__ == "__main__":
     check("bg on accent button", BG, AC, 4.5)
     check("muted on accent 6% card", MUTED, mix(AC, BG, .06), 4.5)
     check("muted on panel", MUTED, PANEL, 4.5)
+    check("soft on console bay (6% accent)", SOFT, mix(AC, BG, .06), 4.5)
     check("button text on primary gradient top", BG, AC_L, 4.5)
     check("accent on 8% secondary button tint", AC, mix(AC, BG, .08), 4.5)
     check("gold on 8% status pill tint", SIG, mix(SIG, BG, .08), 4.5)

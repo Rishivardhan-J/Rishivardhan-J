@@ -16,16 +16,18 @@ esc = html.escape
 FLAGSHIP = dict(name="Galaxy", url=os.environ.get("FLAGSHIP_URL", "https://rishi-galaxy.vercel.app"), stack="React · Vite · TypeScript",
                 desc="A no-scroll, space-themed portfolio where you travel between projects, skills and contact through warp transitions.")
 STAGES = ["DESIGN", "BUILD", "ACTIVE", "LIVE"]
+GUTTER = 20      # gap between cards; each image is a 1200/cols transparent canvas so rows sit flush with the section
+DISPLAY = {"Jupyter Notebook": "Jupyter"}
 MISSIONS = [  # editorial: pitch, stack and stage (1-4) are written by hand; everything else comes from GitHub
-    dict(key="trackit", name="TrackIt", stage=3, status="ACTIVE", w=580, stack="React · TypeScript",
+    dict(key="trackit", name="TrackIt", stage=3, status="ACTIVE", cols=2, stack="React · TypeScript",
          desc="Deadline-driven tracker for internship & hackathon applications, with an admin pipeline to post and moderate listings."),
-    dict(key="bench", name="Bench", stage=3, status="ACTIVE", w=580, stack="React · TypeScript",
+    dict(key="bench", name="Bench", stage=3, status="ACTIVE", cols=2, stack="React · TypeScript",
          desc="Intelligent, high-performance freelancer discovery by skills, availability and project needs."),
-    dict(key="forge", name="Forge", stage=2, status="BUILDING", w=380, stack="Flutter · Dart",
+    dict(key="forge", name="Forge", stage=2, status="BUILDING", cols=3, stack="Flutter · Dart",
          desc="Habit-formation app built on the framework from Atomic Habits."),
-    dict(key="harvestpro", name="HarvestPro", stage=2, status="BUILDING", w=380, stack="Flutter · AI",
+    dict(key="harvestpro", name="HarvestPro", stage=2, status="BUILDING", cols=3, stack="Flutter · AI",
          desc="Turns AI crop predictions into advice Indian farmers can trust and act on, in their own language."),
-    dict(key="transit", name="Transit", stage=2, status="BUILDING", w=380, stack="Python · ML · VRP",
+    dict(key="transit", name="Transit", stage=2, status="BUILDING", cols=3, stack="Python · ML · VRP",
          desc="Real-time logistics optimization: ML delivery-time prediction and Hybrid Genetic Search routing."),
 ]
 
@@ -96,8 +98,9 @@ def defs(w, h, extra=""):
             f'<radialGradient id="gl"><stop offset="0" stop-color="{AC_D}" stop-opacity=".22"/><stop offset="1" stop-color="{AC_D}" stop-opacity="0"/></radialGradient>{extra}</defs>')
 
 
-def dust(rng, n, w, h):
-    return "".join(f'<circle cx="{rng.uniform(8, w - 8):.1f}" cy="{rng.uniform(8, h - 8):.1f}" r="{rng.choice([.6, .9, 1.2]):.1f}" fill="{TEXT}" fill-opacity="{rng.uniform(.12, .32):.2f}"/>'
+def dust(rng, n, x0, y0, x1, y1):
+    """Star dust inside a text-free box only."""
+    return "".join(f'<circle cx="{rng.uniform(x0, x1):.1f}" cy="{rng.uniform(y0, y1):.1f}" r="{rng.choice([.6, .9, 1.2]):.1f}" fill="{TEXT}" fill-opacity="{rng.uniform(.12, .32):.2f}"/>'
                    for _ in range(n))
 
 
@@ -115,7 +118,7 @@ def langbar(x, y, w, mix, legend_y, size=10):
     step = w / 3
     for i, (n, f) in enumerate([m for m in mix if m[0] != "Other"][:3]):
         s += (f'<circle cx="{x + i * step + 3:.1f}" cy="{legend_y - 3}" r="3" fill="{col(i, n)}"/>'
-              f'<text x="{x + i * step + 11:.1f}" y="{legend_y}" font-family="{FONT}" font-size="{size}" fill="{DIM}">{esc(short(n))} {"&lt;1" if f < .01 else round(100 * f)}%</text>')
+              f'<text x="{x + i * step + 11:.1f}" y="{legend_y}" font-family="{FONT}" font-size="{size}" fill="{DIM}">{esc(short(DISPLAY.get(n, n)))} {"&lt;1" if f < .01 else round(100 * f)}%</text>')
     return s
 
 
@@ -155,37 +158,66 @@ def patch(cx, cy, kind):
 
 
 # ------------------------------------------------------------------ mission card
-def card(m, repo):
-    w, h = m["w"], 282
+def desc_lines(m):
+    width = int((card_w(m["cols"]) - 48) / (13 * .62))
+    lines = textwrap.wrap(m["desc"], width)
+    if len(lines) > 3:   # cut at a word boundary
+        lines = lines[:2] + [textwrap.shorten(" ".join(lines[2:]), width=width, placeholder="…")]
+    return lines
+
+
+def card_w(cols):
+    return (1200 - GUTTER * (cols - 1)) / cols
+
+
+def card(m, repo, slot, row_lines):
+    """slot: position in the row. row_lines: longest description in the row, so cards in a row match in height."""
+    cols, w = m["cols"], card_w(m["cols"])
+    canvas = 1200 // cols
+    ox = slot * (w + GUTTER) - slot * canvas     # card's offset inside its canvas
+    ls = 124 + (row_lines - 1) * 20              # last description baseline
+    T, B, D = ls + 36, ls + 80, ls + 120         # flight track, language bar, footer rule
+    h = D + 38
     rng = random.Random(zlib.crc32(m["key"].encode()))
-    o = [f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg"><title>{m["name"]}</title>'
-         f'<desc>{esc(m["desc"])} {m["status"]}.</desc>', defs(w, h),
-         f'<rect x="1.5" y="1.5" width="{w - 3}" height="{h - 3}" rx="16" fill="{BG}" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>',
-         f'<circle cx="60" cy="56" r="150" fill="url(#gl)"/>{dust(rng, 12, w, h)}', patch(60, 58, m["key"]),
+    clip = f'<clipPath id="cc"><rect width="{w:.2f}" height="{h}" rx="17"/></clipPath>'
+    o = [f'<svg width="{canvas}" height="{h}" viewBox="0 0 {canvas} {h}" xmlns="http://www.w3.org/2000/svg"><title>{m["name"]}</title>'
+         f'<desc>{esc(m["desc"])} {m["status"]}.</desc>', defs(w, h, clip), f'<g transform="translate({ox:.2f} 0)">',
+         f'<rect x="1" y="1" width="{w - 2:.2f}" height="{h - 2}" rx="16" fill="{BG}" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>',
+         f'<g clip-path="url(#cc)"><circle cx="58" cy="58" r="150" fill="url(#gl)"/></g>{dust(rng, 8, w - 120, 54, w - 16, 98)}', patch(58, 58, m["key"]),
          f'<text x="108" y="54" font-family="{FONT}" font-size="24" font-weight="800" fill="url(#g)">{m["name"]}</text>'
          f'<text x="108" y="75" font-family="{FONT}" font-size="12" fill="{DIM}">{esc(m["stack"])}</text>']
     pw = 26 + len(m["status"]) * 8.2
-    o.append(f'<rect x="{w - pw - 18:.1f}" y="22" width="{pw:.1f}" height="24" rx="12" fill="{AC}" fill-opacity=".12" stroke="{AC}" stroke-opacity=".6"/>'
-             f'<circle cx="{w - pw - 6:.1f}" cy="34" r="3.5" fill="{AC}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
-             f'<text x="{w - pw + 4:.1f}" y="38.5" font-family="{FONT}" font-size="10.5" font-weight="700" fill="{AC}">{m["status"]}</text>')
-    lines = textwrap.wrap(m["desc"], int((w - 48) / (13 * .62)))
-    if len(lines) > 3:   # cut at a word boundary
-        lines = lines[:2] + [textwrap.shorten(" ".join(lines[2:]), width=int((w - 48) / (13 * .62)), placeholder="…")]
-    for i, ln in enumerate(lines):
-        o.append(f'<text x="24" y="{116 + i * 20}" font-family="{FONT}" font-size="13" fill="{TEXT}">{esc(ln)}</text>')
-    sw = (w - 48 - 18) / 4                                       # four-stage track
+    px = w - pw - 24
+    dash = ' stroke-dasharray="4 3"' if m["status"] == "BUILDING" else ""
+    o.append(f'<rect x="{px:.1f}" y="24" width="{pw:.1f}" height="24" rx="12" fill="{AC}" fill-opacity=".12" stroke="{AC}" stroke-opacity=".6"{dash}/>'
+             f'<circle cx="{px + 12:.1f}" cy="36" r="3.5" fill="{AC}"><animate attributeName="opacity" values="1;.25;1" dur="2s" repeatCount="indefinite"/></circle>'
+             f'<text x="{px + 22:.1f}" y="40" font-family="{FONT}" font-size="10.5" font-weight="700" fill="{AC}">{m["status"]}</text>')
+    for i, ln in enumerate(desc_lines(m)):
+        o.append(f'<text x="24" y="{124 + i * 20}" font-family="{FONT}" font-size="13" fill="{TEXT}">{esc(ln)}</text>')
+    sw = (w - 48) / 4                                            # flight track: one node per stage
+    node = lambda i: 24 + sw * (i + .5)
+    cur = m["stage"] - 1
+    o.append(f'<line x1="24" y1="{T}" x2="{w - 24:.1f}" y2="{T}" stroke="{TRACK}" stroke-width="2" stroke-linecap="round"/>'
+             f'<line x1="24" y1="{T}" x2="{node(cur):.1f}" y2="{T}" stroke="{AC}" stroke-width="2" stroke-linecap="round"/>')
     for i, name in enumerate(STAGES):
-        x, lit, cur = 24 + i * (sw + 6), i < m["stage"], i == m["stage"] - 1
-        o.append(f'<rect x="{x:.1f}" y="184" width="{sw:.1f}" height="5" rx="2.5" fill="{AC_L if cur else AC if lit else TRACK}"/>'
-                 f'<text x="{x + sw / 2:.1f}" y="203" text-anchor="middle" font-family="{FONT}" font-size="9" letter-spacing="1" fill="{SOFT if lit else MUTED}">{name}</text>')
-    o.append(langbar(24, 216, w - 48, lang_mix(repo), 240))
+        x = node(i)
+        if i == cur:
+            o.append(f'<circle cx="{x:.1f}" cy="{T}" r="6" fill="none" stroke="{AC_L}"><animate attributeName="r" values="6;12" dur="2.4s" repeatCount="indefinite"/>'
+                     f'<animate attributeName="stroke-opacity" values=".7;0" dur="2.4s" repeatCount="indefinite"/></circle><circle cx="{x:.1f}" cy="{T}" r="6" fill="{AC_L}"/>')
+        elif i < cur:
+            o.append(f'<circle cx="{x:.1f}" cy="{T}" r="4" fill="{AC}"/>')
+        else:
+            o.append(f'<circle cx="{x:.1f}" cy="{T}" r="4" fill="{BG}" stroke="{MUTED}"/>')
+        o.append(f'<text x="{x:.1f}" y="{T + 22}" text-anchor="middle" font-family="{FONT}" font-size="10" letter-spacing="1"{" font-weight=\"700\"" if i == cur else ""} fill="{AC_L if i == cur else SOFT if i < cur else MUTED}">{name}</text>')
+    o.append(langbar(24, B, w - 48, lang_mix(repo), B + 24, 11))
     n = commits(repo)
     tele = f'{n if n is not None else "—"} COMMITS · LAST LAUNCH {ago(repo["pushedAt"]) if repo else "—"}'
     if repo and repo["stargazerCount"]:
         tele += f' · ★ {repo["stargazerCount"]}'
-    o.append(f'<line x1="24" y1="254" x2="{w - 24}" y2="254" stroke="{AC}" stroke-opacity=".18"/>'
-             f'<text x="24" y="271" font-family="{FONT}" font-size="10" letter-spacing="1" fill="{MUTED}">{tele}</text>'
-             f'<text x="{w - 24}" y="272" text-anchor="end" font-family="{FONT}" font-size="14" font-weight="700" fill="{AC}">↗</text></svg>')
+    ax, ay = w - 24, D + 25
+    o.append(f'<line x1="24" y1="{D}" x2="{w - 24:.1f}" y2="{D}" stroke="{AC}" stroke-opacity=".18"/>'
+             f'<text x="24" y="{D + 24}" font-family="{FONT}" font-size="11" letter-spacing="1" fill="{MUTED}">{tele}</text>'
+             f'<path d="M{ax - 10:.1f},{ay}L{ax:.1f},{ay - 10}M{ax - 8:.1f},{ay - 10}H{ax:.1f}V{ay - 2}" fill="none" stroke="{AC}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>')
     return "".join(o)
 
 
@@ -199,7 +231,7 @@ def flagship(repo, online):
             f'<radialGradient id="warp"><stop offset="0" stop-color="{AC}" stop-opacity=".32"/><stop offset="1" stop-color="{AC}" stop-opacity="0"/></radialGradient>')
     o = [f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg"><title>Flagship: Galaxy</title>'
          f'<desc>{esc(FLAGSHIP["desc"])} Site is {"online" if online else "unreachable"}.</desc>', defs(W, H, clip),
-         f'<rect width="{W}" height="{H}" rx="18" fill="{BG}"/><g clip-path="url(#card)"><circle cx="1000" cy="40" r="360" fill="url(#gl)"/>{dust(rng, 60, W, H)}</g>',
+         f'<rect width="{W}" height="{H}" rx="18" fill="{BG}"/><g clip-path="url(#card)"><circle cx="1000" cy="40" r="360" fill="url(#gl)"/>{dust(rng, 40, 850, 12, 1188, 170)}</g>',
          f'<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="17" fill="none" stroke="url(#g)" stroke-opacity=".55" stroke-width="2"/>']
     # browser window
     o.append(f'<rect x="40" y="40" width="520" height="310" rx="14" fill="{PANEL}" stroke="{AC}" stroke-opacity=".35"/>'
@@ -248,6 +280,9 @@ def flagship(repo, online):
 data = fetch()
 online = site_online(FLAGSHIP["url"])
 open(os.path.join(DIST, "flagship.svg"), "w", encoding="utf8").write(flagship(data[FLAGSHIP["name"]], online))
-for m in MISSIONS:
-    open(os.path.join(DIST, f"mission-{m['key']}.svg"), "w", encoding="utf8").write(card(m, data[m["name"]]))
+for cols in sorted({m["cols"] for m in MISSIONS}):
+    row = [m for m in MISSIONS if m["cols"] == cols]
+    row_lines = max(len(desc_lines(m)) for m in row)
+    for slot, m in enumerate(row):
+        open(os.path.join(DIST, f"mission-{m['key']}.svg"), "w", encoding="utf8").write(card(m, data[m["name"]], slot, row_lines))
 print("wrote flagship + %d mission cards; site online: %s" % (len(MISSIONS), online))

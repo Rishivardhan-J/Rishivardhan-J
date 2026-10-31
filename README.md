@@ -4,12 +4,9 @@
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3500&pause=1200&color=5B82C2&center=true&vCenter=true&width=800&height=45&lines=Launching+ideas+into+working+products+%F0%9F%9A%80;CS+Student+%7C+Builder+%7C+Problem+Solver;2x+Finalist+%C2%B7+GDG+TechSprint+%26+AI+for+Social+Impact;Currently+in+orbit%3A+Forge%2C+HarvestPro+and+Transit" alt="Typing SVG" />
 
-<img src="assets/pill-status.svg" height="44" alt="Open to internships and full-time roles"/>
-<img src="assets/pill-location.svg" height="44" alt="Tamil Nadu, India"/>
+<img src="assets/console-status.svg" width="100%" alt="Open to work: internships and full-time. Tamil Nadu, India, UTC+05:30"/>
 
-<a href="https://rishi-galaxy.vercel.app"><img src="assets/btn-portfolio.svg" height="44" alt="Portfolio: Galaxy"/></a>
-<a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/btn-linkedin.svg" height="44" alt="LinkedIn"/></a>
-<a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/btn-email.svg" height="44" alt="Email"/></a>
+<a href="https://rishi-galaxy.vercel.app"><img src="assets/bay-portfolio.svg" width="33.33%" alt="Portfolio: Galaxy live site"/></a><a href="https://www.linkedin.com/in/rishivardhan-j-ba9469399/"><img src="assets/bay-linkedin.svg" width="33.33%" alt="LinkedIn"/></a><a href="mailto:rishivardhan.j2024cse@sece.ac.in"><img src="assets/bay-email.svg" width="33.33%" alt="Email"/></a>
 
 <img src="assets/marquee.svg" width="100%" alt="Projects and stack"/>
 
@@ -41,19 +38,14 @@
 
 ## 🪐 Missions Launched
 
-<img src="assets/mission-row-active.svg" width="100%" alt="Active missions"/>
-
 <p align="center">
-<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-trackit.svg" width="49%" alt="TrackIt: deadline-driven tracker for internship and hackathon applications"/></a>
-<a href="https://github.com/Rishivardhan-J/Bench"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-bench.svg" width="49%" alt="Bench: freelancer discovery by skills, availability and project needs"/></a>
+<img src="assets/mission-row-active.svg" width="100%" alt="Active missions"/><br/>
+<a href="https://github.com/Rishivardhan-J/TrackIt"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-trackit.svg" width="50%" alt="TrackIt: deadline-driven tracker for internship and hackathon applications"/></a><a href="https://github.com/Rishivardhan-J/Bench"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-bench.svg" width="50%" alt="Bench: freelancer discovery by skills, availability and project needs"/></a>
 </p>
 
-<img src="assets/mission-row-building.svg" width="100%" alt="Missions being built"/>
-
 <p align="center">
-<a href="https://github.com/Rishivardhan-J/Forge"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-forge.svg" width="32.5%" alt="Forge: habit-formation app built on Atomic Habits"/></a>
-<a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-harvestpro.svg" width="32.5%" alt="HarvestPro: AI crop advice for Indian farmers"/></a>
-<a href="https://github.com/Rishivardhan-J/Transit"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-transit.svg" width="32.5%" alt="Transit: logistics optimization with ML and Hybrid Genetic Search"/></a>
+<img src="assets/mission-row-building.svg" width="100%" alt="Missions being built"/><br/>
+<a href="https://github.com/Rishivardhan-J/Forge"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-forge.svg" width="33.33%" alt="Forge: habit-formation app built on Atomic Habits"/></a><a href="https://github.com/Rishivardhan-J/HarvestPro"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-harvestpro.svg" width="33.33%" alt="HarvestPro: AI crop advice for Indian farmers"/></a><a href="https://github.com/Rishivardhan-J/Transit"><img src="https://raw.githubusercontent.com/Rishivardhan-J/Rishivardhan-J/output/mission-transit.svg" width="33.33%" alt="Transit: logistics optimization with ML and Hybrid Genetic Search"/></a>
 </p>
 
 <img src="assets/divider.svg" width="100%"/>

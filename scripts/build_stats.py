@@ -371,7 +371,7 @@ t.append(f'<circle cx="{CX}" cy="{CYY}" r="44" fill="{BG}" stroke="{AC}" stroke-
          f'<circle cx="{CX}" cy="{CYY}" r="36" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="{circ*max(prog,.03):.1f} {circ:.1f}" transform="rotate(-90 {CX} {CYY})"/>'
          f'<text x="{CX}" y="{CYY+9}" text-anchor="middle" font-family="{FONT}" font-size="28" font-weight="800" fill="{TEXT}">{cur}</text>'
          f'<text x="{CX}" y="{CYY+22}" text-anchor="middle" font-family="{FONT}" font-size="8" letter-spacing="2" fill="{AC}">DAYS</text>'
-         f'<text x="{CX}" y="{CYY-21}" text-anchor="middle" font-size="12">🔥<animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0" dur="1.6s" repeatCount="indefinite"/></text>')
+         f'<path transform="translate({CX} {CYY-26})" d="M0,-6C1,-3 5,-2 5,2A5,5 0 0 1 -5,2C-5,0 -3,-1 -2.5,-3C-1.5,-2 -1,-3 0,-6Z" fill="none" stroke="{AC}" stroke-width="1.5" stroke-linejoin="round"><animate attributeName="stroke-opacity" values="1;.5;1" dur="1.6s" repeatCount="indefinite"/></path>')
 t.append(f'<text x="{CX}" y="{SH-14}" text-anchor="middle" font-family="{FONT}" font-size="11" fill="{MUTED}">RADAR · last {WEEKS} weeks · ring = week, spoke = weekday, dot size = activity</text>')
 
 # --- right instruments

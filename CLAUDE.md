@@ -24,10 +24,12 @@ The GitHub profile repo (`Rishivardhan-J/Rishivardhan-J`). `README.md` is the pr
 Rules:
 - One accent only. `AC` is for links, labels, key numbers and primary buttons; don't give sections or chips their own hues.
 - `AC_D` is for fills and strokes only. Small text must use `tx(colour)`, which maps it to `AC`.
-- `SIG` (gold) is reserved for achievements and availability: FINALIST, OPEN TO WORK, LIVE, best day.
+- `SIG` (gold) is reserved for achievements and availability: FINALIST, OPEN TO WORK, LIVE, best day. Never decorations.
+- No emoji inside generated SVGs; draw glyphs instead. Stars and dust must never sit behind text (put an opaque `BG` rect under tinted cards).
 - Muted text is `MUTED`.
 - Keep one filled primary button per group; the others are outlined.
-- Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py` (44px, vector icons, no emoji; header rows are both 640px wide: pills 372+268, buttons 288+168+184, so keep that when changing labels).
+- Don't use shields.io badges for coloured buttons: they always print white text. Use the SVG buttons from `build_assets.py` (44px, vector icons, no emoji).
+- The header's Comms Console is `console-status.svg` plus three stitched `bay-*.svg` links (`build_assets.py`). Keep the three bay `<a>` tags on one README line with no whitespace between them, or they stop joining into one panel.
 - The tag `pre-starlight` (and `pre-starlight-output`) holds the previous multi-colour design.
 
 ## Stats panel (`github-stats.svg`)
@@ -51,6 +53,7 @@ Built by the first half of `build_stats.py` as a star chart plus a language sola
 - Language mix ignores Flutter platform scaffolding (`SCAFFOLD`: C, C++, CMake, Swift, Kotlin, HTML...) when a repo's top language is Dart, so Flutter apps read as Dart. A repo that can't be fetched renders dashes instead of failing the build.
 - The flagship's window shows a stylised warp tunnel (looping `stroke-dashoffset`), not a screenshot, plus a real HTTP check of the live site (gold ONLINE light, OFFLINE if it fails). Set `FLAGSHIP_URL` to test the failure case.
 - Adding a project means: a `MISSIONS` entry, a `glyph()` branch for its patch, and a README line.
+- Mission cards use a 1200 grid: each image is a transparent 1200/cols canvas with the card offset inside it (`GUTTER`), and README `<a>` tags in a row have no whitespace between them. Card height comes from the longest description in the row.
 - Rollback tags: `pre-missions`.
 
 ## Toolkit panel (`build_stack.py`)
